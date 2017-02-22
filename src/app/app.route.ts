@@ -14,17 +14,17 @@ import { ContactPageComponent } from './pages/contact-page/contact-page.componen
 import { AuthGuardService } from './providers/auth-guard.service';
 // Route Configuration
 export const routes: Routes = [
-  { path: '', component: HomePageComponent },
-  { path: 'login', component: LoginPageComponent },
-  { path: 'register', component: RegisterPageComponent },
-  { path: 'resetpassword', component: PasswordresetPageComponent },
-  { path: 'confirmpassword', component: ConfirmpasswordPageComponent },
-  { path: 'stories', component: StoriesComponent },
-  { path: 'addstory', component: AddStoryComponent },
-  { path: 'howitworks', component: HowitworksPageComponent },
-  { path: 'mypage', component: MypageComponent, canActivate: [AuthGuardService] },
-  { path: 'about', component: AboutPageComponent },
-  { path: 'contact', component: ContactPageComponent },
+    { path: '', component: HomePageComponent },
+    { path: 'login', component: LoginPageComponent },
+    { path: 'register', component: RegisterPageComponent },
+    { path: 'resetpassword', component: PasswordresetPageComponent },
+    { path: 'confirmpassword', component: ConfirmpasswordPageComponent },
+    { path: 'stories', component: StoriesComponent },
+    { path: 'addstory', component: AddStoryComponent },
+    { path: 'howitworks', component: HowitworksPageComponent },
+    { path: 'mypage', component: MypageComponent, canActivate: [AuthGuardService] },
+    { path: 'about', component: AboutPageComponent },
+    { path: 'contact', component: ContactPageComponent },
 ];
 
 

@@ -26,39 +26,39 @@ import { ContactPageComponent } from './pages/contact-page/contact-page.componen
 
 
 export const firebaseConfig = {
-  apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
-  authDomain: "nicething-5c833.firebaseapp.com",
-  databaseURL: "https://nicething-5c833.firebaseio.com",
-  storageBucket: "nicething-5c833.appspot.com",
-  messagingSenderId: "868527023994"
+    apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
+    authDomain: "nicething-5c833.firebaseapp.com",
+    databaseURL: "https://nicething-5c833.firebaseio.com",
+    storageBucket: "nicething-5c833.appspot.com",
+    messagingSenderId: "868527023994"
 };
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomePageComponent,
-    LoginPageComponent,
-    RegisterPageComponent,
-    PasswordresetPageComponent,
-    ConfirmpasswordPageComponent,
-    AddStoryComponent,
-    StoriesComponent,
-    ChatComponent,
-    HowitworksPageComponent,
-    MypageComponent,
-    AboutPageComponent,
-    ContactPageComponent,
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    routing,
-    SuiModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-  ],
-  providers: [AfService, AuthGuardService],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        HomePageComponent,
+        LoginPageComponent,
+        RegisterPageComponent,
+        PasswordresetPageComponent,
+        ConfirmpasswordPageComponent,
+        AddStoryComponent,
+        StoriesComponent,
+        ChatComponent,
+        HowitworksPageComponent,
+        MypageComponent,
+        AboutPageComponent,
+        ContactPageComponent,
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        routing,
+        SuiModule,
+        AngularFireModule.initializeApp(firebaseConfig),
+    ],
+    providers: [AfService, AuthGuardService],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
