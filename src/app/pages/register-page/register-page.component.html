@@ -1,19 +1,44 @@
-<div *ngIf="error" class="alert alert-warning" role="alert">
-    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-    <span class="sr-only">Error:</span> {{error}}
-</div>
-<div class="modal-dialog">
-    <div class="registermodal-container">
-        <h1>Register</h1><br>
-        <form class="form-signin" (submit)="register($event, name.value, email.value, password.value)">
-            <label for="name" class="sr-only">Name</label>
-            <input #name type="text" id="name" class="form-control" placeholder="Name" required="">
-            <label for="email" class="sr-only">Email address</label>
-            <input #email type="email" id="email" class="form-control" placeholder="Email address" required="" autofocus="">
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input #password type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
-            <br>
-            <button class="btn btn-md btn-primary btn-block" type="submit">Register</button>
-        </form>
+<div class="ui container">
+    <div class="ui stackable grid">
+        <div class="four wide column"></div>
+        <div class="eight wide column">
+            <form class="ui form" (ngSubmit)="registerUser($event)">
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" placeholder="Username" [(ngModel)]="user.username" name="username">
+                </div>
+                <div class="field">
+                    <label>Firstname</label>
+                    <input type="text" placeholder="Firstname" [(ngModel)]="user.firstname" name="firstname">
+                </div>
+                <div class="field">
+                    <label>Lastname</label>
+                    <input type="text" placeholder="Lastname" [(ngModel)]="user.lastname" name="lastname">
+                </div>
+                <div class="field">
+                    <label>Location</label>
+                    <input type="text" placeholder="Location" [(ngModel)]="user.location" name="location">
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input type="text" placeholder="Email" [(ngModel)]="user.email" name="email">
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <input type="password" placeholder="Password" [(ngModel)]="user.password" name="password">
+                </div>
+                <div class="field">
+                    <button class="ui fluid green button" type="submit">Register</button>
+                </div>
+            </form>
+            <div class="ui horizontal divider">Or</div>
+            <a class="ui inverted green button" (click)="loginWithGuest()">Login as guest</a>
+            <a class="ui facebook button" (click)="loginWithFacebook()">Facebook</a>
+            <a class="ui google plus button" (click)="loginWithGoogle()">Google +</a>
+            <div class="ui negative message" *ngIf="error">
+                <p>{{error.message}}</p>
+            </div>
+        </div>
+        <div class="four wide column"></div>
     </div>
 </div>

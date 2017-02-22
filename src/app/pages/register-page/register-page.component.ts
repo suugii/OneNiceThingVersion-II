@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AfService } from "../../providers/af.service";
 import { Router } from "@angular/router";
-
+import { User } from './user';
 @Component({
   selector: 'app-register-page',
   templateUrl: './register-page.component.html',
@@ -9,15 +9,18 @@ import { Router } from "@angular/router";
 })
 export class RegisterPageComponent implements OnInit {
   public error: any;
+  public user = new User();
   constructor(private afService: AfService, private router: Router) { }
 
   ngOnInit() {
   }
 
-  register(event, name, email, password) {
+  registerUser(event) {
+
     event.preventDefault();
-    this.afService.registerUser(email, password).then((user) => {
-      this.afService.saveUserInfoFromForm(user.uid, name, email).then(() => {
+    this.afService.registerUser(this.user.email, this.user.password).then((user) => {
+      delete this.user.password;
+      this.afService.saveUserInfoFromForm(user.uid, this.user).then(() => {
         this.router.navigate(['']);
       })
         .catch((error) => {
@@ -26,7 +29,6 @@ export class RegisterPageComponent implements OnInit {
     })
       .catch((error) => {
         this.error = error;
-        console.log(this.error);
       });
   }
 

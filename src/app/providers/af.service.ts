@@ -68,11 +68,8 @@ export class AfService {
     });
   }
 
-  saveUserInfoFromForm(uid, name, email) {
-    return this.af.database.object('registeredUsers/' + uid).set({
-      name: name,
-      email: email,
-    });
+  saveUserInfoFromForm(uid, userdata) {
+    return this.af.database.object('users/' + uid).set(userdata);
   }
 
   resetPassword(email) {

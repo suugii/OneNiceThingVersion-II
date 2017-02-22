@@ -23,7 +23,6 @@ export class LoginPageComponent implements OnInit {
       .catch((error: any) => {
         if (error) {
           this.error = error;
-          console.log(this.error);
         }
       });
   }
@@ -37,7 +36,6 @@ export class LoginPageComponent implements OnInit {
       .catch((error: any) => {
         if (error) {
           this.error = error;
-          console.log(this.error);
         }
       });
   }
@@ -49,7 +47,6 @@ export class LoginPageComponent implements OnInit {
       .catch((error: any) => {
         if (error) {
           this.error = error;
-          console.log(this.error);
         }
       });
   }
@@ -61,7 +58,6 @@ export class LoginPageComponent implements OnInit {
       .catch((error: any) => {
         if (error) {
           this.error = error;
-          console.log(this.error);
         }
       });
   }
