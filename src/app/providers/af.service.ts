@@ -1,0 +1,123 @@
+import { Injectable } from '@angular/core';
+import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import * as firebase from 'firebase';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+
+
+
+@Injectable()
+export class AfService {
+  public messages: any;
+  public users: FirebaseListObservable<any>;
+  public displayName: string;
+  public email: string;
+  public authuid: any;
+  public message: any;
+  private searchValue: BehaviorSubject<any>;
+  public searchTerm: BehaviorSubject<any>;
+  constructor(public af: AngularFire) {
+
+    // this.messages = this.af.database.list('/messages').map(messages => {
+    //   for (let message of messages) {
+    //     message.sender = this.af.database.object(`/registeredUsers/${message.senderID}`);
+    //   }
+    //   return messages;
+    // });
+    console.log(this.authuid);
+    this.searchTerm = new BehaviorSubject('senderID');
+    this.searchValue = new BehaviorSubject('gDi02sU4XFQGsJesuAvA01HVUOf1');
+    this.messages = this.af.database.list('/messages/', {
+      query: {
+        orderByChild: this.searchTerm,
+        equalTo: this.searchValue
+      }
+    });
+  }
+
+  loginWithGoogle() {
+    return this.af.auth.login({
+      provider: AuthProviders.Google,
+      method: AuthMethods.Popup,
+    });
+  }
+
+  loginWithFacebook() {
+    return this.af.auth.login({
+      provider: AuthProviders.Facebook,
+      method: AuthMethods.Popup,
+    });
+  }
+
+  loginWithGuest() {
+    return this.af.auth.login({
+      provider: AuthProviders.Anonymous,
+      method: AuthMethods.Anonymous,
+    });
+  }
+
+  logout() {
+    return this.af.auth.logout();
+  }
+
+  registerUser(email, password) {
+    return this.af.auth.createUser({
+      email: email,
+      password: password
+    });
+  }
+
+  saveUserInfoFromForm(uid, name, email) {
+    return this.af.database.object('registeredUsers/' + uid).set({
+      name: name,
+      email: email,
+    });
+  }
+
+  resetPassword(email) {
+    return firebase.auth().sendPasswordResetEmail(email);
+  }
+
+  updatePassword(code, password) {
+    return firebase.auth().confirmPasswordReset(code, password);
+  }
+
+  loginWithEmail(email, password) {
+    return this.af.auth.login({
+      email: email,
+      password: password,
+    },
+      {
+        provider: AuthProviders.Password,
+        method: AuthMethods.Password,
+      });
+  }
+
+  getUsers() {
+    return this.users = this.af.database.list('registeredUsers');
+  }
+
+  getMessage(id) {
+    this.message = this.af.database.list('/messages', {
+      query: {
+        equalTo: id
+      }
+    });
+  }
+
+  sendMessage(receiver, text) {
+    this.searchTerm.next('senderID');
+    this.searchValue.next('gDi02sU4XFQGsJesuAvA01HVUOf1');
+    // var message = {
+    //   message: text,
+    //   displayName: this.displayName,
+    //   email: this.email,
+    //   timestamp: Date.now(),
+    //   senderID: 'gDi02sU4XFQGsJesuAvA01HVUOf1',
+    //   receiverID: receiver
+    // };
+    // this.messages.push(message);
+
+  }
+}

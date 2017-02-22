@@ -1,0 +1,31 @@
+<div class="ui container">
+    <div class="ui stackable grid">
+        <div class="four wide column"></div>
+        <div class="eight wide column">
+            <form class="ui form" (submit)="loginWithEmail($event, email.value, password.value)">
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" placeholder="Username" #email>
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <input type="password" placeholder="Password" #password>
+                </div>
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input type="checkbox">
+                        <label>Remember me</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <button class="ui fluid green button" type="submit">Login</button>
+                </div>
+            </form>
+            <div class="ui horizontal divider">Or</div>
+            <a class="ui inverted green button" (click)="loginWithGuest()">Login as guest</a>
+            <a class="ui facebook button" (click)="loginWithFacebook()">Facebook</a>
+            <a class="ui google plus button" (click)="loginWithGoogle()">Google +</a>
+        </div>
+        <div class="four wide column"></div>
+    </div>
+</div>

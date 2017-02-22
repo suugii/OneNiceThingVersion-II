@@ -1,0 +1,59 @@
+<div class="ui container">
+    <div class="ui stackable grid">
+        <div class="four wide column"></div>
+        <div class="eight wide column">
+            <div class="ui raised segment">
+                <span class="ui green ribbon label">Report Nice Thing !</span>
+                <span>Tell your story to one you know :)</span>
+                <p></p>
+                <form class="ui form">
+                    <div class="field">
+                        <label>Username Lookup</label>
+                        <div class="ui search">
+                            <sui-search placeholder="Example Search..." [icon]="icon" [options]="options" [searchDelay]="0"></sui-search>
+                            <div class="results"></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Location where did you do your nice thing ?</label>
+                        <input type="text" placeholder="Enter Location">
+                    </div>
+                    <div class="field">
+                        <label>What nice thing did you do ?</label>
+                        <textarea rows="2" placeholder="What did you do ?"></textarea>
+                    </div>
+                    <div class="field">
+                        <label>Who did you do it for ?</label>
+                        <input type="text" placeholder="Who did you do it for ?">
+                    </div>
+                    <div class="field">
+                        <label>How did you respond, how did you feel ?</label>
+                        <input type="text" placeholder="How did you feel ?">
+                    </div>
+                    <div class="field">
+                        <div class="ui checkbox">
+                            <input type="checkbox">
+                            <label>Did you ask them to keep it going and did they agree ?</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Would you like to leave any other message for this member ?</label>
+                        <textarea rows="2" placeholder="Any message"></textarea>
+                    </div>
+                    <div class="field">
+                        <select class="ui dropdown">
+									<option value="">Permission</option>
+									<option value="1">Only me</option>
+									<option value="2">Friends</option>
+									<option value="3">Public</option>
+								</select>
+                    </div>
+                    <div class="field">
+                        <button class="ui fluid green button" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="four wide column"></div>
+    </div>
+</div>
