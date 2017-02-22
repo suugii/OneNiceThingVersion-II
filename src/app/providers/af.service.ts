@@ -25,7 +25,7 @@ export class AfService {
     //   }
     //   return messages;
     // });
-    console.log(this.authuid);
+
     this.searchTerm = new BehaviorSubject('senderID');
     this.searchValue = new BehaviorSubject('gDi02sU4XFQGsJesuAvA01HVUOf1');
     this.messages = this.af.database.list('/messages/', {
@@ -34,6 +34,19 @@ export class AfService {
         equalTo: this.searchValue
       }
     });
+  }
+
+  checkAuth() {
+    return this.af.auth.subscribe(
+      (auth) => {
+        if (auth == null) {
+          return false
+        }
+        else {
+          return true;
+        }
+      }
+    );
   }
 
   loginWithGoogle() {
