@@ -92,7 +92,7 @@ export class AfService {
   }
 
   getUser(id){
-    return this.af.database.list('users/' + id);
+    return this.af.database.object('/users/' + id);
   }
 
   getUsers() {

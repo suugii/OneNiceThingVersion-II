@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AfService } from "../../providers/af.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { User } from '../register-page/user';
-import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 
 @Component({
   selector: 'app-login-page',
@@ -13,7 +12,6 @@ export class LoginPageComponent implements OnInit {
   public error: any;
   public returnUrl: string;
   public user = new User();
-  public currentuser: FirebaseObjectObservable<any>;
   constructor(private route: ActivatedRoute, public afService: AfService, private router: Router) { }
 
   ngOnInit() {
@@ -22,7 +20,23 @@ export class LoginPageComponent implements OnInit {
 
   loginWithGoogle() {
     this.afService.loginWithGoogle().then((data) => {
-      this.router.navigate([this.returnUrl]);
+      var userdata = this.afService.getUser(data.uid);
+      userdata.subscribe(snapshot => {
+        if (snapshot.$exists()) {
+          this.router.navigate([this.returnUrl]);
+        } else {
+          delete this.user.password;
+          this.user.email = data.auth.email;
+          this.user.photoURL = data.auth.photoURL;
+          this.user.username = data.auth.displayName;
+          this.afService.saveUserInfoFromForm(data.uid, this.user).then(() => {
+            this.router.navigate([this.returnUrl]);
+          })
+            .catch((error) => {
+              this.error = error;
+            });
+        }
+      });
     })
       .catch((error: any) => {
         if (error) {
@@ -63,10 +77,23 @@ export class LoginPageComponent implements OnInit {
 
   loginWithFacebook() {
     this.afService.loginWithFacebook().then((data) => {
-      console.log(data);
-      var test = this.afService.getUser(data.uid);
-      console.log(this.currentuser);
-      // this.router.navigate([this.returnUrl]);
+      var userdata = this.afService.getUser(data.uid);
+      userdata.subscribe(snapshot => {
+        if (snapshot.$exists()) {
+          this.router.navigate([this.returnUrl]);
+        } else {
+          delete this.user.password;
+          this.user.email = data.auth.email;
+          this.user.photoURL = data.auth.photoURL;
+          this.user.username = data.auth.displayName;
+          this.afService.saveUserInfoFromForm(data.uid, this.user).then(() => {
+            this.router.navigate([this.returnUrl]);
+          })
+            .catch((error) => {
+              this.error = error;
+            });
+        }
+      });
     })
       .catch((error: any) => {
         if (error) {
