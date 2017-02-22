@@ -6,5 +6,7 @@ export class User {
         public location: string = "",
         public email: string = "",
         public password: string = "",
+        public created_at: any = Date.now(),
+        public updated_at: any = Date.now(),
     ) { }
 }
