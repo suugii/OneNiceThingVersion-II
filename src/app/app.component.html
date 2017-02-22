@@ -15,7 +15,7 @@
             <li><a routerLink="login" *ngIf="!isLoggedIn">Login</a></li>
             <li class="ui dropdown" suiDropdown *ngIf="isLoggedIn">
                 <a>
-                    <img class="ui avatar image" src="assets/img/elliot.jpg"> Jenny Hess
+                    <img class="ui avatar image" src="assets/img/elliot.jpg"> {{userdata.auth.email}}
                     <i class="dropdown icon"></i>
                 </a>
                 <div class="menu" suiDropdownMenu>

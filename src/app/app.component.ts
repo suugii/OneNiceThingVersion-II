@@ -8,10 +8,12 @@ import { Router } from "@angular/router";
 })
 export class AppComponent {
   public isLoggedIn: any;
+  public userdata: any;
   constructor(public afService: AfService, private router: Router) {
     this.afService.af.auth.subscribe(
       (auth) => {
         if (auth) {
+          this.userdata = auth;
           this.isLoggedIn = true;
         }
         else {

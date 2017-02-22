@@ -36,19 +36,6 @@ export class AfService {
     });
   }
 
-  checkAuth() {
-    return this.af.auth.subscribe(
-      (auth) => {
-        if (auth == null) {
-          return false
-        }
-        else {
-          return true;
-        }
-      }
-    );
-  }
-
   loginWithGoogle() {
     return this.af.auth.login({
       provider: AuthProviders.Google,
