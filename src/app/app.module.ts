@@ -23,7 +23,9 @@ import { HowitworksPageComponent } from './pages/howitworks-page/howitworks-page
 import { MypageComponent } from './pages/mypage/mypage.component';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { ContactPageComponent } from './pages/contact-page/contact-page.component';
-
+import { MystoriesComponent } from './pages/mystories/mystories.component';
+import { MyfriendsComponent } from './pages/myfriends/myfriends.component';
+import { MyfavoritesComponent } from './pages/myfavorites/myfavorites.component';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
@@ -49,6 +51,9 @@ export const firebaseConfig = {
         MypageComponent,
         AboutPageComponent,
         ContactPageComponent,
+        MystoriesComponent,
+        MyfriendsComponent,
+        MyfavoritesComponent,
     ],
     imports: [
         BrowserModule,
