@@ -10,6 +10,7 @@ import { SuiModule } from 'ng2-semantic-ui/ng2-semantic-ui';
 /* Services */
 import { AfService } from "./providers/af.service";
 import { StoryService } from "./providers/story.service";
+import { AuthGuardService } from "./providers/auth-guard.service";
 /* Components */
 import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
@@ -60,7 +61,7 @@ export const firebaseConfig = {
     SuiModule,
     AngularFireModule.initializeApp(firebaseConfig),
   ],
-  providers: [AfService, StoryService],
+  providers: [AfService, StoryService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,6 +12,7 @@ import { HowitworksPageComponent } from './pages/howitworks-page/howitworks-page
 import { MypageComponent } from './pages/mypage/mypage.component';
 import { AboutPageComponent } from './pages/about-page/about-page.component';
 import { ContactPageComponent } from './pages/contact-page/contact-page.component';
+import { AuthGuardService } from './providers/auth-guard.service';
 // Route Configuration
 export const routes: Routes = [
   { path: 'layout', component: LayoutPageComponent },
@@ -23,14 +24,14 @@ export const routes: Routes = [
   { path: 'stories', component: StoriesComponent },
   { path: 'addstory', component: AddStoryComponent },
   { path: 'howitworks', component: HowitworksPageComponent },
-  { path: 'mypage', component: MypageComponent },
+  { path: 'mypage', component: MypageComponent, canActivate: [AuthGuardService] },
   { path: 'about', component: AboutPageComponent },
   { path: 'contact', component: ContactPageComponent },
 ];
 
-// Deprecated provide
+
 // export const APP_ROUTER_PROVIDERS = [
-//   provideRouter(routes)
+//   provideRouter(routes), AuthGuardService
 // ];
 
 export const routing: ModuleWithProviders = RouterModule.forRoot(routes);

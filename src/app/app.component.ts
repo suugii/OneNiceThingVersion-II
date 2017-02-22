@@ -42,7 +42,7 @@ export class AppComponent {
   logout() {
     var that = this;
     this.afService.logout().then(() => {
-      that.router.navigate(['login']);
+      that.router.navigate(['']);
     })
   }
 

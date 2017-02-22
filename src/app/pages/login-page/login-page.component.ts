@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AfService } from "../../providers/af.service";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-login-page',
@@ -9,14 +9,16 @@ import { Router } from "@angular/router";
 })
 export class LoginPageComponent implements OnInit {
   public error: any;
-  constructor(public afService: AfService, private router: Router) { }
+  public returnUrl: string;
+  constructor(private route: ActivatedRoute, public afService: AfService, private router: Router) { }
 
   ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
   loginWithGoogle() {
     this.afService.loginWithGoogle().then((data) => {
-      this.router.navigate(['']);
+      this.router.navigate([this.returnUrl]);
     })
       .catch((error: any) => {
         if (error) {
@@ -30,7 +32,7 @@ export class LoginPageComponent implements OnInit {
   loginWithEmail(event, email, password) {
     event.preventDefault();
     this.afService.loginWithEmail(email, password).then(() => {
-      this.router.navigate(['']);
+      this.router.navigate([this.returnUrl]);
     })
       .catch((error: any) => {
         if (error) {
@@ -42,8 +44,7 @@ export class LoginPageComponent implements OnInit {
 
   loginWithGuest() {
     this.afService.loginWithGuest().then((data) => {
-      this.router.navigate(['']);
-      console.log(data);
+      this.router.navigate([this.returnUrl]);
     })
       .catch((error: any) => {
         if (error) {
@@ -55,7 +56,7 @@ export class LoginPageComponent implements OnInit {
 
   loginWithFacebook() {
     this.afService.loginWithFacebook().then((data) => {
-      this.router.navigate(['']);
+      this.router.navigate([this.returnUrl]);
     })
       .catch((error: any) => {
         if (error) {
