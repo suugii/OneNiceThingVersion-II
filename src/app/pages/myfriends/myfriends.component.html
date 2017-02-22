@@ -1,3 +1,53 @@
-<p>
-  myfriends works!
-</p>
+<div class="ui container">
+    <div class="ui stackable grid">
+        <div class="four wide column">
+            <div class="ui pointing fluid vertical menu">
+                <a class="item" routerLink="/profile/stories">
+                    My nice things
+                    <div class="ui label">17</div>
+                </a>
+                <a class="item" href="#">
+                    My tree
+                </a>
+                <a class="item" href="#">
+                    My map
+                </a>
+                <a class="item" routerLink="/profile/friends">
+                    My friends
+                    <div class="ui label">5</div>
+                </a>
+                <a class="item" routerLink="/profile/favorites">
+                    My favorite
+                    <div class="ui label">23</div>
+                </a>
+            </div>
+        </div>
+        <div class="twelve wide column">
+        	<div class="ui three stackable cards">
+				<div class="ui card" *ngFor="let user of users | async">
+					<div class="image">
+						<img src="assets/img/elliot.jpg">
+					</div>
+					<div class="content">
+						<a class="header" href="#">{{ user.name }}</a>
+						<div class="meta">
+							<span class="date">
+								<i class="calendar outline icon"></i> Joined on {{ user.created_at | date:'MMM dd'}}
+							</span>
+						</div>
+						<div class="meta">
+							<span class="date">
+								<i class="home icon"></i> {{ user.location }}
+							</span>
+						</div>
+					</div>
+					<div class="extra content">
+						<a href="#">
+							<i class="comments outline icon"></i> Chat
+						</a>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
