@@ -6,29 +6,29 @@
                 <span class="ui green ribbon label">Report Nice Thing !</span>
                 <span>Tell your story to one you know :)</span>
                 <p></p>
-                <form class="ui form">
+                <form class="ui form" (ngSubmit)='addStory()'>
                     <div class="field">
                         <label>Username Lookup</label>
                         <div class="ui search">
-                            <sui-search placeholder="Example Search..." [icon]="icon" [options]="options" [searchDelay]="0"></sui-search>
+                            <input type="text" placeholder="Search username..." name="user" [(ngModel)]="model.user">
                             <div class="results"></div>
                         </div>
                     </div>
                     <div class="field">
                         <label>Location where did you do your nice thing ?</label>
-                        <input type="text" placeholder="Enter Location">
+                        <input type="text" placeholder="Enter Location" name="location" [(ngModel)]="model.location">
                     </div>
                     <div class="field">
                         <label>What nice thing did you do ?</label>
-                        <textarea rows="2" placeholder="What did you do ?"></textarea>
+                        <textarea rows="2" placeholder="What did you do ?" name="story" [(ngModel)]="model.story"></textarea>
                     </div>
                     <div class="field">
                         <label>Who did you do it for ?</label>
-                        <input type="text" placeholder="Who did you do it for ?">
+                        <input type="text" placeholder="Who did you do it for ?" name="name" [(ngModel)]="model.name">
                     </div>
                     <div class="field">
                         <label>How did you respond, how did you feel ?</label>
-                        <input type="text" placeholder="How did you feel ?">
+                        <input type="text" placeholder="How did you feel ?" name="feel" [(ngModel)]="model.feel">
                     </div>
                     <div class="field">
                         <div class="ui checkbox">
@@ -38,20 +38,26 @@
                     </div>
                     <div class="field">
                         <label>Would you like to leave any other message for this member ?</label>
-                        <textarea rows="2" placeholder="Any message"></textarea>
+                        <textarea rows="2" placeholder="Any message" name="message" [(ngModel)]="model.message"></textarea>
                     </div>
                     <div class="field">
-                        <select class="ui dropdown">
-									<option value="">Permission</option>
-									<option value="1">Only me</option>
-									<option value="2">Friends</option>
-									<option value="3">Public</option>
-								</select>
+                        <select class="ui dropdown" name="privacy" [(ngModel)]="model.privacy">
+							<option value="">Permission</option>
+							<option value="1">Only me</option>
+							<option value="2">Friends</option>
+							<option value="3">Public</option>
+						</select>
                     </div>
                     <div class="field">
                         <button class="ui fluid green button" type="submit">Submit</button>
                     </div>
                 </form>
+                <div class="ui success message" *ngIf = 'success'>
+                    {{ success }}
+                </div>
+                <div class="ui warning message" *ngIf = 'error'>
+                    {{ error.message }}
+                </div>
             </div>
         </div>
         <div class="four wide column"></div>

@@ -3,7 +3,7 @@
         <div class="card" *ngFor="let story of stories | async">
             <div class="extra content">
                 <div class="right floated meta">14h</div>
-                <img class="ui avatar image" src="assets/img/elliot.jpg"> Elliot
+                <img class="ui avatar image" src="assets/img/elliot.jpg"> John
             </div>
             <div class="blurring dimmable image">
                 <div class="ui dimmer">
@@ -16,15 +16,15 @@
                 <img src="assets/img/image.png">
             </div>
             <div class="content">
-                <p>{{story.thing}}</p>
+                <p>{{ story.story }}</p>
                 <p class="meta">
                     <span>
-						<i class="quote left icon"></i> {{story.feel}}
+						<i class="quote left icon"></i> {{ story.feel }}
 					</span>
                 </p>
                 <p class="meta">
                     <span>
-					    <i class="location arrow icon"></i> {{story.location}}
+					    <i class="location arrow icon"></i> {{ story.location }}
 					</span>
                 </p>
             </div>
@@ -32,7 +32,7 @@
                 <span class="right floated">
 					<i class="heart outline like icon"></i> 17
 				</span>
-                <i class="calendar icon"></i> May 26th at 1:18pm
+                <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, yy'}}
             </div>
         </div>
     </div>

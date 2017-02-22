@@ -9,15 +9,14 @@ import 'rxjs/add/operator/map';
 export class StoryService {
   constructor(public af: AngularFire) { }
 
-  saveStory(data) {
+  storeStory(data) {
     return this.af.database.list('stories').push(data);
   }
 
-  getStories() {
+  showStories() {
     return this.af.database.list('/stories').map(stories => {
       for (let story of stories) {
-        story.user = this.af.database.object(`/registeredUsers/${story.user}`);
-        story.uid = this.af.database.object(`/registeredUsers/${story.uid}`);
+        story.test = this.af.database.object(`/registeredUsers/${story.uid}`);
       }
       return stories;
     });

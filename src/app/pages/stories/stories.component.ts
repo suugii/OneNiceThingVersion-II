@@ -4,17 +4,17 @@ import { AfService } from "../../providers/af.service";
 import { FirebaseListObservable } from "angularfire2";
 
 @Component({
-  selector: 'app-stories',
-  templateUrl: './stories.component.html',
-  styleUrls: ['./stories.component.css']
+	selector: 'app-stories',
+	templateUrl: './stories.component.html',
+	styleUrls: ['./stories.component.css']
 })
 export class StoriesComponent implements OnInit {
-  public stories: any;
-  constructor(public storyService: StoryService, public afService: AfService) {
-    
-  }
+	public stories: any;
+	constructor(public storyService: StoryService, public afService: AfService) {
 
-  ngOnInit() {
-  }
+	}
 
+	ngOnInit() {
+		this.stories = this.storyService.showStories();
+	}
 }
