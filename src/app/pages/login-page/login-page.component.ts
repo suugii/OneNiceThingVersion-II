@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AfService } from "../../providers/af.service";
 import { Router, ActivatedRoute } from "@angular/router";
+import { User } from '../register-page/user';
+import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 
 @Component({
   selector: 'app-login-page',
@@ -10,6 +12,8 @@ import { Router, ActivatedRoute } from "@angular/router";
 export class LoginPageComponent implements OnInit {
   public error: any;
   public returnUrl: string;
+  public user = new User();
+  public currentuser: FirebaseObjectObservable<any>;
   constructor(private route: ActivatedRoute, public afService: AfService, private router: Router) { }
 
   ngOnInit() {
@@ -42,7 +46,13 @@ export class LoginPageComponent implements OnInit {
 
   loginWithGuest() {
     this.afService.loginWithGuest().then((data) => {
-      this.router.navigate([this.returnUrl]);
+      delete this.user.password;
+      this.afService.saveUserInfoFromForm(data.uid, this.user).then(() => {
+        this.router.navigate([this.returnUrl]);
+      })
+        .catch((error) => {
+          this.error = error;
+        });
     })
       .catch((error: any) => {
         if (error) {
@@ -53,7 +63,10 @@ export class LoginPageComponent implements OnInit {
 
   loginWithFacebook() {
     this.afService.loginWithFacebook().then((data) => {
-      this.router.navigate([this.returnUrl]);
+      console.log(data);
+      var test = this.afService.getUser(data.uid);
+      console.log(this.currentuser);
+      // this.router.navigate([this.returnUrl]);
     })
       .catch((error: any) => {
         if (error) {

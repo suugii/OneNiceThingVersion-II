@@ -91,8 +91,12 @@ export class AfService {
       });
   }
 
+  getUser(id){
+    return this.af.database.list('users/' + id);
+  }
+
   getUsers() {
-    return this.users = this.af.database.list('registeredUsers');
+    return this.users = this.af.database.list('users');
   }
 
   getMessage(id) {
