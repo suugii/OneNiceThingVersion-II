@@ -1,3 +1,64 @@
-<p>
-  mystories works!
-</p>
+<div class="ui container">
+    <div class="ui stackable grid">
+        <div class="four wide column">
+            <div class="ui pointing fluid vertical menu">
+                <a class="item" routerLink="/profile/stories">
+                    My nice things
+                    <div class="ui label">17</div>
+                </a>
+                <a class="item" href="#">
+                    My tree
+                </a>
+                <a class="item" href="#">
+                    My map
+                </a>
+                <a class="item" routerLink="/profile/friends">
+                    My friends
+                    <div class="ui label">5</div>
+                </a>
+                <a class="item" routerLink="/profile/favorites">
+                    My favorite
+                    <div class="ui label">23</div>
+                </a>
+            </div>
+        </div>
+        <div class="twelve wide column">
+        	<div class="ui three stackable cards">
+				<div class="card" *ngFor="let story of stories | async">
+					<div class="extra content">
+						<img class="ui avatar image" src="assets/img/elliot.jpg"> Elliot
+					</div>
+					<div class="blurring dimmable image">
+						<div class="ui dimmer">
+							<div class="content">
+								<div class="center">
+									<div class="ui inverted button">edit</div>
+								</div>
+							</div>
+						</div>
+						<img src="assets/img/image.png">
+					</div>
+					<div class="content">
+						<p>{{ story.story }}</p>
+						<p class="meta">
+							<span>
+								<i class="quote left icon"></i> {{ story.feel }}
+							</span>
+						</p>
+						<p class="meta">
+							<span>
+								<i class="location arrow icon"></i> {{ story.location }}
+							</span>
+						</p>
+					</div>
+					<div class="extra content">
+						<span class="right floated">
+							<i class="heart outline like icon"></i> 17
+						</span>
+						<i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
