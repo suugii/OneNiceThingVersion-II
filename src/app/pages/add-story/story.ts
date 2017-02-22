@@ -6,7 +6,7 @@ export class Story {
 		public name: string = "",
 		public feel: string = "",
 		public message: string = "",
-		public privacy: number = "",
+		public privacy: number = 1,
 		public created_at: any = Date.now(),
 		public updated_at: any = Date.now(),
 	) {  }
