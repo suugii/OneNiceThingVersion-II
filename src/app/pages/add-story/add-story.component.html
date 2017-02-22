@@ -6,7 +6,7 @@
                 <span class="ui green ribbon label">Report Nice Thing !</span>
                 <span>Tell your story to one you know :)</span>
                 <p></p>
-                <form class="ui form" (ngSubmit)='addStory()'>
+                <form class="ui form" (ngSubmit)='storeStory()'>
                     <div class="field">
                         <label>Username Lookup</label>
                         <div class="ui search">
@@ -52,10 +52,10 @@
                         <button class="ui fluid green button" type="submit">Submit</button>
                     </div>
                 </form>
-                <div class="ui success message" *ngIf = 'success'>
+                <div class="ui success message" *ngIf='success'>
                     {{ success }}
                 </div>
-                <div class="ui warning message" *ngIf = 'error'>
+                <div class="ui warning message" *ngIf='error'>
                     {{ error.message }}
                 </div>
             </div>

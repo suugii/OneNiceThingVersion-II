@@ -3,23 +3,29 @@
         <div class="four wide column"></div>
         <div class="eight wide column">
             <h3>Contact us</h3>
-            <form class="ui form">
+            <form class="ui form" (ngSubmit)='storeContact()'>
                 <div class="field">
                     <label>Name</label>
-                    <input type="text" name="username" placeholder="Enter your name">
+                    <input type="text" placeholder="Enter your name" name="name" [(ngModel)]="model.name">
                 </div>
                 <div class="field">
                     <label>E-mail</label>
-                    <input type="password" name="password" placeholder="Enter your e-mail">
+                    <input type="email" placeholder="Enter your e-mail" name="email" [(ngModel)]="model.email">
                 </div>
                 <div class="field">
                     <label>Message</label>
-                    <textarea rows="7"></textarea>
+                    <textarea rows="7" name="message" [(ngModel)]="model.message"></textarea>
                 </div>
                 <div class="field">
                     <button class="ui fluid green button" type="submit">Send</button>
                 </div>
             </form>
+            <div class="ui success message" *ngIf='success'>
+                {{ success }}
+            </div>
+            <div class="ui warning message" *ngIf='error'>
+                {{ error.message }}
+            </div>
         </div>
         <div class="four wide column"></div>
     </div>

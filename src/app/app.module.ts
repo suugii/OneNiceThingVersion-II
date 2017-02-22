@@ -9,10 +9,8 @@ import { AngularFireModule } from 'angularfire2';
 import { SuiModule } from 'ng2-semantic-ui/ng2-semantic-ui';
 /* Services */
 import { AfService } from "./providers/af.service";
-import { StoryService } from "./providers/story.service";
 import { AuthGuardService } from "./providers/auth-guard.service";
 /* Components */
-import { LayoutPageComponent } from './pages/layout-page/layout-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
@@ -39,7 +37,6 @@ export const firebaseConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    LayoutPageComponent,
     HomePageComponent,
     LoginPageComponent,
     RegisterPageComponent,
@@ -61,7 +58,7 @@ export const firebaseConfig = {
     SuiModule,
     AngularFireModule.initializeApp(firebaseConfig),
   ],
-  providers: [AfService, StoryService, AuthGuardService],
+  providers: [AfService, AuthGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
