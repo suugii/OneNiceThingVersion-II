@@ -30,7 +30,7 @@ export const routes: Routes = [
     { path: 'create/story', component: AddStoryComponent },
     { path: 'about', component: AboutPageComponent },
     { path: 'contact', component: ContactPageComponent },
-
+    { path: 'profile', component: MypageComponent, canActivate: [AuthGuardService] },
     { path: 'profile/stories', component: MystoriesComponent, canActivate: [AuthGuardService] },
     { path: 'profile/friends', component: MyfriendsComponent, canActivate: [AuthGuardService] },
     { path: 'profile/favorites', component: MyfavoritesComponent, canActivate: [AuthGuardService] },
