@@ -2,26 +2,22 @@
     <div class="ui stackable grid">
         <div class="four wide column"></div>
         <div class="eight wide column">
+            <h2>Login</h2>
             <form class="ui form" (submit)="loginWithEmail($event, email.value, password.value)">
                 <div class="field">
-                    <label>Username</label>
-                    <input type="text" placeholder="Username" #email>
+                    <label>Email</label>
+                    <input type="email" placeholder="Email" #email>
                 </div>
                 <div class="field">
                     <label>Password</label>
                     <input type="password" placeholder="Password" #password>
                 </div>
                 <div class="field">
-                    <div class="ui checkbox">
-                        <input type="checkbox">
-                        <label>Remember me</label>
-                    </div>
-                </div>
-                <div class="field">
                     <button class="ui fluid green button" type="submit">Login</button>
                 </div>
                 <div class="field">
                     <a routerLink="/register">Register?</a>
+                    <a style="float:right" routerLink="/resetpassword">Forgot Password?</a>
                 </div>
             </form>
             <div class="ui horizontal divider">Or</div>

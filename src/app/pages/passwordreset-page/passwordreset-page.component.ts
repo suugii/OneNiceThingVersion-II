@@ -21,7 +21,6 @@ export class PasswordresetPageComponent implements OnInit {
         })
         .catch((error) => {
           this.message = error;
-          console.log(error);
         })
     }
   }
