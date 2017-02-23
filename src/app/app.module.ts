@@ -26,6 +26,7 @@ import { ContactPageComponent } from './pages/contact-page/contact-page.componen
 import { MystoriesComponent } from './pages/mystories/mystories.component';
 import { MyfriendsComponent } from './pages/myfriends/myfriends.component';
 import { MyfavoritesComponent } from './pages/myfavorites/myfavorites.component';
+import { MydashboardComponent } from './pages/mydashboard/mydashboard.component';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
@@ -54,6 +55,7 @@ export const firebaseConfig = {
         MystoriesComponent,
         MyfriendsComponent,
         MyfavoritesComponent,
+        MydashboardComponent,
     ],
     imports: [
         BrowserModule,

@@ -15,7 +15,7 @@ import { ContactPageComponent } from './pages/contact-page/contact-page.componen
 import { MystoriesComponent } from './pages/mystories/mystories.component';
 import { MyfriendsComponent } from './pages/myfriends/myfriends.component';
 import { MyfavoritesComponent } from './pages/myfavorites/myfavorites.component';
-
+import { MydashboardComponent } from './pages/mydashboard/mydashboard.component';
 // Route Configuration
 export const routes: Routes = [
     { path: '', component: HomePageComponent },
@@ -30,10 +30,16 @@ export const routes: Routes = [
     { path: 'create/story', component: AddStoryComponent },
     { path: 'about', component: AboutPageComponent },
     { path: 'contact', component: ContactPageComponent },
-    { path: 'profile', component: MypageComponent, canActivate: [AuthGuardService] },
-    { path: 'profile/stories', component: MystoriesComponent, canActivate: [AuthGuardService] },
-    { path: 'profile/friends', component: MyfriendsComponent, canActivate: [AuthGuardService] },
-    { path: 'profile/favorites', component: MyfavoritesComponent, canActivate: [AuthGuardService] },
+    {
+        path: 'profile', component: MypageComponent, canActivate: [AuthGuardService],
+        children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { path: 'dashboard', component: MydashboardComponent, canActivate: [AuthGuardService] },
+            { path: 'friends', component: MyfriendsComponent, canActivate: [AuthGuardService] },
+            { path: 'favorites', component: MyfavoritesComponent, canActivate: [AuthGuardService] },
+            { path: 'stories', component: MystoriesComponent, canActivate: [AuthGuardService] }
+        ]
+    },
 ];
 
 

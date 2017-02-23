@@ -2,7 +2,7 @@
     <div class="ui stackable grid">
         <div class="four wide column">
             <div class="ui pointing fluid vertical menu">
-                <a class="item" routerLink="/profile/stories">
+                <a class="item" routerLink="stories">
                     My nice things
                     <div class="ui label">17</div>
                 </a>
@@ -12,61 +12,18 @@
                 <a class="item" href="#">
                     My map
                 </a>
-                <a class="item" routerLink="/profile/friends">
+                <a class="item" routerLink="friends">
                     My friends
                     <div class="ui label">5</div>
                 </a>
-                <a class="item" routerLink="/profile/favorites">
+                <a class="item" routerLink="favorites">
                     My favorite
                     <div class="ui label">23</div>
                 </a>
             </div>
         </div>
         <div class="twelve wide column">
-            <div class="ui three stackable cards">
-                <div class="ui card">
-                    <div class="content">
-                        <div class="header">
-                            <div class="text-center">
-                                <p>23</p>
-                            </div>
-                        </div>
-                        <div class="meta">
-                            <div class="text-center">
-                                <p>Nice things directed from you</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui card">
-                    <div class="content">
-                        <div class="header">
-                            <div class="text-center">
-                                <p>35</p>
-                            </div>
-                        </div>
-                        <div class="meta">
-                            <div class="text-center">
-                                <p>Nice things originated from you</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui card">
-                    <div class="content">
-                        <div class="header">
-                            <div class="text-center">
-                                <p>270</p>
-                            </div>
-                        </div>
-                        <div class="meta">
-                            <div class="text-center">
-                                <p>Miles of nice thing done from you</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <router-outlet></router-outlet>
         </div>
     </div>
 </div>
