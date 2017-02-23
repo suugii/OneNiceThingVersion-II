@@ -6,8 +6,8 @@ import { routing } from './app.route';
 
 import { AppComponent } from './app.component';
 import { AngularFireModule } from 'angularfire2';
-import { SuiModule } from 'ng2-semantic-ui/ng2-semantic-ui';
 import { AgmCoreModule } from 'angular2-google-maps/core';
+import { DropdownModule } from "ngx-dropdown";
 /* Services */
 import { AfService } from "./providers/af.service";
 import { AuthGuardService } from "./providers/auth-guard.service";
@@ -28,6 +28,7 @@ import { MystoriesComponent } from './pages/mystories/mystories.component';
 import { MyfriendsComponent } from './pages/myfriends/myfriends.component';
 import { MyfavoritesComponent } from './pages/myfavorites/myfavorites.component';
 import { MydashboardComponent } from './pages/mydashboard/mydashboard.component';
+import { DropdownDirective } from './directives/dropdown.directive';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
@@ -57,13 +58,14 @@ export const firebaseConfig = {
         MyfriendsComponent,
         MyfavoritesComponent,
         MydashboardComponent,
+        DropdownDirective,
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
         routing,
-        SuiModule,
+        DropdownModule,
         AngularFireModule.initializeApp(firebaseConfig),
         AgmCoreModule.forRoot({
             apiKey: 'AIzaSyB4ygPHxCDU4qhpJYcJhvgGmg6Rrp-2l84'

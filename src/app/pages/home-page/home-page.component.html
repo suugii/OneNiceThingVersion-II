@@ -17,7 +17,26 @@
                     <span class="ui green ribbon label">Tell your story to one you know :)</span>
                     <p></p>
                     <form class="ui form" (ngSubmit)='storeStory()'>
-                        <sui-tabset>
+                        <div class="field">
+                            <label>Username Lookup</label>
+                            <div class="ui search">
+                                <input type="text" placeholder="Search username..." name="user" [(ngModel)]="model.user">
+                                <div class="results"></div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <a class="ui green button">Next</a>
+                        </div>
+                        <div class="wizard">
+                            <span class="wizard-item"></span>
+                            <span class="wizard-item"></span>
+                            <span class="wizard-item"></span>
+                            <span class="wizard-item"></span>
+                            <span class="wizard-item"></span>
+                            <span class="wizard-item"></span>
+                            <span class="wizard-item"></span>
+                        </div>
+                        <!--<sui-tabset>
                             <div class="ui" suiTabContent="1">
                                 <div class="field">
                                     <label>Username Lookup</label>
@@ -104,7 +123,7 @@
                                 <span class="wizard-item" suiTabHeader="6" [(isActive)]="sixthActive"></span>
                                 <span class="wizard-item" suiTabHeader="7" [(isActive)]="seventhActive"></span>
                             </div>
-                        </sui-tabset>
+                        </sui-tabset>-->
                     </form>
                 </div>
             </div>
