@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AfService } from "../../providers/af.service";
-import { FirebaseListObservable } from "angularfire2";
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 @Component({
 	selector: 'app-myfriends',
@@ -8,15 +7,13 @@ import { FirebaseListObservable } from "angularfire2";
 	styleUrls: ['./myfriends.component.css']
 })
 export class MyfriendsComponent implements OnInit {
-
-	public users: any;
 	
-	constructor(public afService: AfService) {
-
-	}
+	users: FirebaseListObservable<any[]>;
+	
+	constructor(public af: AngularFire) { }
 
 	ngOnInit() {
-		this.users = this.afService.af.database.list('/users');
+		this.users = this.af.database.list('users');
 	}
 
 }

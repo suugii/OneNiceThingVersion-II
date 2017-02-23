@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AfService } from "../../providers/af.service";
-import { FirebaseListObservable } from "angularfire2";
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 @Component({
 	selector: 'app-mystories',
@@ -9,14 +8,12 @@ import { FirebaseListObservable } from "angularfire2";
 })
 export class MystoriesComponent implements OnInit {
 
-	public stories: any;
+	stories: FirebaseListObservable<any[]>;
 	
-	constructor(public afService: AfService) {
-
-	}
+	constructor(public af: AngularFire) { }
 
 	ngOnInit() {
-		this.stories = this.afService.af.database.list('/stories');
+		this.stories = this.af.database.list('stories');
 	}
 
 }

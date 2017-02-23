@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
-import { AfService } from "../../providers/af.service";
-import { FirebaseListObservable } from "angularfire2";
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Story } from './story';
 
 @Component({
@@ -14,12 +13,12 @@ export class HomePageComponent implements OnInit {
     public error: any;
     public success: any;
 
-    constructor(public afService: AfService) { }
+    constructor(public af: AngularFire) { }
 
     ngOnInit() { }
 
     storeStory() {
-        this.afService.af.database.list('stories').push(this.model).then(()=>{
+        this.af.database.list('stories').push(this.model).then(()=>{
             this.success = 'Successfully added';
         }).catch((error: any) => {
             this.error = error;

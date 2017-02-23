@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AfService } from "../../providers/af.service";
-import { FirebaseListObservable } from "angularfire2";
+import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Contact } from './contact';
 
 @Component({
@@ -14,12 +13,12 @@ export class ContactPageComponent implements OnInit {
     public error: any;
     public success: any;
 
-    constructor(public afService: AfService) { }
+    constructor(public af: AngularFire) { }
 
     ngOnInit() { }
 
-    storeContact() {
-        this.afService.af.database.list('contacts').push(this.model).then(()=>{
+    storeStory() {
+        this.af.database.list('contact').push(this.model).then(()=>{
             this.success = 'Successfully added';
         }).catch((error: any) => {
             this.error = error;
