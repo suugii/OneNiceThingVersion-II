@@ -7,11 +7,12 @@
         </div>
         <ul>
             <li><a routerLink="/">Home</a></li>
+            <li><a routerLink="about" routerLinkActive="active">About</a></li>
             <li><a class="green" routerLink="howitworks" routerLinkActive="active">How it Works</a></li>
             <li><a class="yellow" routerLink="stories" routerLinkActive="active">Success Stories</a></li>
             <li><a routerLink="create/story" routerLinkActive="active">Add</a></li>
             <li><a routerLink="profile" routerLinkActive="active">My page</a></li>
-            <li><a routerLink="about" routerLinkActive="active">About</a></li>
+
             <li class="ui dropdown" suiDropdown *ngIf="isLoggedIn">
                 <a>
                     <img class="ui avatar image" src="assets/img/elliot.jpg"> {{userdata.auth.email}}
