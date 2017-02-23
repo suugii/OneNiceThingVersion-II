@@ -30,9 +30,7 @@ export const routes: Routes = [
     { path: 'create/story', component: AddStoryComponent },
     { path: 'about', component: AboutPageComponent },
     { path: 'contact', component: ContactPageComponent },
-    {
-        path: 'profile', component: MypageComponent, canActivate: [AuthGuardService],
-        children: [
+    { path: 'profile', component: MypageComponent, canActivate: [AuthGuardService], children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: MydashboardComponent, canActivate: [AuthGuardService] },
             { path: 'friends', component: MyfriendsComponent, canActivate: [AuthGuardService] },
