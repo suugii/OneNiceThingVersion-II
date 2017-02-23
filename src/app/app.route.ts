@@ -24,7 +24,6 @@ export const routes: Routes = [
     { path: 'resetpassword', component: PasswordresetPageComponent },
     { path: 'confirmpassword', component: ConfirmpasswordPageComponent },
     { path: 'howitworks', component: HowitworksPageComponent },
-    { path: 'mypage', component: MypageComponent, canActivate: [AuthGuardService] },
 
     { path: 'stories', component: StoriesComponent },
     { path: 'create/story', component: AddStoryComponent },
