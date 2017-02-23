@@ -10,10 +10,20 @@ export class MystoriesComponent implements OnInit {
 
 	stories: FirebaseListObservable<any[]>;
 	
-	constructor(public af: AngularFire) { }
+	constructor(public af: AngularFire) { 
+		this.stories = af.database.list('stories');
+	}
 
 	ngOnInit() {
-		this.stories = this.af.database.list('stories');
+		this.stories;
+	}
+
+	updateStory(key: string, data) {
+		this.stories.update(key, data);
+	}
+
+	deleteStory(key: string) {    
+		this.stories.remove(key); 
 	}
 
 }

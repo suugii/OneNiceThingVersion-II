@@ -10,10 +10,12 @@ export class MyfavoritesComponent implements OnInit {
 
 	stories: FirebaseListObservable<any[]>;
 	
-	constructor(public af: AngularFire) { }
+	constructor(public af: AngularFire) {
+		this.stories = this.af.database.list('stories');
+	}
 
 	ngOnInit() {
-		this.stories = this.af.database.list('stories');
+		this.stories;
 	}
 
 }

@@ -9,16 +9,20 @@ import { Story } from './story';
 })
 export class AddStoryComponent implements OnInit {
     
+    stories: FirebaseListObservable<any[]>;
+
     public model = new Story();
     public error: any;
     public success: any;
 
-    constructor(public af: AngularFire) { }
+    constructor(public af: AngularFire) {
+        this.stories = af.database.list('stories');
+    }
 
     ngOnInit() { }
 
     storeStory() {
-        this.af.database.list('stories').push(this.model).then(()=>{
+        this.stories.push(this.model).then(()=>{
             this.success = 'Successfully added';
         }).catch((error: any) => {
             this.error = error;
