@@ -1,34 +1,3 @@
-<!-- <div class="ui container">
-    <div class="jumbotron">
-        <img class="ui fluid image" src="assets/img/home.png">
-    </div>
-</div>
-<div class="well">
-    <div class="ui container">
-        <div class="text-center text-medium">
-            <p>If you do something nice for someone and ask them to do the same...</p>
-            <p>How far it will go? <a routerLink="stories">Let's find out</a></p>
-        </div>
-    </div>
-</div>
-<div class="ui container">
-    <div class="ui stackable grid">
-        <div class="one wide column"></div>
-        <div class="five wide column">
-            <img class="ui fluid image" src="assets/img/animate.gif">
-        </div>
-        <div class="nine wide column">
-            <div class="middle">
-                <div class="text-center text-medium">
-                    <p>Want to report a nice thing you've done?</p>
-                    <p>Does helping others really make the world a better place?</p>
-                    <a class="ui yellow button" routerLink="addstory">here</a>
-                </div>
-            </div>
-        </div>
-        <div class="one wide column"></div>
-    </div>
-</div> -->
 <div class="well">
     <div class="ui container">
         <div class="ui stackable grid">
@@ -39,101 +8,105 @@
                     <p>How far it will go? <a routerLink="stories">Let's find out</a></p>
                 </div>
             </div>
-            <div class="six wide column">
+            <div class="six wide column segment">
                 <div class="text-center text-medium">
                     <p>Want to report a nice thing you've done?</p>
                     <p>Does helping others really make the world a better place?</p>
                 </div>
-                <div class="ui divider"></div>
-                <form class="ui form" (ngSubmit)='storeStory()'>
-                    <sui-tabset>
-                        <div class="ui" suiTabContent="1">
-                            <div class="field">
-                                <label>Username Lookup</label>
-                                <div class="ui search">
-                                    <input type="text" placeholder="Search username..." name="user" [(ngModel)]="model.user">
-                                    <div class="results"></div>
+                <div class="ui raised segment">
+                    <span class="ui green ribbon label">Tell your story to one you know :)</span>
+                    <p></p>
+                    <form class="ui form" (ngSubmit)='storeStory()'>
+                        <sui-tabset>
+                            <div class="ui" suiTabContent="1">
+                                <div class="field">
+                                    <label>Username Lookup</label>
+                                    <div class="ui search">
+                                        <input type="text" placeholder="Search username..." name="user" [(ngModel)]="model.user">
+                                        <div class="results"></div>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <a class="ui green button" (click)="secondActive = true">Next</a>
                                 </div>
                             </div>
-                            <div class="field">
-                                <a class="ui green button" (click)="secondActive = true">Next</a>
+                            <div class="ui" suiTabContent="2">
+                                <div class="field">
+                                    <label>Location where did you do your nice thing ?</label>
+                                    <input type="text" placeholder="Enter Location" name="location" [(ngModel)]="model.location">
+                                </div>
+                                <div class="field">
+                                    <a class="ui button" (click)="firstActive = true">Back</a>
+                                    <a class="ui green button" (click)="thirdActive = true">Next</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="ui" suiTabContent="2">
-                            <div class="field">
-                                <label>Location where did you do your nice thing ?</label>
-                                <input type="text" placeholder="Enter Location" name="location" [(ngModel)]="model.location">
+                            <div class="ui" suiTabContent="3">
+                                <div class="field">
+                                    <label>What nice thing did you do ?</label>
+                                    <textarea rows="2" placeholder="What did you do ?" name="story" [(ngModel)]="model.story"></textarea>
+                                </div>
+                                <div class="field">
+                                    <a class="ui button" (click)="secondActive = true">Back</a>
+                                    <a class="ui green button" (click)="fourthActive = true">Next</a>
+                                </div>
                             </div>
-                            <div class="field">
-                                <a class="ui button" (click)="firstActive = true">Back</a>
-                                <a class="ui green button" (click)="thirdActive = true">Next</a>
+                            <div class="ui" suiTabContent="4">
+                                <div class="field">
+                                    <label>Who did you do it for ?</label>
+                                    <input type="text" placeholder="Who did you do it for ?" name="name" [(ngModel)]="model.name">
+                                </div>
+                                <div class="field">
+                                    <a class="ui button" (click)="thirdActive = true">Back</a>
+                                    <a class="ui green button" (click)="fifthActive = true">Next</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="ui" suiTabContent="3">
-                            <div class="field">
-                                <label>What nice thing did you do ?</label>
-                                <textarea rows="2" placeholder="What did you do ?" name="story" [(ngModel)]="model.story"></textarea>
+                            <div class="ui" suiTabContent="5">
+                                <div class="field">
+                                    <label>How did you respond, how did you feel ?</label>
+                                    <input type="text" placeholder="How did you feel ?" name="feel" [(ngModel)]="model.feel">
+                                </div>
+                                <div class="field">
+                                    <a class="ui button" (click)="fourthActive = true">Back</a>
+                                    <a class="ui green button" (click)="sixthActive = true">Next</a>
+                                </div>
                             </div>
-                            <div class="field">
-                                <a class="ui button" (click)="secondActive = true">Back</a>
-                                <a class="ui green button" (click)="fourthActive = true">Next</a>
+                            <div class="ui" suiTabContent="6">
+                                <div class="field">
+                                    <label>Would you like to leave any other message for this member ?</label>
+                                    <textarea rows="2" placeholder="Any message" name="message" [(ngModel)]="model.message"></textarea>
+                                </div>
+                                <div class="field">
+                                    <a class="ui button" (click)="fifthActive = true">Back</a>
+                                    <a class="ui green button" (click)="seventhActive = true">Next</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="ui" suiTabContent="4">
-                            <div class="field">
-                                <label>Who did you do it for ?</label>
-                                <input type="text" placeholder="Who did you do it for ?" name="name" [(ngModel)]="model.name">
+                            <div class="ui" suiTabContent="7">
+                                <div class="field">
+                                    <label>Privacy</label>
+                                    <select class="ui dropdown" name="privacy" [(ngModel)]="model.privacy">
+                                        <option value="">Permission</option>
+                                        <option value="1">Only me</option>
+                                        <option value="2">Friends</option>
+                                        <option value="3">Public</option>
+                                    </select>
+                                </div>
+                                <div class="field">
+                                    <a class="ui button" (click)="sixthActive = true">Back</a>
+                                    <button class="ui green button" type="submit">Finish</button>
+                                </div>
                             </div>
-                            <div class="field">
-                                <a class="ui button" (click)="thirdActive = true">Back</a>
-                                <a class="ui green button" (click)="fifthActive = true">Next</a>
+                            <div class="wizard">
+                                <span class="wizard-item" suiTabHeader="1" [(isActive)]="firstActive"></span>
+                                <span class="wizard-item" suiTabHeader="2" [(isActive)]="secondActive"></span>
+                                <span class="wizard-item" suiTabHeader="3" [(isActive)]="thirdActive"></span>
+                                <span class="wizard-item" suiTabHeader="4" [(isActive)]="fourthActive"></span>
+                                <span class="wizard-item" suiTabHeader="5" [(isActive)]="fifthActive"></span>
+                                <span class="wizard-item" suiTabHeader="6" [(isActive)]="sixthActive"></span>
+                                <span class="wizard-item" suiTabHeader="7" [(isActive)]="seventhActive"></span>
                             </div>
-                        </div>
-                        <div class="ui" suiTabContent="5">
-                            <div class="field">
-                                <label>How did you respond, how did you feel ?</label>
-                                <input type="text" placeholder="How did you feel ?" name="feel" [(ngModel)]="model.feel">
-                            </div>
-                            <div class="field">
-                                <a class="ui button" (click)="fourthActive = true">Back</a>
-                                <a class="ui green button" (click)="sixthActive = true">Next</a>
-                            </div>
-                        </div>
-                        <div class="ui" suiTabContent="6">
-                            <div class="field">
-                                <label>Would you like to leave any other message for this member ?</label>
-                                <textarea rows="2" placeholder="Any message" name="message" [(ngModel)]="model.message"></textarea>
-                            </div>
-                            <div class="field">
-                                <a class="ui button" (click)="fifthActive = true">Back</a>
-                                <a class="ui green button" (click)="seventhActive = true">Next</a>
-                            </div>
-                        </div>
-                        <div class="ui" suiTabContent="7">
-                            <div class="field">
-                                <select class="ui dropdown" name="privacy" [(ngModel)]="model.privacy">
-                                    <option value="">Permission</option>
-                                    <option value="1">Only me</option>
-                                    <option value="2">Friends</option>
-                                    <option value="3">Public</option>
-                                </select>
-                            </div>
-                            <div class="field">
-                                <a class="ui button" (click)="sixthActive = true">Back</a>
-                                <button class="ui green button" type="submit">Finish</button>
-                            </div>
-                        </div>
-                        <div class="wizard">
-                            <span class="wizard-item" suiTabHeader="1" [(isActive)]="firstActive"></span>
-                            <span class="wizard-item" suiTabHeader="2" [(isActive)]="secondActive"></span>
-                            <span class="wizard-item" suiTabHeader="3" [(isActive)]="thirdActive"></span>
-                            <span class="wizard-item" suiTabHeader="4" [(isActive)]="fourthActive"></span>
-                            <span class="wizard-item" suiTabHeader="5" [(isActive)]="fifthActive"></span>
-                            <span class="wizard-item" suiTabHeader="6" [(isActive)]="sixthActive"></span>
-                            <span class="wizard-item" suiTabHeader="7" [(isActive)]="seventhActive"></span>
-                        </div>
-                    </sui-tabset>
-                </form>
+                        </sui-tabset>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
