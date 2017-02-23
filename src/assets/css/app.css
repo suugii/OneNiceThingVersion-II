@@ -25,6 +25,14 @@ body {
 	color: rgba(0,0,0,0.87);
 	background-color: #fff;
 }
+a {
+	color: #40b553;
+}
+a:hover,
+a:focus {
+	color: #40b553;
+	text-decoration: underline;
+}
 h1,h2,h3,h4,h5,
 .ui.button,
 .ui.text.container,
@@ -93,6 +101,11 @@ h1,h2,h3,h4,h5,
 .text-center {
 	text-align: center;
 }
+#wrapper {
+	height: auto;
+	min-height: calc(100% - 1em - 50px);
+	position: relative;
+}
 #header {
 	border-bottom: 1px solid #ccc;
 }
@@ -155,6 +168,7 @@ h1,h2,h3,h4,h5,
 #header ul > li > a:hover,
 #header ul > li > a:focus {
 	color: #40b553;
+	text-decoration: none;
 }
 #header ul > li > a.active {
 	color: #40b553;
@@ -224,8 +238,8 @@ h1,h2,h3,h4,h5,
 	}
 }
 #content {
-	margin-top: 44px;
-	margin-bottom: 44px;
+	padding-top: 44px;
+	padding-bottom: 44px;
 }
 .jumbotron {
 	max-width: 800px;
@@ -237,6 +251,17 @@ h1,h2,h3,h4,h5,
 	padding-bottom: 30px;
 	margin-bottom: 30px;
 	box-shadow: 0 5px 8px #ddd;
+}
+#footer {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+ 	line-height: 1;
+	-webkit-transform: translate(0, 100%);
+	 	-ms-transform: translate(0, 100%);
+	 	 -o-transform: translate(0, 100%);
+	      	transform: translate(0, 100%);
 }
  #footer ul {
  	margin: 0;
@@ -251,6 +276,7 @@ h1,h2,h3,h4,h5,
  }
  #footer ul li a {
  	color: #777;
+	text-decoration: none;
  }
  #footer ul li a:hover,
  #footer ul li a:focus {
