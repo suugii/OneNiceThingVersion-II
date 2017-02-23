@@ -46,12 +46,18 @@
     <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
         <sebm-google-map-marker [latitude]="latA" [longitude]="lngA" [iconUrl]="iconURL">
             <sebm-google-map-info-window>
-                <strong>I'll suggest you to help someone</strong>
+                <div class="infowindow">
+                    <img class="ui avatar image" [src]="iconURL.url"> Tugsbileg
+                    <p>I'll suggest you to help people</p>
+                </div>
             </sebm-google-map-info-window>
         </sebm-google-map-marker>
         <sebm-google-map-marker [latitude]="latB" [longitude]="lngB" [iconUrl]="iconURL1">
             <sebm-google-map-info-window>
-                <strong>I'm here to help people</strong>
+                <div class="infowindow">
+                    <img class="ui avatar image" [src]="iconURL1.url"> Neyo
+                    <p>I helped old lady</p>
+                </div>
             </sebm-google-map-info-window>
         </sebm-google-map-marker>
         <sebm-google-map-polyline [strokeColor]="'#49B85B'" [strokeOpacity]="1" [strokeWeight]="2">
