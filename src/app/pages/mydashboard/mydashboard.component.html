@@ -42,3 +42,23 @@
         </div>
     </div>
 </div>
+<div class="google-map">
+    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+        <sebm-google-map-marker [latitude]="latA" [longitude]="lngA" [iconUrl]="iconURL">
+            <sebm-google-map-info-window>
+                <strong>I'll suggest you to help someone</strong>
+            </sebm-google-map-info-window>
+        </sebm-google-map-marker>
+        <sebm-google-map-marker [latitude]="latB" [longitude]="lngB" [iconUrl]="iconURL1">
+            <sebm-google-map-info-window>
+                <strong>I'm here to help people</strong>
+            </sebm-google-map-info-window>
+        </sebm-google-map-marker>
+        <sebm-google-map-polyline [strokeColor]="'#49B85B'" [strokeOpacity]="1" [strokeWeight]="2">
+            <sebm-google-map-polyline-point [latitude]="latA" [longitude]="lngA">
+            </sebm-google-map-polyline-point>
+            <sebm-google-map-polyline-point [latitude]="latB" [longitude]="lngB">
+            </sebm-google-map-polyline-point>
+        </sebm-google-map-polyline>
+    </sebm-google-map>
+</div>

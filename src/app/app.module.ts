@@ -7,6 +7,7 @@ import { routing } from './app.route';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { SuiModule } from 'ng2-semantic-ui/ng2-semantic-ui';
+import { AgmCoreModule } from 'angular2-google-maps/core';
 /* Services */
 import { AfService } from "./providers/af.service";
 import { AuthGuardService } from "./providers/auth-guard.service";
@@ -64,6 +65,9 @@ export const firebaseConfig = {
         routing,
         SuiModule,
         AngularFireModule.initializeApp(firebaseConfig),
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyB4ygPHxCDU4qhpJYcJhvgGmg6Rrp-2l84'
+        }),
     ],
     providers: [AfService, AuthGuardService],
     bootstrap: [AppComponent]
