@@ -50,7 +50,7 @@ export const firebaseConfig = {
 		AboutComponent,
 		ContactComponent,
 		StoriesComponent,
-        StoryComponent
+        StoryComponent,
 		CreateComponent,
 		LoginComponent,
 		RegisterComponent,
