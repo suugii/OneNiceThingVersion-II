@@ -3,9 +3,9 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Story } from './../../class/story';
 
 @Component({
-	selector: 'app-home',
-	templateUrl: './home.component.html',
-	styleUrls: ['./home.component.css']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
 
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
     ngOnInit() { }
 
     storeStory() {
-        this.stories.push(this.model).then(()=>{
+        this.stories.push(this.model).then(() => {
             this.success = 'Successfully added';
         }).catch((error: any) => {
             this.error = error;

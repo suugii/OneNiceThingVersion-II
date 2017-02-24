@@ -30,6 +30,8 @@ import { PasswordconfirmComponent } from './auth/passwordconfirm/passwordconfirm
 import { PasswordresetComponent } from './auth/passwordreset/passwordreset.component';
 import { DropdownDirective } from './directive/dropdown.directive';
 import { TabDirective } from './directive/tab.directive';
+import { UserSettingsComponent } from './profile/user-settings/user-settings.component';
+import { ChangePasswordComponent } from './profile/change-password/change-password.component';
 
 export const firebaseConfig = {
     apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
@@ -58,7 +60,9 @@ export const firebaseConfig = {
 		PasswordresetComponent,
 		PasswordconfirmComponent,
 		DropdownDirective,
-		TabDirective
+		TabDirective,
+		UserSettingsComponent,
+		ChangePasswordComponent
 	],
 	imports: [
 		BrowserModule,
