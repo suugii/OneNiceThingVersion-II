@@ -20,12 +20,12 @@ export class AuthService {
 
 	constructor(public af: AngularFire) {
 
-	// this.messages = this.af.database.list('/messages').map(messages => {
-	//   for (let message of messages) {
-	//     message.sender = this.af.database.object(`/registeredUsers/${message.senderID}`);
-	//   }
-	//   return messages;
-	// });
+		// this.messages = this.af.database.list('/messages').map(messages => {
+		//   for (let message of messages) {
+		//     message.sender = this.af.database.object(`/registeredUsers/${message.senderID}`);
+		//   }
+		//   return messages;
+		// });
 
 		this.searchTerm = new BehaviorSubject('senderID');
 		this.searchValue = new BehaviorSubject('gDi02sU4XFQGsJesuAvA01HVUOf1');
@@ -86,13 +86,18 @@ export class AuthService {
 			email: email,
 			password: password,
 		},
-		{
-			provider: AuthProviders.Password,
-			method: AuthMethods.Password,
-		});
+			{
+				provider: AuthProviders.Password,
+				method: AuthMethods.Password,
+			});
 	}
 
-	getUser(id){
+	anonymousToPermanent(userdata) {
+		var credential = firebase.auth.EmailAuthProvider.credential(userdata.email, userdata.password);
+		return firebase.auth().currentUser.link(credential);
+	}
+
+	getUser(id) {
 		return this.af.database.object('/users/' + id);
 	}
 

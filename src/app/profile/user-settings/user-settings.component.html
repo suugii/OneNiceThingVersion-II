@@ -1,0 +1,60 @@
+<div class="twelve wide column">
+    <h3>Settings</h3>
+    <form class="ui form" (ngSubmit)="upgradeUser($event)" *ngIf="isAnonymous">
+        <div class="two fields">
+            <div class="field">
+                <label>First name</label>
+                <input type="text" placeholder="First name" [(ngModel)]="user.firstname" name="firstname">
+            </div>
+            <div class="field">
+                <label>Last name</label>
+                <input type="text" placeholder="Last name" [(ngModel)]="user.lastname" name="lastname">
+            </div>
+        </div>
+        <div class="field">
+            <label>Email</label>
+            <input type="email" placeholder="Email" [(ngModel)]="user.email" name="email">
+        </div>
+        <div class="field">
+            <label>Password</label>
+            <input type="password" placeholder="Password" [(ngModel)]="user.password" name="password">
+        </div>
+        <div class="field">
+            <div class="ui checkbox">
+                <input type="checkbox">
+                <label>Public account ?</label>
+            </div>
+        </div>
+        <div class="field">
+            <button class="ui green button" type="submit">Upgrade Account</button>
+        </div>
+        <div class="ui message {{classCondition ? 'positive': 'negative'}}" *ngIf="message">
+            <p>{{message}}</p>
+        </div>
+    </form>
+    <form class="ui form" (ngSubmit)="updateUser($event)" *ngIf="!isAnonymous">
+        <div class="two fields">
+            <div class="field">
+                <label>First name</label>
+                <input type="text" placeholder="First name" [(ngModel)]="user.firstname" name="firstname">
+            </div>
+            <div class="field">
+                <label>Last name</label>
+                <input type="text" placeholder="Last name" [(ngModel)]="user.lastname" name="lastname">
+            </div>
+        </div>
+        <div class="field">
+            <label>Email</label>
+            <input type="email" placeholder="Email" [(ngModel)]="user.email" name="email">
+        </div>
+        <div class="field">
+            <div class="ui checkbox">
+                <input type="checkbox">
+                <label>Public account ?</label>
+            </div>
+        </div>
+        <div class="field">
+            <button class="ui green button" type="submit">Save</button>
+        </div>
+    </form>
+</div>
