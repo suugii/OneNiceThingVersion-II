@@ -13,7 +13,7 @@ export class ContactComponent implements OnInit {
     public error: any;
     public success: any;
 
-    constructor(public af: AngularFire) { }
+    constructor(private af: AngularFire) { }
 
     ngOnInit() { }
 

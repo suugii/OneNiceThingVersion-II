@@ -5,6 +5,7 @@ import { GuardService } from './service/guard.service';
 import { HomeComponent } from './page/home/home.component';
 import { CreateComponent } from './page/create/create.component';
 import { StoriesComponent } from './page/stories/stories.component';
+import { StoryComponent } from './page/story/story.component';
 import { AboutComponent } from './page/about/about.component';
 import { ContactComponent } from './page/contact/contact.component';
 import { WorkComponent } from './page/work/work.component';
@@ -22,6 +23,7 @@ export const Route: ModuleWithProviders = RouterModule.forRoot([
 	{ path: '', component: HomeComponent },
 	{ path: 'create', component: CreateComponent },
 	{ path: 'stories', component: StoriesComponent },
+    { path: 'stories/:key', component: StoryComponent },
 	{ path: 'about', component: AboutComponent },
 	{ path: 'contact', component: ContactComponent },
 	{ path: 'work', component: WorkComponent },

@@ -3,7 +3,7 @@ import { Directive, OnInit, OnDestroy, ElementRef } from '@angular/core';
 declare var jQuery: any;
 
 @Directive({
-  selector: '.wizard-item'
+	selector: '.wizard-item'
 })
 export class TabDirective implements OnInit, OnDestroy {
 

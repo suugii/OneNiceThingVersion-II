@@ -1,0 +1,40 @@
+<div class="ui container">
+	<div class="ui stackable grid">
+		<div class="ui six wide column">
+			<div class="ui card">
+	            <div class="extra content">
+	                <img class="ui avatar image" src="assets/img/elliot.jpg"> Elliot
+	                <span>
+	                </span>
+	            	<span class="right floated">
+	                	<i class="right arrow icon"></i>
+		                <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ (story | async)?.user }}
+	                </span>
+	            </div>
+				<div class="content">
+					{{ (story | async)?.story }}
+				</div>
+				<div class="content">
+		            <p class="meta">
+	                    <span>
+							<i class="quote left icon"></i> {{ (story | async)?.feeling }}
+						</span>
+	                </p>
+	                <p class="meta">
+	                    <span>
+						    <i class="location arrow icon"></i> {{ (story | async)?.location }}
+						</span>
+	                </p>
+				</div>
+				<div class="extra content">
+	                <span class="right floated">
+						<i class="heart outline like icon"></i> 17
+					</span>
+                	<i class="calendar icon"></i> {{ (story | async)?.created_at | date:'MMM dd, hh:mma'}}
+				</div>
+			</div>
+		</div>
+		<div class="ui ten wide column">
+		</div>
+	</div>
+</div>

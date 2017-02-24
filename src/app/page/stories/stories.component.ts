@@ -10,7 +10,7 @@ export class StoriesComponent implements OnInit {
 
 	stories: FirebaseListObservable<any[]>;
 	
-	constructor(public af: AngularFire) {
+	constructor(private af: AngularFire) {
 		this.stories = this.af.database.list('stories');
 	}
 
