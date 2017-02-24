@@ -25,7 +25,7 @@ export const Route: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent },
     { path: 'create', component: CreateComponent },
     { path: 'stories', component: StoriesComponent },
-    { path: 'stories/:id', component: StoryComponent },
+    { path: 'stories/:key', component: StoryComponent },
     { path: 'about', component: AboutComponent },
     { path: 'contact', component: ContactComponent },
     { path: 'work', component: WorkComponent },
