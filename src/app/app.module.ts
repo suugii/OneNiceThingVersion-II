@@ -1,0 +1,81 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+import { Route } from './app.route';
+
+import { AngularFireModule } from 'angularfire2';
+import { AgmCoreModule } from 'angular2-google-maps/core';
+
+import { AuthService } from "./service/auth.service";
+import { StoryService } from "./service/story.service";
+import { ContactService } from "./service/contact.service";
+import { GuardService } from "./service/guard.service";
+
+import { AppComponent } from './app.component';
+import { HomeComponent } from './page/home/home.component';
+import { AboutComponent } from './page/about/about.component';
+import { ContactComponent } from './page/contact/contact.component';
+import { StoriesComponent } from './page/stories/stories.component';
+import { CreateComponent } from './page/create/create.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { WorkComponent } from './page/work/work.component';
+import { UserStoriesComponent } from './profile/user-stories/user-stories.component';
+import { UserFriendsComponent } from './profile/user-friends/user-friends.component';
+import { UserFavoritesComponent } from './profile/user-favorites/user-favorites.component';
+import { DashboardComponent } from './profile/dashboard/dashboard.component';
+import { UserHomeComponent } from './profile/user-home/user-home.component';
+import { PasswordconfirmComponent } from './auth/passwordconfirm/passwordconfirm.component';
+import { PasswordresetComponent } from './auth/passwordreset/passwordreset.component';
+import { DropdownDirective } from './directive/dropdown.directive';
+import { TabDirective } from './directive/tab.directive';
+
+export const firebaseConfig = {
+    apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
+    authDomain: "nicething-5c833.firebaseapp.com",
+    databaseURL: "https://nicething-5c833.firebaseio.com",
+    storageBucket: "nicething-5c833.appspot.com",
+    messagingSenderId: "868527023994"
+};
+
+@NgModule({
+	declarations: [
+		AppComponent,
+		HomeComponent,
+		AboutComponent,
+		ContactComponent,
+		StoriesComponent,
+		CreateComponent,
+		LoginComponent,
+		RegisterComponent,
+		WorkComponent,
+		UserStoriesComponent,
+		UserFriendsComponent,
+		UserFavoritesComponent,
+		DashboardComponent,
+		UserHomeComponent,
+		PasswordresetComponent,
+		PasswordconfirmComponent,
+		DropdownDirective,
+		TabDirective
+	],
+	imports: [
+		BrowserModule,
+		FormsModule,
+		HttpModule,
+		Route,
+    	AngularFireModule.initializeApp(firebaseConfig),
+        AgmCoreModule.forRoot({
+            apiKey: 'AIzaSyB4ygPHxCDU4qhpJYcJhvgGmg6Rrp-2l84'
+        }),
+	],
+	providers: [
+		AuthService,
+		GuardService,
+		StoryService,
+		ContactService,
+	],
+	bootstrap: [AppComponent]
+})
+export class AppModule { }

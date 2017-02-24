@@ -1,0 +1,33 @@
+<div class="ui container">
+    <div class="ui stackable grid">
+        <div class="four wide column"></div>
+        <div class="eight wide column">
+            <h3>Login</h3>
+            <form class="ui form" (submit)="loginWithEmail($event, email.value, password.value)">
+                <div class="field">
+                    <label>Email</label>
+                    <input type="email" placeholder="Email" #email>
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <input type="password" placeholder="Password" #password>
+                </div>
+                <div class="field">
+                    <button class="ui fluid green button" type="submit">Login</button>
+                </div>
+                <div class="field">
+                    <a routerLink="/register">Register?</a>
+                    <a style="float:right" routerLink="/resetpassword">Forgot Password?</a>
+                </div>
+            </form>
+            <div class="ui horizontal divider">Or</div>
+            <a class="ui inverted green button" (click)="loginWithGuest()">Login as guest</a>
+            <a class="ui facebook button" (click)="loginWithFacebook()">Facebook</a>
+            <a class="ui google plus button" (click)="loginWithGoogle()">Google +</a>
+            <div class="ui negative message" *ngIf="error">
+                <p>{{error.message}}</p>
+            </div>
+        </div>
+        <div class="four wide column"></div>
+    </div>
+</div>

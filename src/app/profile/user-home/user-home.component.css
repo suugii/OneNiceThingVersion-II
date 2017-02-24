@@ -1,0 +1,9 @@
+.sebm-google-map-container {
+    height: 500px;
+}
+.google-map {
+    margin-top: 25px;
+}
+.infowindow p {
+    margin-top: 5px;
+}

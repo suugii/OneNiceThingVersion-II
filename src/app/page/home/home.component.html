@@ -1,0 +1,111 @@
+<div class="well">
+    <div class="ui container">
+        <div class="ui stackable grid">
+            <div class="ten wide column">
+                <img class="ui fluid image" src="assets/img/home.png">
+                <div class="text-center text-medium">
+                    <p>If you do something nice for someone and ask them to do the same...</p>
+                    <p>How far it will go? <a routerLink="stories">Let's find out</a></p>
+                </div>
+            </div>
+            <div class="six wide column segment">
+                <div class="text-center text-medium">
+                    <p>Want to report a nice thing you've done?</p>
+                    <p>Does helping others really make the world a better place?</p>
+                </div>
+                <div class="ui raised segment">
+                    <span class="ui green ribbon label">Tell your story to one you know :)</span>
+                    <p></p>
+                    <form class="ui form" (ngSubmit)='storeStory()'>
+                        <div class="ui tab active" data-tab="first">
+                            <div class="field">
+                                <label>Username Lookup</label>
+                                <div class="ui search">
+                                    <input type="text" placeholder="Search username..." name="user" [(ngModel)]="model.user">
+                                    <div class="results"></div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <a class="ui green button" (click)="secondActive = true">Next</a>
+                            </div>
+                        </div>
+                        <div class="ui tab" data-tab="second">
+                            <div class="field">
+                                <label>Location where did you do your nice thing ?</label>
+                                <input type="text" placeholder="Enter Location" name="location" [(ngModel)]="model.location">
+                            </div>
+                            <div class="field">
+                                <a class="ui button" (click)="firstActive = true">Back</a>
+                                <a class="ui green button" (click)="thirdActive = true">Next</a>
+                            </div>
+                        </div>
+                        <div class="ui tab" data-tab="third">
+                            <div class="field">
+                                <label>What nice thing did you do ?</label>
+                                <textarea rows="2" placeholder="What did you do ?" name="story" [(ngModel)]="model.story"></textarea>
+                            </div>
+                            <div class="field">
+                                <a class="ui button" (click)="secondActive = true">Back</a>
+                                <a class="ui green button" (click)="fourthActive = true">Next</a>
+                            </div>
+                        </div>
+                        <div class="ui tab" data-tab="fourth">
+                            <div class="field">
+                                <label>Who did you do it for ?</label>
+                                <input type="text" placeholder="Who did you do it for ?" name="name" [(ngModel)]="model.name">
+                            </div>
+                            <div class="field">
+                                <a class="ui button" (click)="thirdActive = true">Back</a>
+                                <a class="ui green button" (click)="fifthActive = true">Next</a>
+                            </div>
+                        </div>
+                        <div class="ui tab" data-tab="fifth">
+                            <div class="field">
+                                <label>How did you respond, how did you feel ?</label>
+                                <input type="text" placeholder="How did you feel ?" name="feel" [(ngModel)]="model.feel">
+                            </div>
+                            <div class="field">
+                                <a class="ui button" (click)="fourthActive = true">Back</a>
+                                <a class="ui green button" (click)="sixthActive = true">Next</a>
+                            </div>
+                        </div>
+                        <div class="ui tab" data-tab="sixth">
+                            <div class="field">
+                                <label>Would you like to leave any other message for this member ?</label>
+                                <textarea rows="2" placeholder="Any message" name="message" [(ngModel)]="model.message"></textarea>
+                            </div>
+                            <div class="field">
+                                <a class="ui button" (click)="fifthActive = true">Back</a>
+                                <a class="ui green button" (click)="seventhActive = true">Next</a>
+                            </div>
+                        </div>
+                        <div class="ui tab" data-tab="seventh">
+                            <div class="field">
+                                <label>Privacy</label>
+                                <select class="ui dropdown" name="privacy" [(ngModel)]="model.privacy">
+                                    <option value="">Permission</option>
+                                    <option value="1">Only me</option>
+                                    <option value="2">Friends</option>
+                                    <option value="3">Public</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <a class="ui button" (click)="sixthActive = true">Back</a>
+                                <button class="ui green button" type="submit">Finish</button>
+                            </div>
+                        </div>
+                        <div class="wizard">
+                            <span class="wizard-item active" data-tab="first" [(isActive)]="firstActive"></span>
+                            <span class="wizard-item" data-tab="second" [(isActive)]="secondActive"></span>
+                            <span class="wizard-item" data-tab="third" [(isActive)]="secondActive"></span>
+                            <span class="wizard-item" data-tab="fourth" [(isActive)]="secondActive"></span>
+                            <span class="wizard-item" data-tab="fifth" [(isActive)]="secondActive"></span>
+                            <span class="wizard-item" data-tab="sixth" [(isActive)]="secondActive"></span>
+                            <span class="wizard-item" data-tab="seventh" [(isActive)]="secondActive"></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

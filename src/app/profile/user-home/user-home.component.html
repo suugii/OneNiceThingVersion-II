@@ -1,0 +1,70 @@
+<div class="ui three stackable cards">
+    <div class="ui card">
+        <div class="content">
+            <div class="header">
+                <div class="text-center">
+                    <p>23</p>
+                </div>
+            </div>
+            <div class="meta">
+                <div class="text-center">
+                    <p>Nice things directed from you</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui card">
+        <div class="content">
+            <div class="header">
+                <div class="text-center">
+                    <p>35</p>
+                </div>
+            </div>
+            <div class="meta">
+                <div class="text-center">
+                    <p>Nice things originated from you</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui card">
+        <div class="content">
+            <div class="header">
+                <div class="text-center">
+                    <p>270</p>
+                </div>
+            </div>
+            <div class="meta">
+                <div class="text-center">
+                    <p>Miles of nice thing done from you</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="google-map">
+    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+        <sebm-google-map-marker [latitude]="latA" [longitude]="lngA" [iconUrl]="iconURL">
+            <sebm-google-map-info-window>
+                <div class="infowindow">
+                    <img class="ui avatar image" [src]="iconURL.url"> Tugsbileg
+                    <p>I'll suggest you to help people</p>
+                </div>
+            </sebm-google-map-info-window>
+        </sebm-google-map-marker>
+        <sebm-google-map-marker [latitude]="latB" [longitude]="lngB" [iconUrl]="iconURL1">
+            <sebm-google-map-info-window>
+                <div class="infowindow">
+                    <img class="ui avatar image" [src]="iconURL1.url"> Neyo
+                    <p>I helped old lady</p>
+                </div>
+            </sebm-google-map-info-window>
+        </sebm-google-map-marker>
+        <sebm-google-map-polyline [strokeColor]="'#49B85B'" [strokeOpacity]="1" [strokeWeight]="2">
+            <sebm-google-map-polyline-point [latitude]="latA" [longitude]="lngA">
+            </sebm-google-map-polyline-point>
+            <sebm-google-map-polyline-point [latitude]="latB" [longitude]="lngB">
+            </sebm-google-map-polyline-point>
+        </sebm-google-map-polyline>
+    </sebm-google-map>
+</div>
