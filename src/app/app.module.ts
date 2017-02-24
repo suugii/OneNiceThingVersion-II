@@ -17,6 +17,7 @@ import { HomeComponent } from './page/home/home.component';
 import { AboutComponent } from './page/about/about.component';
 import { ContactComponent } from './page/contact/contact.component';
 import { StoriesComponent } from './page/stories/stories.component';
+import { StoryComponent } from './page/story/story.component';
 import { CreateComponent } from './page/create/create.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
@@ -30,6 +31,7 @@ import { PasswordconfirmComponent } from './auth/passwordconfirm/passwordconfirm
 import { PasswordresetComponent } from './auth/passwordreset/passwordreset.component';
 import { DropdownDirective } from './directive/dropdown.directive';
 import { TabDirective } from './directive/tab.directive';
+import { HoverDirective } from './directive/hover.directive';
 import { UserSettingsComponent } from './profile/user-settings/user-settings.component';
 import { ChangePasswordComponent } from './profile/change-password/change-password.component';
 
@@ -48,6 +50,7 @@ export const firebaseConfig = {
 		AboutComponent,
 		ContactComponent,
 		StoriesComponent,
+        StoryComponent
 		CreateComponent,
 		LoginComponent,
 		RegisterComponent,
@@ -61,6 +64,7 @@ export const firebaseConfig = {
 		PasswordconfirmComponent,
 		DropdownDirective,
 		TabDirective,
+        HoverDirective,
 		UserSettingsComponent,
 		ChangePasswordComponent
 	],
