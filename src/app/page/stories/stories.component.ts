@@ -10,11 +10,11 @@ export class StoriesComponent implements OnInit {
 
 	model: FirebaseListObservable<any[]>;
 	favorites: FirebaseListObservable<any[]>;
-	findLike: FirebaseListObservable<any[]>;
 
 	user: string;
 	counter: number = 0;
 	stories: any[];
+	liked: boolean;
 	
 	constructor(private af: AngularFire) {
 		this.model = this.af.database.list('stories');
@@ -28,28 +28,31 @@ export class StoriesComponent implements OnInit {
             }
         );
 
-        this.findLike = this.af.database.list('favorites', {
-			query: {
-				orderByChild: 'uid',
-				equalTo: this.user,
-			}
-		});
-
         this.model.subscribe(
         	dataStory => {
         		dataStory.forEach(
         			story => {
-				       	this.findLike.subscribe(
+				       	this.favorites.subscribe(
 				        	dataFav => {
 				        		dataFav.forEach(
 				        			favorite => {
-				        				if (story.$key == favorite.storyid) {
+				        				if (favorite.storyid == story.$key) {
 				        					this.counter = this.counter + 1;
+				        					if (favorite.uid == this.user) {
+				        						this.liked = true;
+				        					}
 				        				}
 				        			}
 				        		)
 				        		story.favorite = this.counter;
 						        this.counter = 0;
+
+				        		if (this.liked) {
+				        			story.liked = true;
+				        		}
+				        		else {
+				        			story.liked = false;
+				        		}
 				        	}
 				        )
 				       	this.af.database.list('users' + '/' + story.user).subscribe(
@@ -77,17 +80,17 @@ export class StoriesComponent implements OnInit {
 	}
 
 	removeFavorite(key: string) {
-		this.findLike.subscribe(
+		this.favorites.subscribe(
         	(dataFav) => {
         		dataFav.forEach(
         			(favorite) => {
-        				if (favorite.storyid == key) {
-        					this.findLike.remove(favorite.$key);
+        				if (favorite.uid == this.user && favorite.storyid == key) {
+        					this.favorites.remove(favorite.$key);
         				}
         			}
         		)
         	}
         )
-	}		
+	}	
 
 }

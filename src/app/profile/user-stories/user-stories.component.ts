@@ -15,6 +15,7 @@ export class UserStoriesComponent implements OnInit {
 	user: string;
 	counter: number = 0;
 	stories: any[];
+	liked: boolean;
 	
 	constructor(public af: AngularFire) {
 		this.favorites = this.af.database.list('favorites');
@@ -42,17 +43,27 @@ export class UserStoriesComponent implements OnInit {
         	dataStory => {
         		dataStory.forEach(
         			story => {
-				       	this.findLike.subscribe(
+				       	this.favorites.subscribe(
 				        	dataFav => {
 				        		dataFav.forEach(
 				        			favorite => {
 				        				if (story.$key == favorite.storyid) {
 				        					this.counter = this.counter + 1;
+				        					if (favorite.uid == this.user) {
+				        						this.liked = true;
+				        					}
 				        				}
 				        			}
 				        		)
 				        		story.favorite = this.counter;
 						        this.counter = 0;
+						        
+				        		if (this.liked) {
+				        			story.liked = true;
+				        		}
+				        		else {
+				        			story.liked = false;
+				        		}
 				        	}
 				        )
 				       	this.af.database.list('users' + '/' + story.user).subscribe(
@@ -84,17 +95,17 @@ export class UserStoriesComponent implements OnInit {
 	}
 
 	removeFavorite(key: string) {
-		this.findLike.subscribe(
+		this.favorites.subscribe(
         	(dataFav) => {
         		dataFav.forEach(
         			(favorite) => {
-        				if (favorite.storyid == key) {
-        					this.findLike.remove(favorite.$key);
+        				if (favorite.uid == this.user && favorite.storyid == key) {
+        					this.favorites.remove(favorite.$key);
         				}
         			}
         		)
         	}
         )
-	}	
+	}
 
 }
