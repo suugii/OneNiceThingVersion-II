@@ -49,6 +49,7 @@ export class StoriesComponent implements OnInit {
 
 				        		if (this.liked) {
 				        			story.liked = true;
+				        			this.liked = false;
 				        		}
 				        		else {
 				        			story.liked = false;
