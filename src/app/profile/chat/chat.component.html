@@ -13,7 +13,7 @@
     <div class="eight wide column" *ngIf="this.senderID">
         <div class="ui small comments">
             <div class="search-results" #scrollMe *ngIf="userMessages.length > 0">
-                <div class="comment" *ngFor="let message of userMessages">
+                <div *ngFor="let message of userMessages">
                     <div class="bubble" [class.you]="isYou(message.name)" [class.me]="isMe(message.name)">
                         <p>{{ message.message }}</p>
                         <div class="author">
