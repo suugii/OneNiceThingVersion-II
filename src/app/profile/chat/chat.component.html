@@ -14,9 +14,6 @@
         <div class="ui small comments">
             <div class="search-results" #scrollMe *ngIf="userMessages.length > 0">
                 <div class="comment" *ngFor="let message of userMessages">
-                    <a class="avatar">
-                        <img src="assets/img/elliot.jpg">
-                    </a>
                     <div class="bubble" [class.you]="isYou(message.name)" [class.me]="isMe(message.name)">
                         <p>{{ message.message }}</p>
                         <div class="author">
@@ -29,17 +26,8 @@
                 No messages
             </div>
             <form class="ui reply form">
-                <div class="ui grid">
-                    <div class="twelve wide column">
-                        <div class="field">
-                            <input type="text" name="message" placeholder="Chat here..." (keyup.enter)="chatSend($event.target.value)" (click)="chatSend($event.target.value)" [(ngModel)]="msgVal">
-                        </div>
-                    </div>
-                    <div class="four wide column">
-                        <div class="ui blue labeled submit icon button">
-                            <i class="icon send"></i> Send
-                        </div>
-                    </div>
+                <div class="field">
+                    <input type="text" name="message" placeholder="Chat here..." (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal">
                 </div>
             </form>
         </div>
