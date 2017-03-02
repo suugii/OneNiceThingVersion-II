@@ -7,7 +7,7 @@
             <div class="ui dimmer">
                 <div class="content">
                     <div class="center">
-                        <a class="ui inverted button">read more</a>
+                        <a class="ui inverted button" routerLink="/stories/{{ story.$key }}">read more</a>
                     </div>
                 </div>
             </div>
@@ -17,19 +17,19 @@
             <p>{{ story.story }}</p>
             <p class="meta">
                 <span>
-					<i class="quote left icon"></i> {{ story.feel }}
-				</span>
+                    <i class="quote left icon"></i> {{ story.feeling }}
+                </span>
             </p>
             <p class="meta">
                 <span>
-				    <i class="location arrow icon"></i> {{ story.location }}
-				</span>
+                    <i class="location arrow icon"></i> {{ story.location }}
+                </span>
             </p>
         </div>
         <div class="extra content">
             <span class="right floated">
-				<i class="heart outline like icon"></i> 17
-			</span>
+                <i class="heart outline like icon"></i> 17
+            </span>
             <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
         </div>
     </div>

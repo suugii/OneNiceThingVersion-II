@@ -10,7 +10,10 @@
                     <div class="field">
                         <label>Username Lookup</label>
                         <div class="ui search">
-                            <input type="text" placeholder="Search username..." name="user" [(ngModel)]="model.user">
+                            <div class="ui icon input">
+                                <input class="prompt" type="text" placeholder="Search username..." name="touser" [(ngModel)]="model.touser">
+                                <i class="search icon"></i>
+                            </div>
                             <div class="results"></div>
                         </div>
                     </div>

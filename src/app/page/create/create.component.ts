@@ -12,11 +12,20 @@ export class CreateComponent implements OnInit {
     stories: FirebaseListObservable<any[]>;
 
     model: Story = new Story();
+
     public error: any;
     public success: any;
 
-    constructor(public af: AngularFire) {
+    constructor(private af: AngularFire) {
         this.stories = af.database.list('stories');
+
+        this.af.auth.subscribe(
+            (auth) => {
+                if (auth) {
+                    this.model.user = auth.uid;
+                }
+            }
+        );
     }
 
     ngOnInit() { }

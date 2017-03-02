@@ -1,14 +1,14 @@
 <div class="ui container">
     <div class="ui four stackable cards">
-        <div class="card" *ngFor="let story of stories | async">
+        <div class="card" *ngFor="let story of stories">
             <div class="extra content">
-                <img class="ui avatar image" src="assets/img/elliot.jpg"> John
+                <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ story.user }}
             </div>
             <div class="blurring dimmable image">
                 <div class="ui dimmer">
                     <div class="content">
                         <div class="center">
-                            <a class="ui inverted button" routerLink="{{ story.$key }}">read more</a>
+                            <a class="ui inverted button" routerLink="/stories/{{ story.$key }}">read more</a>
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,9 @@
             </div>
             <div class="extra content">
                 <span class="right floated">
-					<i class="heart outline like icon"></i> 17
+					<i class="heart red like icon" *ngIf="story.favorite > 0" (click)="removeFavorite(story.$key)"></i>
+                    <i class="heart outline like icon" *ngIf="!story.favorite > 0" (click)="addFavorite(story.$key)"></i> 
+                    {{ story.favorite }}
 				</span>
                 <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
             </div>

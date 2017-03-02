@@ -1,0 +1,56 @@
+<form class="ui form" (ngSubmit)='updateStory()'>
+    <div class="field">
+        <label>Username Lookup</label>
+        <div class="ui search">
+            <div class="ui icon input">
+                <input class="prompt" type="text" placeholder="Search username..." name="touser" [(ngModel)]="model.touser">
+                <i class="search icon"></i>
+            </div>
+            <div class="results"></div>
+        </div>
+    </div>
+    <div class="field">
+        <label>Location where did you do your nice thing ?</label>
+        <input type="text" placeholder="Enter Location" name="location" [(ngModel)]="model.location">
+    </div>
+    <div class="field">
+        <label>What nice thing did you do ?</label>
+        <textarea rows="2" placeholder="What did you do ?" name="story" [(ngModel)]="model.story"></textarea>
+    </div>
+    <div class="field">
+        <label>Who did you do it for ?</label>
+        <input type="text" placeholder="Who did you do it for ?" name="name" [(ngModel)]="model.name">
+    </div>
+    <div class="field">
+        <label>How did you respond, how did you feel ?</label>
+        <input type="text" placeholder="How did you feel ?" name="feeling" [(ngModel)]="model.feeling">
+    </div>
+    <div class="field">
+        <div class="ui checkbox">
+            <input type="checkbox">
+            <label>Did you ask them to keep it going and did they agree ?</label>
+        </div>
+    </div>
+    <div class="field">
+        <label>Would you like to leave any other message for this member ?</label>
+        <textarea rows="2" placeholder="Any message" name="message" [(ngModel)]="model.message"></textarea>
+    </div>
+    <div class="field">
+        <label>Privacy</label>
+        <select class="ui dropdown" name="privacy" [(ngModel)]="model.privacy">
+			<option value="">Privacy</option>
+			<option value="1" [selected]="model.privacy == 1">Only me</option>
+			<option value="2" [selected]="model.privacy == 2">Friends</option>
+			<option value="3" [selected]="model.privacy == 3">Public</option>
+		</select>
+    </div>
+    <div class="field">
+        <button class="ui fluid green button" type="submit">Submit</button>
+    </div>
+</form>
+<div class="ui success message" *ngIf='success'>
+    {{ success }}
+</div>
+<div class="ui warning message" *ngIf='error'>
+    {{ error.message }}
+</div>

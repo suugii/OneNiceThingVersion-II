@@ -1,14 +1,14 @@
 <div class="ui container">
 	<div class="ui stackable grid">
 		<div class="ui six wide column">
-			<div class="ui card">
+			<div class="ui fluid card">
 	            <div class="extra content">
-	                <img class="ui avatar image" src="assets/img/elliot.jpg"> Elliot
+	                <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ (user | async)?.username }}
 	                <span>
 	                </span>
 	            	<span class="right floated">
 	                	<i class="right arrow icon"></i>
-		                <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ (story | async)?.user }}
+		                <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ (touser | async)?.username }}
 	                </span>
 	            </div>
 				<div class="content">

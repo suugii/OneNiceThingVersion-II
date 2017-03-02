@@ -36,6 +36,7 @@ import { HoverDirective } from './directive/hover.directive';
 import { UserSettingsComponent } from './profile/user-settings/user-settings.component';
 import { ChangePasswordComponent } from './profile/change-password/change-password.component';
 import { ChatComponent } from './profile/chat/chat.component';
+import { EditStoryComponent } from './profile/edit-story/edit-story.component';
 
 export const firebaseConfig = {
 	apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
@@ -69,7 +70,8 @@ export const firebaseConfig = {
 		HoverDirective,
 		UserSettingsComponent,
 		ChangePasswordComponent,
-		ChatComponent
+		ChatComponent,
+		EditStoryComponent
 	],
 	imports: [
 		BrowserModule,

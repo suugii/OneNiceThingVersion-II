@@ -21,6 +21,7 @@ import { PasswordresetComponent } from './auth/passwordreset/passwordreset.compo
 import { UserSettingsComponent } from './profile/user-settings/user-settings.component';
 import { ChangePasswordComponent } from './profile/change-password/change-password.component';
 import { ChatComponent } from './profile/chat/chat.component';
+import { EditStoryComponent } from './profile/edit-story/edit-story.component';
 
 export const Route: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent },
@@ -42,6 +43,7 @@ export const Route: ModuleWithProviders = RouterModule.forRoot([
             { path: 'friends', component: UserFriendsComponent, canActivate: [GuardService] },
             { path: 'favorites', component: UserFavoritesComponent, canActivate: [GuardService] },
             { path: 'stories', component: UserStoriesComponent, canActivate: [GuardService] },
+            { path: 'stories/edit/:key', component: EditStoryComponent, canActivate: [GuardService] },
             { path: 'settings', component: UserSettingsComponent, canActivate: [GuardService] },
             { path: 'changepassword', component: ChangePasswordComponent, canActivate: [GuardService] },
             { path: 'chat', component: ChatComponent, canActivate: [GuardService] }
