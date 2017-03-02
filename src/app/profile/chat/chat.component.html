@@ -13,17 +13,14 @@
     <div class="eight wide column" *ngIf="this.senderID">
         <div class="ui small comments">
             <div class="search-results" *ngIf="userMessages.length > 0" [scrollWindow]="false" infinite-scroll [infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="500" (scrolledUp)="onScrollUp()">
-                <div class="comment" *ngFor="let message of userMessages">
+                <div class="comment" #scrollMe *ngFor="let message of userMessages">
                     <a class="avatar">
                         <img src="assets/img/elliot.jpg">
                     </a>
-                    <div class="content">
-                        <a class="author">{{message.name}}</a>
-                        <div class="metadata">
-                            <span class="date">{{message.date | date:'medium'}}</span>
-                        </div>
-                        <div class="text">
-                            <p>{{message.message}}</p>
+                    <div class="bubble" [class.you]="isYou(message.name)" [class.me]="isMe(message.name)">
+                        <p>{{ message.message }}</p>
+                        <div class="author">
+                            {{ message.name }} | {{ message.time | date:"MM/dd/yy hh:mm a" }}
                         </div>
                     </div>
                 </div>
@@ -35,7 +32,7 @@
                 <div class="ui grid">
                     <div class="twelve wide column">
                         <div class="field">
-                            <input type="text" name="message" placeholder="Chat here..." (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal">
+                            <input type="text" name="message" placeholder="Chat here..." (keyup.enter)="chatSend($event.target.value)" (click)="chatSend($event.target.value)" [(ngModel)]="msgVal">
                         </div>
                     </div>
                     <div class="four wide column">
