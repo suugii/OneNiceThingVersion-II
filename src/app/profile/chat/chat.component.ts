@@ -39,12 +39,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 	ngAfterViewChecked() {
 		this.scrollToBottom();
 	}
+	
 	scrollToBottom(): void {
 		try {
 			this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
 		} catch (err) { console.log('Scroll to bottom failed yo!') }
 	}
-	
+
 	scrolled(): void {
 		this.limit.next(this.limit.getValue() + 10);
 	}
