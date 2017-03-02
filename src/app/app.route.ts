@@ -20,6 +20,7 @@ import { PasswordconfirmComponent } from './auth/passwordconfirm/passwordconfirm
 import { PasswordresetComponent } from './auth/passwordreset/passwordreset.component';
 import { UserSettingsComponent } from './profile/user-settings/user-settings.component';
 import { ChangePasswordComponent } from './profile/change-password/change-password.component';
+import { ChatComponent } from './profile/chat/chat.component';
 
 export const Route: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent },
@@ -42,7 +43,8 @@ export const Route: ModuleWithProviders = RouterModule.forRoot([
             { path: 'favorites', component: UserFavoritesComponent, canActivate: [GuardService] },
             { path: 'stories', component: UserStoriesComponent, canActivate: [GuardService] },
             { path: 'settings', component: UserSettingsComponent, canActivate: [GuardService] },
-            { path: 'changepassword', component: ChangePasswordComponent, canActivate: [GuardService] }
+            { path: 'changepassword', component: ChangePasswordComponent, canActivate: [GuardService] },
+            { path: 'chat', component: ChatComponent, canActivate: [GuardService] }
         ]
     },
 ]);

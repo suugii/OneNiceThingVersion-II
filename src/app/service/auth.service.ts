@@ -81,6 +81,10 @@ export class AuthService {
 		return firebase.auth().confirmPasswordReset(code, password);
 	}
 
+	changeUserPassword(password) {
+		// return firebase.auth().changePassword(password);
+	}
+
 	loginWithEmail(email, password) {
 		return this.af.auth.login({
 			email: email,

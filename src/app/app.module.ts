@@ -6,6 +6,7 @@ import { Route } from './app.route';
 
 import { AngularFireModule } from 'angularfire2';
 import { AgmCoreModule } from 'angular2-google-maps/core';
+import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 
 import { AuthService } from "./service/auth.service";
 import { StoryService } from "./service/story.service";
@@ -34,13 +35,14 @@ import { TabDirective } from './directive/tab.directive';
 import { HoverDirective } from './directive/hover.directive';
 import { UserSettingsComponent } from './profile/user-settings/user-settings.component';
 import { ChangePasswordComponent } from './profile/change-password/change-password.component';
+import { ChatComponent } from './profile/chat/chat.component';
 
 export const firebaseConfig = {
-    apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
-    authDomain: "nicething-5c833.firebaseapp.com",
-    databaseURL: "https://nicething-5c833.firebaseio.com",
-    storageBucket: "nicething-5c833.appspot.com",
-    messagingSenderId: "868527023994"
+	apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
+	authDomain: "nicething-5c833.firebaseapp.com",
+	databaseURL: "https://nicething-5c833.firebaseio.com",
+	storageBucket: "nicething-5c833.appspot.com",
+	messagingSenderId: "868527023994"
 };
 
 @NgModule({
@@ -50,7 +52,7 @@ export const firebaseConfig = {
 		AboutComponent,
 		ContactComponent,
 		StoriesComponent,
-        StoryComponent,
+		StoryComponent,
 		CreateComponent,
 		LoginComponent,
 		RegisterComponent,
@@ -64,19 +66,21 @@ export const firebaseConfig = {
 		PasswordconfirmComponent,
 		DropdownDirective,
 		TabDirective,
-        HoverDirective,
+		HoverDirective,
 		UserSettingsComponent,
-		ChangePasswordComponent
+		ChangePasswordComponent,
+		ChatComponent
 	],
 	imports: [
 		BrowserModule,
 		FormsModule,
 		HttpModule,
 		Route,
-    	AngularFireModule.initializeApp(firebaseConfig),
-        AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyB4ygPHxCDU4qhpJYcJhvgGmg6Rrp-2l84'
-        }),
+		InfiniteScrollModule,
+		AngularFireModule.initializeApp(firebaseConfig),
+		AgmCoreModule.forRoot({
+			apiKey: 'AIzaSyB4ygPHxCDU4qhpJYcJhvgGmg6Rrp-2l84'
+		}),
 	],
 	providers: [
 		AuthService,
