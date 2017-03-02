@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from './../../service/auth.service';
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import * as _ from 'lodash';
@@ -19,6 +19,7 @@ export class ChatComponent implements OnInit {
 	public currentUser: any;
 	public msgVal: string = '';
 	public limit: BehaviorSubject<number> = new BehaviorSubject<number>(10);
+	@ViewChild(".search-results") searchResult: ElementRef;
 	constructor(public authservice: AuthService, public af: AngularFire) {
 		this.af.auth.subscribe(auth => {
 			if (auth) {
@@ -32,14 +33,12 @@ export class ChatComponent implements OnInit {
 	}
 
 	ngOnInit() {
-	}
 
+	}
 
 	scrolled(): void {
 		this.limit.next(this.limit.getValue() + 10);
 	}
-
-
 
 	onScrollUp() {
 		this.scrolled();
@@ -57,7 +56,7 @@ export class ChatComponent implements OnInit {
 		this.messages.subscribe(snapshots => {
 			this.userMessages = [];
 			snapshots.forEach(snapshot => {
-				if (snapshot.senderID == this.senderID || snapshot.senderID == this.currentUser.uid) {
+				if ((snapshot.senderID == this.senderID && snapshot.userID == this.currentUser.uid) || (snapshot.senderID ==this.currentUser.uid && snapshot.userID == this.senderID)) {
 					this.userMessages.push(snapshot);
 				}
 			});

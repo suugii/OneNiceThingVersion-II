@@ -12,7 +12,7 @@
     </div>
     <div class="eight wide column" *ngIf="this.senderID">
         <div class="ui small comments">
-            <div class="search-results" *ngIf="userMessages.length > 0" [scrollWindow]="false" infinite-scroll [infiniteScrollUpDistance]="1.5" [infiniteScrollThrottle]="500" (scrolledUp)="onScrollUp()">
+            <div class="search-results" *ngIf="userMessages.length > 0" [scrollWindow]="false" infinite-scroll [infiniteScrollUpDistance]="2" [infiniteScrollThrottle]="500" (scrolledUp)="onScrollUp()">
                 <div class="comment" *ngFor="let message of userMessages">
                     <a class="avatar">
                         <img src="assets/img/elliot.jpg">
