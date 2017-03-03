@@ -70,6 +70,12 @@ export class UserStoriesComponent implements OnInit {
 
 	destroyStory(key: string) {
 		this.objects.remove(key);
+		this.af.database.list('favorites', {
+			query: {
+				orderByChild: 'sid',
+				equalTo: key
+			}
+		}).remove();
 	}
 
 }

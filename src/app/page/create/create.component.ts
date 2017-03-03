@@ -11,8 +11,10 @@ import { MapsAPILoader } from 'angular2-google-maps/core';
 export class CreateComponent implements OnInit {
 
     stories: FirebaseListObservable<any[]>;
+    requests: FirebaseListObservable<any[]>;
 
     model: Story = new Story();
+    user: string;
 
     public error: any;
     public success: any;
@@ -22,6 +24,7 @@ export class CreateComponent implements OnInit {
     constructor(private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
 
         this.stories = af.database.list('stories');
+        this.requests = af.database.list('requests');
 
         this.af.auth.subscribe(
             (auth) => {
@@ -58,10 +61,11 @@ export class CreateComponent implements OnInit {
     storeStory() {
         this.stories.push(this.model).then(() => {
             this.success = 'Successfully added';
+            this.requests.push({sid: this.model.user, rid: this.model.touser, seen: false});
+            this.model = new Story();
         }).catch((error: any) => {
             this.error = error;
         });
-        this.model = new Story();
     }
 
 }
