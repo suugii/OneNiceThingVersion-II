@@ -1,40 +1,64 @@
 <div class="ui container">
-    <div class="ui four stackable cards">
-        <div class="card" *ngFor="let story of stories">
-            <div class="extra content">
-                <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ (story.user | async)?.username }}
-            </div>
-            <div class="blurring dimmable image">
-                <div class="ui dimmer">
-                    <div class="content">
-                        <div class="center">
-                            <a class="ui inverted button" routerLink="/stories/{{ story.$key }}">read more</a>
-                        </div>
+    <div class="ui stackable grid">
+        <div class="four wide column">
+            <div class="ui card">
+                <div class="image">
+                    <img [src]="(profile | async)?.photoURL">
+                </div>
+                <div class="content">
+                    <p class="header">{{ (profile | async)?.username }}</p>
+                    <div class="meta">
+                        <span class="date">
+                            Joined in {{ (profile | async)?.created_at | date:'yyyy'}}
+                        </span>
                     </div>
                 </div>
-                <img src="assets/img/image.png">
+                <div class="extra content">
+                    <a routerLink="">
+                        <i class="comments outline icon"></i> Chat
+                    </a>
+                </div>
             </div>
-            <div class="content">
-                <p>{{ story.story }}</p>
-                <p class="meta">
-                    <span>
-						<i class="quote left icon"></i> {{ story.feeling }}
-					</span>
-                </p>
-                <p class="meta">
-                    <span>
-					    <i class="location arrow icon"></i> {{ story.location }}
-					</span>
-                </p>
-            </div>
-            <div class="extra content">
-                <span class="right floated">
-					<i class="heart red like icon" *ngIf="user && story.favorited" (click)="storyService.removeFavorite(story.$key)"></i>
-                    <i class="heart outline like icon" *ngIf="user && !story.favorited" (click)="storyService.addFavorite(story.$key)"></i>
-                    <i class="heart outline like icon" *ngIf="!user"></i> 
-                    {{ story.favorite }}
-				</span>
-                <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
+        </div>
+        <div class="twelve wide column">
+            <div class="ui three stackable cards">
+                <div class="card" *ngFor="let story of stories">
+                    <div class="extra content">
+                        <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ (story.user | async)?.username }}
+                    </div>
+                    <div class="blurring dimmable image">
+                        <div class="ui dimmer">
+                            <div class="content">
+                                <div class="center">
+                                    <a class="ui inverted button" routerLink="/stories/{{ story.$key }}">read more</a>
+                                </div>
+                            </div>
+                        </div>
+                        <img src="assets/img/image.png">
+                    </div>
+                    <div class="content">
+                        <p>{{ story.story }}</p>
+                        <p class="meta">
+                            <span>
+                                <i class="quote left icon"></i> {{ story.feeling }}
+                            </span>
+                        </p>
+                        <p class="meta">
+                            <span>
+                                <i class="location arrow icon"></i> {{ story.location }}
+                            </span>
+                        </p>
+                    </div>
+                    <div class="extra content">
+                        <span class="right floated">
+                            <i class="heart red like icon" *ngIf="user && story.favorited" (click)="storyService.removeFavorite(story.$key)"></i>
+                            <i class="heart outline like icon" *ngIf="user && !story.favorited" (click)="storyService.addFavorite(story.$key)"></i>
+                            <i class="heart outline like icon" *ngIf="!user"></i> 
+                            {{ story.favorite }}
+                        </span>
+                        <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

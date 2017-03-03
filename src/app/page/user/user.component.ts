@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { StoryService } from "../../service/story.service";
 
 @Component({
@@ -14,6 +14,7 @@ export class UserComponent implements OnInit {
 
 	objects: FirebaseListObservable<any[]>;
 	favorites: FirebaseListObservable<any[]>;
+	profile: FirebaseObjectObservable<any>;
 
 	counter: number = 0;
 	favorited: boolean = false;
@@ -28,6 +29,7 @@ export class UserComponent implements OnInit {
 	            }
 	        }
 	    );
+	    this.profile = this.af.database.object('users' + '/' + this.key);
 		this.objects = this.af.database.list('stories', {
 			query: {
 				orderByChild: 'user',
