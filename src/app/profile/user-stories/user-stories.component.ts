@@ -25,7 +25,6 @@ export class UserStoriesComponent implements OnInit {
 	            }
 	        }
 	    );
-		this.favorites = this.af.database.list('favorites');
 		this.objects = this.af.database.list('stories', {
 			query: {
 				orderByChild: 'user',
@@ -37,16 +36,20 @@ export class UserStoriesComponent implements OnInit {
 	    	dataStory => {
 	    		dataStory.forEach(
 	    			story => {
+						this.favorites = this.af.database.list('favorites', {
+							query: {
+								orderByChild: 'sid',
+								equalTo: story.$key
+							}
+						});
 				       	this.favorites.subscribe(
 				        	dataFav => {
 				        		dataFav.forEach(
 				        			favorite => {
-				        				if (favorite.storyid == story.$key) {
-				        					this.counter = this.counter + 1;
-				        					if (favorite.uid == this.user) {
-				        						this.favorited = true;
-				        					}
-				        				}
+			        					this.counter = this.counter + 1;
+			        					if (favorite.uid == this.user) {
+			        						this.favorited = true;
+			        					}
 				        			}
 				        		)
 				        		story.favorite = this.counter;

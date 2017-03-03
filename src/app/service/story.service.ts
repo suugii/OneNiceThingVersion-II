@@ -4,9 +4,8 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 @Injectable()
 export class StoryService {
 
-	favorites: FirebaseListObservable<any[]>;
-
 	user: string;
+	favorites: FirebaseListObservable<any[]>;
 
 	constructor(private af: AngularFire) {
 	    this.af.auth.subscribe(
@@ -16,14 +15,14 @@ export class StoryService {
 	            }
 	        }
 	    );
-		this.favorites = this.af.database.list('favorites');
 	}
 
 	addFavorite(key: string) {
         this.af.auth.subscribe(
             (auth) => {
                 if (auth) {
-					this.favorites.push({ uid: this.user, storyid: key });
+					this.favorites = this.af.database.list('favorites');
+					this.favorites.push({uid: this.user, sid: key});
                 }
             }
         );
@@ -33,13 +32,19 @@ export class StoryService {
         this.af.auth.subscribe(
             (auth) => {
                 if (auth) {
-					this.favorites.subscribe(
-			        	(dataFav) => {
-			        		dataFav.forEach(
-			        			(favorite) => {
-			        				if (favorite.uid == this.user && favorite.storyid == key) {
-			        					this.favorites.remove(favorite.$key);
-			        				}
+					this.favorites = this.af.database.list('favorites', {
+						query: {
+							orderByChild: 'uid',
+							equalTo: this.user
+						}
+					});
+			       	this.favorites.subscribe(
+			        	favData => {
+			        		favData.forEach(
+			        			favorite => {
+		        					if (favorite.uid == this.user && favorite.sid == key) {
+										this.favorites.remove(favorite.$key);
+		        					}
 			        			}
 			        		)
 			        	}

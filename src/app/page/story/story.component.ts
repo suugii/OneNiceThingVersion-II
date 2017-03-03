@@ -20,7 +20,7 @@ export class StoryComponent implements OnInit {
 	favorited: boolean = false;
 	user: string;
 
-	constructor( private router: Router, private route: ActivatedRoute, private af: AngularFire, private storyService: StoryService ) {
+	constructor(private router: Router, private route: ActivatedRoute, private af: AngularFire, private storyService: StoryService) {
 	    this.af.auth.subscribe(
 	        (auth) => {
 	            if (auth) {
@@ -28,7 +28,12 @@ export class StoryComponent implements OnInit {
 	            }
 	        }
 	    );
-		this.favorites = this.af.database.list('favorites');
+		this.favorites = this.af.database.list('favorites', {
+			query: {
+				orderByChild: 'sid',
+				equalTo: this.key
+			}
+		});
 		this.object = this.af.database.object('stories' + '/' + this.key);
 
         this.object.subscribe(
@@ -37,12 +42,10 @@ export class StoryComponent implements OnInit {
 		        	dataFav => {
 		        		dataFav.forEach(
 		        			favorite => {
-		        				if (favorite.storyid == object.$key) {
-		        					this.counter = this.counter + 1;
-		        					if (favorite.uid == this.user) {
-		        						this.favorited = true;
-		        					}
-		        				}
+	        					this.counter = this.counter + 1;
+	        					if (favorite.uid == this.user) {
+	        						this.favorited = true;
+	        					}
 		        			}
 		        		)
 		        		object.favorite = this.counter;
