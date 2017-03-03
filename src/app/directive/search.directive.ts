@@ -1,4 +1,4 @@
-import { Directive, OnInit, OnDestroy, ElementRef } from '@angular/core';
+import { Directive, OnInit, OnDestroy, ElementRef, Input, Output } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 
 declare var jQuery: any;
@@ -7,41 +7,25 @@ declare var jQuery: any;
 	selector: '.ui.search'
 })
 export class SearchDirective implements OnInit, OnDestroy {
-
-    users: FirebaseListObservable<any[]>;
+	@Input() public users: string[];
 
 	constructor(private af: AngularFire, private element: ElementRef) {
-        this.users = af.database.list('users');
+		this.users = [];
+		af.database.list('users').forEach((datas) => {
+			datas.forEach(data => {
+				this.users.push(data);
+			});
+		});
+
 	}
 
 	public ngOnInit() {
 		jQuery(this.element.nativeElement).search({
-			source:[
-				{ title: 'Andorra' },
-				{ title: 'United Arab Emirates' },
-				{ title: 'Afghanistan' },
-				{ title: 'Antigua' },
-				{ title: 'Anguilla' },
-				{ title: 'Albania' },
-				{ title: 'Armenia' },
-				{ title: 'Netherlands Antilles' },
-				{ title: 'Angola' },
-				{ title: 'Argentina' },
-				{ title: 'American Samoa' },
-				{ title: 'Austria' },
-				{ title: 'Australia' },
-				{ title: 'Aruba' },
-				{ title: 'Aland Islands' },
-				{ title: 'Azerbaijan' },
-				{ title: 'Bosnia' },
-				{ title: 'Barbados' },
-				{ title: 'Bangladesh' },
-				{ title: 'Belgium' },
-				{ title: 'Burkina Faso' },
-				{ title: 'Bulgaria' },
-				{ title: 'Bahrain' },
-				{ title: 'Burundi' }
-			]
+			searchFields: ['email'],
+			source: this.users,
+			onSelect: function (event) {
+				console.log(event);
+			}
 		});
 	}
 

@@ -82,7 +82,8 @@ export const firebaseConfig = {
 		InfiniteScrollModule,
 		AngularFireModule.initializeApp(firebaseConfig),
 		AgmCoreModule.forRoot({
-			apiKey: 'AIzaSyB4ygPHxCDU4qhpJYcJhvgGmg6Rrp-2l84'
+			apiKey: 'AIzaSyB4ygPHxCDU4qhpJYcJhvgGmg6Rrp-2l84',
+			libraries: ['places']
 		}),
 	],
 	providers: [

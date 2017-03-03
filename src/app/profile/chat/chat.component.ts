@@ -94,7 +94,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 		this.newMessage.senderID = this.currentUser.uid;
 		this.newMessage.receiverID = this.receiverID;
 		this.newMessage.name = this.currentUser.auth.email;
-		this.newMessage.date = new Date().getTime();
+		this.newMessage.date = moment.now();
 		this.messages.push(this.newMessage);
 		this.msgVal = '';
 	}
