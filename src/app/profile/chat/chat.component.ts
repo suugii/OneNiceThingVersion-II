@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Thread } from '../../class/thread';
 import { Message } from '../../class/message';
+import * as moment from "moment";
 
 @Component({
 	selector: 'app-chat',
@@ -93,7 +94,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 		this.newMessage.senderID = this.currentUser.uid;
 		this.newMessage.receiverID = this.receiverID;
 		this.newMessage.name = this.currentUser.auth.email;
-		this.newMessage.date = Date.now();
+		this.newMessage.date = moment.now();
 		this.messages.push(this.newMessage);
 		this.msgVal = '';
 	}
