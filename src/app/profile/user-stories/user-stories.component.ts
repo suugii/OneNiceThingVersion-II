@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { StoryService } from "../../service/story.service";
 
 @Component({
 	selector: 'app-user-stories',
@@ -8,105 +9,64 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 })
 export class UserStoriesComponent implements OnInit {
 
-	model: FirebaseListObservable<any[]>;
+	objects: FirebaseListObservable<any[]>;
 	favorites: FirebaseListObservable<any[]>;
-	findLike: FirebaseListObservable<any[]>;
 
-	user: string;
 	counter: number = 0;
+	favorited: boolean = false;
+	user: string;
 	stories: any[];
-	liked: boolean;
-	
-	constructor(public af: AngularFire) {
+
+	constructor(private af: AngularFire, private storyService: StoryService) {
+	    this.af.auth.subscribe(
+	        (auth) => {
+	            if (auth) {
+	                this.user = auth.uid;
+	            }
+	        }
+	    );
 		this.favorites = this.af.database.list('favorites');
-        this.af.auth.subscribe(
-            (auth) => {
-                if (auth) {
-                    this.user = auth.uid;
-                }
-            }
-        );
-		this.model = this.af.database.list('stories', {
+		this.objects = this.af.database.list('stories', {
 			query: {
 				orderByChild: 'user',
 				equalTo: this.user
 			}
 		});
-        this.findLike = this.af.database.list('favorites', {
-			query: {
-				orderByChild: 'uid',
-				equalTo: this.user,
-			}
-		});
 
-        this.model.subscribe(
-        	dataStory => {
-        		dataStory.forEach(
-        			story => {
+	    this.objects.subscribe(
+	    	dataStory => {
+	    		dataStory.forEach(
+	    			story => {
 				       	this.favorites.subscribe(
 				        	dataFav => {
 				        		dataFav.forEach(
 				        			favorite => {
-				        				if (story.$key == favorite.storyid) {
+				        				if (favorite.storyid == story.$key) {
 				        					this.counter = this.counter + 1;
 				        					if (favorite.uid == this.user) {
-				        						this.liked = true;
+				        						this.favorited = true;
 				        					}
 				        				}
 				        			}
 				        		)
 				        		story.favorite = this.counter;
 						        this.counter = 0;
-						        
-				        		if (this.liked) {
-				        			story.liked = true;
-				        			this.liked = false;
-				        		}
-				        		else {
-				        			story.liked = false;
-				        		}
+			        			story.favorited = this.favorited;
+			        			this.favorited = false;
 				        	}
 				        )
-				       	this.af.database.list('users' + '/' + story.user).subscribe(
-				        	dataUser => {
-				        		dataUser.forEach(
-				        			storyUser => {
-				        				if (storyUser.$key == 'username') {
-				        					story.user = storyUser.$value;
-				        				}
-				        			}
-				        		)
-				        	}
-				        )
-        			}
-        		)
-    			this.stories =  dataStory;
-        	}
-        );
+				       	story.user = this.af.database.object('users' + '/' + story.user);
+	    			}
+	    		)
+	    		this.stories = dataStory;
+	    	}
+	    );
 	}
 
 	ngOnInit() { }
 
 	destroyStory(key: string) {
-		this.model.remove(key);
-	}
-
-	addFavorite(key: string) {
-		this.favorites.push({ uid: this.user, storyid: key });
-	}
-
-	removeFavorite(key: string) {
-		this.favorites.subscribe(
-        	(dataFav) => {
-        		dataFav.forEach(
-        			(favorite) => {
-        				if (favorite.uid == this.user && favorite.storyid == key) {
-        					this.favorites.remove(favorite.$key);
-        				}
-        			}
-        		)
-        	}
-        )
+		this.objects.remove(key);
 	}
 
 }

@@ -1,7 +1,7 @@
 <div class="ui three stackable cards">
     <div class="card" *ngFor="let story of stories">
         <div class="extra content">
-            <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ story.user }}
+            <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ (story.user | async)?.username }}
         </div>
         <div class="blurring dimmable image">
             <div class="ui dimmer">
@@ -29,8 +29,8 @@
         </div>
         <div class="extra content">
                 <span class="right floated">
-                    <i class="heart red like icon" *ngIf="story.liked" (click)="removeFavorite(story.$key)"></i>
-                    <i class="heart outline like icon" *ngIf="!story.liked" (click)="addFavorite(story.$key)"></i> 
+                    <i class="heart red like icon" *ngIf="story.favorited" (click)="storyService.removeFavorite(story.$key)"></i>
+                    <i class="heart outline like icon" *ngIf="!story.favorited" (click)="storyService.addFavorite(story.$key)"></i>
                     {{ story.favorite }}
                 </span>
             <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
