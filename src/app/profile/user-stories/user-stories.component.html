@@ -30,7 +30,7 @@
         <div class="extra content">
                 <span class="right floated">
                     <i class="heart red like icon" *ngIf="story.favorited" (click)="storyService.removeFavorite(story.$key)"></i>
-                    <i class="heart outline like icon" *ngIf="!story.favorited" (click)="storyService.addFavorite(story.$key)"></i>
+                    <i class="heart outline like icon" *ngIf="!story.favorited" (click)="storyService.addFavorite(story.$key)"></i> 
                     {{ story.favorite }}
                 </span>
             <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}

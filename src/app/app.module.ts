@@ -38,6 +38,8 @@ import { ChangePasswordComponent } from './profile/change-password/change-passwo
 import { ChatComponent } from './profile/chat/chat.component';
 import { EditStoryComponent } from './profile/edit-story/edit-story.component';
 import { SearchDirective } from './directive/search.directive';
+import { UserComponent } from './page/user/user.component';
+
 export const firebaseConfig = {
 	apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
 	authDomain: "nicething-5c833.firebaseapp.com",
@@ -73,6 +75,7 @@ export const firebaseConfig = {
 		ChatComponent,
 		EditStoryComponent,
 		SearchDirective,
+		UserComponent,
 	],
 	imports: [
 		BrowserModule,

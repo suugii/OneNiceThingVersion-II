@@ -3,12 +3,14 @@
 		<div class="ui six wide column">
 			<div class="ui fluid card">
 	            <div class="extra content">
-	                <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ (story.user | async)?.username }}
+	                <img class="ui avatar image" src="assets/img/elliot.jpg"> 
+	                <a routerLink="/user/{{ (story.user | async)?.$key }}">{{ (story.user | async)?.username }}</a>
 	                <span>
 	                </span>
 	            	<span class="right floated">
 	                	<i class="right arrow icon"></i>
-		                <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ (story.touser | async)?.username }}
+		                <img class="ui avatar image" src="assets/img/elliot.jpg"> 
+	                	<a routerLink="/user/{{ (story.touser | async)?.$key }}">{{ (story.touser | async)?.username }}</a>
 	                </span>
 	            </div>
 				<div class="content">
