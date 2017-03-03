@@ -1,16 +1,34 @@
 <div class="ui grid">
-    <div class="eight wide column">
+    <div class="four wide column">
         <div class="ui aligned selection list">
-            <div class="item" *ngFor="let user of users">
+            <h2>All Users</h2>
+            <div class="item" *ngFor="let user of users ">
                 <img class="ui avatar image" src="assets/img/elliot.jpg">
                 <div class="content">
-                    <div class="header" (click)="getUser(user)" *ngIf="user.username">{{user.username}}</div>
-                    <div class="header" (click)="getUser(user)" *ngIf="!user.username">{{user.$key}}</div>
+                    <div class="header" (click)="createNewMsg(user)" *ngIf="user.username">
+                        {{user.email}}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="eight wide column" *ngIf="this.receiverID">
+    <div class="four wide column">
+        <div class="ui aligned selection list">
+            <h2>Latest</h2>
+
+            <div class="item" *ngFor="let thread of threads ">
+                <img class="ui avatar image" src="assets/img/elliot.jpg">
+                <div class="content">
+                    <div class="header" (click)="getMessages(thread)" *ngIf="thread.name">
+                        {{thread.name}}
+                        <p>{{thread.lastMessage}}</p>
+                    </div>
+                    <div class="header" (click)="getMessages(thread)" *ngIf="!thread.name">{{thread.$key}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="eight wide column" *ngIf="this.receiver">
         <div class="ui small comments">
             <div class="search-results" #scrollMe *ngIf="userMessages.length > 0">
                 <div *ngFor="let message of userMessages">
@@ -20,6 +38,9 @@
                             {{ message.name }} | {{ message.date | date:'dd.MM.y HH:mm:ss' }}
                         </div>
                     </div>
+                </div>
+                <div>
+                    Seen
                 </div>
             </div>
             <div class="comment" *ngIf="userMessages.length == 0">

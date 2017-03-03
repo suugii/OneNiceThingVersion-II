@@ -15,12 +15,14 @@ import * as moment from "moment";
 
 export class ChatComponent implements OnInit, AfterViewChecked {
 	public users: any[] = [];
-	public receiverID: any;
+	public receiver: any;
 	public messages: any;
 	public userMessages: any[] = [];
 	public userName: any;
 	public currentUser: any;
 	public msgVal: string = '';
+	public threads: any[];
+	public mythreads: any[];
 	public newMessage = new Message();
 	public newThread = new Thread();
 	public limit: BehaviorSubject<number> = new BehaviorSubject<number>(10);
@@ -31,10 +33,24 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 				this.currentUser = auth;
 			}
 		});
+
 		this.authservice.getUsers().subscribe((users) => {
 			this.users = _.reject(users, { $key: this.currentUser.uid });
-		})
+		});
 
+		this.af.database.list('threads').subscribe((threads) => {
+			this.mythreads = [];
+			if (threads) {
+				threads.forEach((thread) => {
+					if (thread.userID == this.currentUser.uid) {
+						this.mythreads.push(thread);
+					}
+				})
+				this.threads = _.orderBy(this.mythreads, ['date'], ['desc']);
+				let latest = _.head(this.mythreads);
+				this.getMessages(latest);
+			}
+		});
 	}
 
 	ngOnInit() {
@@ -48,7 +64,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 	scrollToBottom(): void {
 		try {
 			this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-		} catch (err) { console.log('Scroll to bottom failed yo!') }
+		} catch (err) { }
 	}
 
 	scrolled(): void {
@@ -57,19 +73,15 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
 
 
-	getUser(data) {
+	getMessages(data) {
 		this.messages = '';
-		this.receiverID = data.$key;
-		this.messages = this.af.database.list('messages', {
-			query: {
-				orderByChild: 'date',
-				limitToLast: this.limit
-			}
-		});
+		this.receiver = data;
+		console.log(this.receiver);
+		this.messages = this.af.database.list('messages');
 		this.messages.subscribe(snapshots => {
 			this.userMessages = [];
 			snapshots.forEach(snapshot => {
-				if ((snapshot.receiverID == this.receiverID && snapshot.senderID == this.currentUser.uid) || (snapshot.receiverID == this.currentUser.uid && snapshot.senderID == this.receiverID)) {
+				if ((snapshot.receiverID == this.receiver.userID && snapshot.senderID == this.currentUser.uid) || (snapshot.receiverID == this.currentUser.uid && snapshot.senderID == this.receiver.userID)) {
 					this.userMessages.push(snapshot);
 				}
 			});
@@ -89,13 +101,37 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 			return true;
 	}
 
-	chatSend(theirMessage: string) {
-		this.newMessage.message = theirMessage;
-		this.newMessage.senderID = this.currentUser.uid;
-		this.newMessage.receiverID = this.receiverID;
-		this.newMessage.name = this.currentUser.auth.email;
-		this.newMessage.date = moment.now();
-		this.messages.push(this.newMessage);
+	createNewMsg(data) {
+		// this.receiver = {};
+		// this.receiver.userID = data.$key;
+		// this.receiver.email = data.email;
+		// this.getMessages(this.receiver);
+	}
+
+	chatSend() {
+		this.af.database.object('/threads/' + this.receiver.$key).take(1).subscribe(data => {
+			this.newMessage.message = this.msgVal;
+			this.newMessage.senderID = this.currentUser.uid;
+			this.newMessage.receiverID = this.receiver.userID;
+			this.newMessage.name = this.currentUser.auth.email;
+			this.newMessage.date = moment.now();
+			if (data.hasOwnProperty('$value') && !data['$value']) {
+				this.newThread.userID = this.receiver.userID;
+				this.newThread.lastMessage = this.msgVal;
+				this.newThread.name = this.receiver.email;
+				this.newThread.date = moment.now();
+				this.af.database.list('threads').push(this.newThread).then((resp) => {
+					this.newMessage.thread = resp.key;
+					this.messages.push(this.newMessage);
+				})
+			}
+			else {
+				data.lastMessage = this.msgVal;
+				data.date = moment.now();
+				this.af.database.object('/threads/' + data.$key).set(data);
+				this.messages.push(this.newMessage);
+			}
+		});
 		this.msgVal = '';
 	}
 }
