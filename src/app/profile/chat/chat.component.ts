@@ -3,6 +3,8 @@ import { AuthService } from './../../service/auth.service';
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import * as _ from 'lodash';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Thread } from '../../class/thread';
+import { Message } from '../../class/message';
 
 @Component({
 	selector: 'app-chat',
@@ -12,12 +14,14 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export class ChatComponent implements OnInit, AfterViewChecked {
 	public users: any[] = [];
-	public senderID: any;
+	public receiverID: any;
 	public messages: any;
 	public userMessages: any[] = [];
 	public userName: any;
 	public currentUser: any;
 	public msgVal: string = '';
+	public newMessage = new Message();
+	public newThread = new Thread();
 	public limit: BehaviorSubject<number> = new BehaviorSubject<number>(10);
 	@ViewChild('scrollMe') private myScrollContainer: ElementRef;
 	constructor(public authservice: AuthService, public af: AngularFire) {
@@ -39,7 +43,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 	ngAfterViewChecked() {
 		this.scrollToBottom();
 	}
-	
+
 	scrollToBottom(): void {
 		try {
 			this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
@@ -54,7 +58,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
 	getUser(data) {
 		this.messages = '';
-		this.senderID = data.$key;
+		this.receiverID = data.$key;
 		this.messages = this.af.database.list('messages', {
 			query: {
 				orderByChild: 'date',
@@ -64,7 +68,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 		this.messages.subscribe(snapshots => {
 			this.userMessages = [];
 			snapshots.forEach(snapshot => {
-				if ((snapshot.senderID == this.senderID && snapshot.userID == this.currentUser.uid) || (snapshot.senderID == this.currentUser.uid && snapshot.userID == this.senderID)) {
+				if ((snapshot.receiverID == this.receiverID && snapshot.senderID == this.currentUser.uid) || (snapshot.receiverID == this.currentUser.uid && snapshot.senderID == this.receiverID)) {
 					this.userMessages.push(snapshot);
 				}
 			});
@@ -85,7 +89,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 	}
 
 	chatSend(theirMessage: string) {
-		this.messages.push({ message: theirMessage, senderID: this.senderID, userID: this.currentUser.uid, name: this.currentUser.auth.email, date: Date.now() });
+		this.newMessage.message = theirMessage;
+		this.newMessage.senderID = this.currentUser.uid;
+		this.newMessage.receiverID = this.receiverID;
+		this.newMessage.name = this.currentUser.auth.email;
+		this.messages.push(this.newMessage);
 		this.msgVal = '';
 	}
 }

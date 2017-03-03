@@ -71,7 +71,7 @@ export const firebaseConfig = {
 		UserSettingsComponent,
 		ChangePasswordComponent,
 		ChatComponent,
-		EditStoryComponent
+		EditStoryComponent,
 	],
 	imports: [
 		BrowserModule,

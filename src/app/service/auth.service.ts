@@ -9,9 +9,6 @@ import 'rxjs/add/operator/map';
 export class AuthService {
 
 	public users: FirebaseListObservable<any>;
-	private searchValue: BehaviorSubject<any>;
-	public searchTerm: BehaviorSubject<any>;
-
 	public messages: any;
 	public displayName: string;
 	public email: string;
@@ -20,21 +17,6 @@ export class AuthService {
 
 	constructor(public af: AngularFire) {
 
-		// this.messages = this.af.database.list('/messages').map(messages => {
-		//   for (let message of messages) {
-		//     message.sender = this.af.database.object(`/registeredUsers/${message.senderID}`);
-		//   }
-		//   return messages;
-		// });
-
-		this.searchTerm = new BehaviorSubject('senderID');
-		this.searchValue = new BehaviorSubject('gDi02sU4XFQGsJesuAvA01HVUOf1');
-		this.messages = this.af.database.list('/messages/', {
-			query: {
-				orderByChild: this.searchTerm,
-				equalTo: this.searchValue
-			}
-		});
 	}
 
 	loginWithGoogle() {
@@ -107,28 +89,6 @@ export class AuthService {
 
 	getUsers() {
 		return this.users = this.af.database.list('users');
-	}
-
-	getMessage(id) {
-		this.message = this.af.database.list('/messages', {
-			query: {
-				equalTo: id
-			}
-		});
-	}
-
-	sendMessage(receiver, text) {
-		this.searchTerm.next('senderID');
-		this.searchValue.next('gDi02sU4XFQGsJesuAvA01HVUOf1');
-		// var message = {
-		//   message: text,
-		//   displayName: this.displayName,
-		//   email: this.email,
-		//   timestamp: Date.now(),
-		//   senderID: 'gDi02sU4XFQGsJesuAvA01HVUOf1',
-		//   receiverID: receiver
-		// };
-		// this.messages.push(message);
 	}
 
 }
