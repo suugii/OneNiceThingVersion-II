@@ -5,8 +5,6 @@ export class Message {
 		public isRead: boolean = false,
 		public name: string = null,
 		public message: string = null,
-		public senderID: string = null,
-		public receiverID: string = null,
 		public thread = new Thread(),
 	) { }
 }

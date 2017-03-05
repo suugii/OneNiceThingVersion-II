@@ -22,6 +22,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 	public currentUser: any;
 	public msgVal: string = '';
 	public threads: any[];
+	public showMessage: boolean = false;
 	public mythreads: any[];
 	public newMessage = new Message();
 	public newThread = new Thread();
@@ -42,13 +43,20 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 			this.mythreads = [];
 			if (threads) {
 				threads.forEach((thread) => {
-					if (thread.userID == this.currentUser.uid) {
+					if (thread.userID == this.currentUser.uid || thread.receiverID == this.currentUser.uid) {
+						if (thread.userID == this.currentUser.uid) {
+							thread.name = thread.user2name;
+						} else {
+							thread.name = thread.user1name;
+						}
 						this.mythreads.push(thread);
 					}
 				})
 				this.threads = _.orderBy(this.mythreads, ['date'], ['desc']);
 				let latest = _.head(this.mythreads);
-				this.getMessages(latest);
+				if (latest) {
+					this.getMessages(latest);
+				}
 			}
 		});
 	}
@@ -76,15 +84,14 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 	getMessages(data) {
 		this.messages = '';
 		this.receiver = data;
-		console.log(this.receiver);
-		this.messages = this.af.database.list('messages');
-		this.messages.subscribe(snapshots => {
+		this.messages = this.af.database.list('message');
+		this.messages.subscribe(messages => {
 			this.userMessages = [];
-			snapshots.forEach(snapshot => {
-				if ((snapshot.receiverID == this.receiver.userID && snapshot.senderID == this.currentUser.uid) || (snapshot.receiverID == this.currentUser.uid && snapshot.senderID == this.receiver.userID)) {
-					this.userMessages.push(snapshot);
+			messages.forEach(message => {
+				if (message.thread == data.$key) {
+					this.userMessages.push(message);
 				}
-			});
+			})
 		})
 	}
 
@@ -101,36 +108,49 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 			return true;
 	}
 
+
+
 	createNewMsg(data) {
-		// this.receiver = {};
-		// this.receiver.userID = data.$key;
-		// this.receiver.email = data.email;
-		// this.getMessages(this.receiver);
+		var isAvailable = false;
+		var thread = {};
+		var currentUser = this.currentUser;
+		this.af.database.list('threads').subscribe(snapshots => {
+			_.forEach(snapshots, function (snapshot) {
+				if ((snapshot.userID == currentUser.uid && snapshot.receiverID == data.$key) || (snapshot.userID == data.$key && snapshot.receiverID == currentUser.uid)) {
+					isAvailable = true;
+					thread = snapshot;
+					return;
+				}
+			});
+
+		});
+		if (isAvailable == false) {
+			this.newThread.userID = this.currentUser.uid;
+			this.newThread.receiverID = data.$key;
+			this.newThread.lastMessage = this.msgVal;
+			this.newThread.user2name = data.email;
+			this.newThread.user1name = this.currentUser.auth.email;
+			this.newThread.date = moment.now();
+			this.af.database.list('threads').push(this.newThread).then((resp) => {
+				this.af.database.object('/threads/' + resp.key).take(1).subscribe(data => {
+					this.getMessages(data);
+				})
+			})
+		} else {
+			this.getMessages(thread);
+		}
 	}
 
 	chatSend() {
 		this.af.database.object('/threads/' + this.receiver.$key).take(1).subscribe(data => {
 			this.newMessage.message = this.msgVal;
-			this.newMessage.senderID = this.currentUser.uid;
-			this.newMessage.receiverID = this.receiver.userID;
 			this.newMessage.name = this.currentUser.auth.email;
 			this.newMessage.date = moment.now();
-			if (data.hasOwnProperty('$value') && !data['$value']) {
-				this.newThread.userID = this.receiver.userID;
-				this.newThread.lastMessage = this.msgVal;
-				this.newThread.name = this.receiver.email;
-				this.newThread.date = moment.now();
-				this.af.database.list('threads').push(this.newThread).then((resp) => {
-					this.newMessage.thread = resp.key;
-					this.messages.push(this.newMessage);
-				})
-			}
-			else {
-				data.lastMessage = this.msgVal;
-				data.date = moment.now();
-				this.af.database.object('/threads/' + data.$key).set(data);
-				this.messages.push(this.newMessage);
-			}
+			this.newMessage.thread = data.$key;
+			data.lastMessage = this.msgVal;
+			data.date = moment.now();
+			this.af.database.object('/threads/' + data.$key).set(data);
+			this.messages.push(this.newMessage);
 		});
 		this.msgVal = '';
 	}
