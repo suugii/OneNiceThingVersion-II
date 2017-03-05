@@ -34,7 +34,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 				this.currentUser = auth;
 			}
 		});
-
 		this.authservice.getUsers().subscribe((users) => {
 			this.users = _.reject(users, { $key: this.currentUser.uid });
 		});
@@ -53,7 +52,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 					}
 				})
 				this.threads = _.orderBy(this.mythreads, ['date'], ['desc']);
-				let latest = _.head(this.mythreads);
+				let latest = _.head(this.threads);
 				if (latest) {
 					this.getMessages(latest);
 				}
@@ -112,9 +111,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
 	createNewMsg(data) {
 		var isAvailable = false;
-		var thread = {};
+		var thread;
 		var currentUser = this.currentUser;
 		this.af.database.list('threads').subscribe(snapshots => {
+			thread = "";
 			_.forEach(snapshots, function (snapshot) {
 				if ((snapshot.userID == currentUser.uid && snapshot.receiverID == data.$key) || (snapshot.userID == data.$key && snapshot.receiverID == currentUser.uid)) {
 					isAvailable = true;
@@ -130,7 +130,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 			this.newThread.lastMessage = this.msgVal;
 			this.newThread.user2name = data.email;
 			this.newThread.user1name = this.currentUser.auth.email;
-			this.newThread.date = moment.now();
+			this.newThread.date = _.now();
 			this.af.database.list('threads').push(this.newThread).then((resp) => {
 				this.af.database.object('/threads/' + resp.key).take(1).subscribe(data => {
 					this.getMessages(data);
@@ -145,10 +145,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 		this.af.database.object('/threads/' + this.receiver.$key).take(1).subscribe(data => {
 			this.newMessage.message = this.msgVal;
 			this.newMessage.name = this.currentUser.auth.email;
-			this.newMessage.date = moment.now();
+			this.newMessage.date = _.now();
 			this.newMessage.thread = data.$key;
 			data.lastMessage = this.msgVal;
-			data.date = moment.now();
+			data.date = _.now();
 			this.af.database.object('/threads/' + data.$key).set(data);
 			this.messages.push(this.newMessage);
 		});
