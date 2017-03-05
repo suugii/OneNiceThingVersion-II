@@ -83,7 +83,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 	getMessages(data) {
 		this.messages = '';
 		this.receiver = data;
-		this.messages = this.af.database.list('message');
+		this.messages = this.af.database.list('messages');
 		this.messages.subscribe(messages => {
 			this.userMessages = [];
 			messages.forEach(message => {
