@@ -18,6 +18,10 @@
                         </div>
                     </div>
                     <div class="field">
+                        <label>Image</label>
+                        <input type="file" (change)="onChange($event)">
+                    </div>
+                    <div class="field">
                         <label>Location where did you do your nice thing ?</label>
                         <input placeholder="Enter Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
                     </div>

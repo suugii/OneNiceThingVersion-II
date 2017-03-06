@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, NgZone, ViewChild } from '@angular/core'
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Story } from './../../class/story';
 import { MapsAPILoader } from 'angular2-google-maps/core';
+import * as firebase from 'firebase';
 
 @Component({
     selector: 'app-create',
@@ -20,9 +21,8 @@ export class CreateComponent implements OnInit {
     public success: any;
     @ViewChild("search")
     public searchElementRef: ElementRef;
-
+    public storageRef: any = firebase.storage().ref();
     constructor(private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
-
         this.stories = af.database.list('stories');
         this.requests = af.database.list('requests');
 
@@ -57,11 +57,23 @@ export class CreateComponent implements OnInit {
             });
         });
     }
-
+    onChange(event) {
+        let path: string = 'images/' + Math.random().toString(36).substr(2, 9) + '.jpg';
+        var files = event.srcElement.files;
+        let uploadTask: any = this.storageRef.child(path).put(files[0]);
+        uploadTask.on('state_changed', function (snapshot) {
+            console.log(snapshot);
+        }, function (error) {
+            console.log(error);
+        }, function () {
+            var downloadURL = uploadTask.snapshot.downloadURL;
+            console.log(downloadURL);
+        });
+    }
     storeStory() {
         this.stories.push(this.model).then(() => {
             this.success = 'Successfully added';
-            this.requests.push({sid: this.model.user, rid: this.model.touser, seen: false});
+            this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });
             this.model = new Story();
         }).catch((error: any) => {
             this.error = error;
