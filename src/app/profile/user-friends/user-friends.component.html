@@ -6,9 +6,7 @@
         <div class="content">
             <a class="header" routerLink="/user/{{ (user | async)?.$key }}">{{ (user | async)?.username }}</a>
             <div class="meta">
-                <span class="date">
-					<i class="calendar outline icon"></i> Joined on {{ (user | async)?.created_at | date:'MMM dd'}}
-				</span>
+                <span class="date">Joined on {{ (user | async)?.created_at | date:'MMM dd'}}</span>
             </div>
         </div>
         <div class="extra content">

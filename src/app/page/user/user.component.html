@@ -13,10 +13,20 @@
                         </span>
                     </div>
                 </div>
-                <div class="extra content">
-                    <a routerLink="">
+                <div class="extra content" *ngIf="!isUser">
+                    <a *ngIf="!isFriend && !isRequested && !isUser && !isToRequested" (click)="addFriend()">
                         <i class="add icon"></i>Add Friend
                     </a>
+                    <a *ngIf="isRequested && !isUser" (click)="cancelRequest()">
+                        <i class="remove icon"></i>Cancel Request
+                    </a>
+                    <a *ngIf="isFriend && !isUser" (click)="unFriend()">
+                        <i class="remove icon"></i>Unfriend
+                    </a>
+                    <div class="ui two buttons" *ngIf="isToRequested">
+                        <div class="ui basic green button" (click)="approveRequest()">Approve</div>
+                        <div class="ui basic red button" (click)="declineRequest()">Decline</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -24,7 +34,7 @@
             <div class="ui three stackable cards">
                 <div class="card" *ngFor="let story of stories">
                     <div class="extra content">
-                        <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ (story.user | async)?.username }}
+                        <img class="ui avatar image" src="{{ (story.user | async)?.photoURL }}"> {{ (story.user | async)?.username }}
                     </div>
                     <div class="blurring dimmable image">
                         <div class="ui dimmer">
@@ -34,7 +44,7 @@
                                 </div>
                             </div>
                         </div>
-                        <img src="assets/img/image.png">
+                        <img src="{{ story.imageURL }}">
                     </div>
                     <div class="content">
                         <p>{{ story.story }}</p>

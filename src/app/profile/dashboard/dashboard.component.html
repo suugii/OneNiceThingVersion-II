@@ -4,7 +4,7 @@
             <div class="ui pointing fluid vertical menu">
                 <a class="item" routerLink="stories">
                     My nice things
-                    <div class="ui label">17</div>
+                    <div class="ui label">{{ storiesCount }}</div>
                 </a>
                 <a class="item" href="#">
                     My tree
@@ -14,19 +14,19 @@
                 </a>
                 <a class="item" routerLink="friends">
                     My friends
-                    <div class="ui label">5</div>
-                </a>
-                <a class="item" routerLink="requests">
-                    Friend Requests
-                    <div class="ui label">5</div>
+                    <div class="ui label">{{ friendsCount }}</div>
                 </a>
                 <a class="item" routerLink="favorites">
                     My favorite
-                    <div class="ui label">23</div>
+                    <div class="ui label">{{ favoritesCount }}</div>
+                </a>
+                <a class="item" routerLink="requests">
+                    Friend Requests
+                    <div class="ui red label">{{ requestCount }}</div>
                 </a>
                 <a class="item" routerLink="chat">
                     Chat
-                    <div class="ui label">23</div>
+                    <div class="ui red label">2</div>
                 </a>
             </div>
         </div>

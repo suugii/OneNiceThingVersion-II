@@ -1,7 +1,7 @@
 <div class="ui three stackable cards">
     <div class="card" *ngFor="let story of stories">
         <div class="extra content">
-            <img class="ui avatar image" src="assets/img/elliot.jpg"> {{ (story.user | async)?.username }}
+            <img class="ui avatar image" src="{{ (story.user | async)?.photoURL }}"> {{ (story.user | async)?.username }}
         </div>
         <div class="blurring dimmable image">
             <div class="ui dimmer">

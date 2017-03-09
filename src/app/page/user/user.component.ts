@@ -14,18 +14,33 @@ export class UserComponent implements OnInit {
 
 	objects: FirebaseListObservable<any[]>;
 	favorites: FirebaseListObservable<any[]>;
+	requests: FirebaseListObservable<any[]>;
+	toRequests: FirebaseListObservable<any[]>;
+	friends: FirebaseListObservable<any[]>;
 	profile: FirebaseObjectObservable<any>;
 
 	counter: number = 0;
 	favorited: boolean = false;
+	isRequested: boolean = false;
+	isToRequested: boolean = false;
+	isFriend:boolean = false;
+	isUser: boolean = false;
+	userFriend: boolean = false;
+	friendKey: string;
+	requestKey: string;
+	toRequestKey: string;
 	user: string;
 	stories: any[];
+	error: any;
 
 	constructor(private router: Router, private route: ActivatedRoute, private af: AngularFire, private storyService: StoryService) {
 	    this.af.auth.subscribe(
 	        (auth) => {
 	            if (auth) {
 	                this.user = auth.uid;
+	                if (this.user == this.key) {
+	                	this.isUser = true;
+	                }
 	            }
 	        }
 	    );
@@ -36,7 +51,19 @@ export class UserComponent implements OnInit {
 				equalTo: this.key
 			}
 		});
-
+		this.friends = this.af.database.list('friends');
+		this.requests = this.af.database.list('requests', {
+			query: {
+				orderByChild: 'sid',
+				equalTo: this.user
+			}
+	    });
+	    this.toRequests = this.af.database.list('requests', {
+			query: {
+				orderByChild: 'rid',
+				equalTo: this.user
+			}
+	    });
 	    this.objects.subscribe(
 	    	dataStory => {
 	    		dataStory.forEach(
@@ -69,8 +96,101 @@ export class UserComponent implements OnInit {
 	    		this.stories = dataStory;
 	    	}
 	    );
+	    this.requests.subscribe(
+	    	dataReq => {
+	    		dataReq.forEach(
+	    			request => {
+	    				if (request.rid == this.key) {
+	    					this.isRequested = true;
+	    					this.requestKey = request.$key;
+	    				}
+	    			}
+	    		);
+	    	}
+	    );
+	    this.toRequests.subscribe(
+	    	dataReq => {
+	    		dataReq.forEach(
+	    			request => {
+	    				if (request.sid == this.key) {
+	    					this.isToRequested = true;
+	    					this.toRequestKey = request.$key;
+	    				}
+	    			}
+	    		);
+	    	}
+	    );
+		this.friends.subscribe(
+	    	dataFriends => {
+	    		dataFriends.forEach(
+	    			friend => {
+	    				this.af.database.list('friends' + '/' + friend.$key + '/' + 'users').subscribe(
+	    					dataUsers => {
+					    		dataUsers.forEach(
+					    			user => {
+					    				if(user.uid == this.user) {
+					    					this.userFriend = true;
+					    				}
+					    			}
+					    		);
+		    					if (this.userFriend) {
+						    		dataUsers.forEach(
+						    			user => {
+						    				if(user.uid == this.key) {
+						    					this.isFriend = true;
+						    					this.friendKey = friend.$key;
+						    				}
+						    			}
+						    		);
+		    					}
+	    					}
+    					);
+	    			}
+	    		);
+	    	}
+	    );
 	}
 
 	ngOnInit() { }
+
+	addFriend() {
+        this.af.database.list('requests').push({ sid: this.user, rid: this.key, seen: false });
+	}
+
+	cancelRequest() {
+		this.requests.remove(this.requestKey);
+		this.isRequested = false;
+	}
+
+	unFriend() {
+		this.friends.remove(this.friendKey);
+		this.isFriend = false;
+	}
+
+	approveRequest() {
+		this.af.database.object('requests' + '/' + this.toRequestKey).subscribe(
+	    	request => {
+		        this.af.database.list('friends').push({created_at: Date.now()}).then((friend) => {
+					this.af.database.list('friends' + '/' + friend.key + '/' + 'users').push({uid: request.sid}).then(() => {
+						this.af.database.list('friends' + '/' + friend.key + '/' + 'users').push({uid: request.rid}).then(() => {
+							this.toRequests.remove(this.toRequestKey);
+						}).catch((error: any) => {
+				            this.error = error;
+				            this.af.database.list('friends').remove(friend.key);
+				        });
+					}).catch((error: any) => {
+			            this.error = error;
+			            this.af.database.list('friends').remove(friend.key);
+			        });
+		        }).catch((error: any) => {
+		            this.error = error;
+		        });
+	    	}
+	    );
+	}
+
+	declineRequest() {
+		this.toRequests.remove(this.toRequestKey);
+	}
 
 }

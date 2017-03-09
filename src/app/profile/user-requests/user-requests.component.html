@@ -1,7 +1,7 @@
 <div class="ui three stackable cards">
 	<div class="card" *ngFor="let request of array">
 		<div class="content">
-			<img class="right floated mini ui image" src="assets/img/elliot.jpg">
+			<img class="ui right floated mini image" src="{{ (request.user | async)?.photoURL }}">
 			<div class="header">
 				<a routerLink="/user/{{ (user | async)?.$key }}">{{ (request.user | async)?.username }}</a>
 			</div>

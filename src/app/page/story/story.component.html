@@ -3,13 +3,13 @@
         <div class="ui six wide column">
             <div class="ui fluid card" *ngIf="story">
                 <div class="extra content">
-                    <img class="ui avatar image" src="assets/img/elliot.jpg">
+                    <img class="ui avatar image" src="{{ (story.user | async)?.photoURL }}"> 
                     <a routerLink="/user/{{ (story.user | async)?.$key }}">{{ (story.user | async)?.username }}</a>
                     <span>
 	                </span>
                     <span class="right floated">
 	                	<i class="right arrow icon"></i>
-		                <img class="ui avatar image" src="assets/img/elliot.jpg"> 
+		                <img class="ui avatar image" src="{{ (story.touser | async)?.photoURL }}"> 
 	                	<a routerLink="/user/{{ (story.touser | async)?.$key }}">{{ (story.touser | async)?.username }}</a>
 	                </span>
                 </div>
