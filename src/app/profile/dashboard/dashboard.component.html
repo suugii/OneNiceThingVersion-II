@@ -22,7 +22,7 @@
                 </a>
                 <a class="item" routerLink="requests">
                     Friend Requests
-                    <div class="ui red label">{{ requestCount }}</div>
+                    <div class="ui red label" *ngIf="requestCount > 0">{{ requestCount }}</div>
                 </a>
                 <a class="item" routerLink="chat">
                     Chat

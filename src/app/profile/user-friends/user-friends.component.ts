@@ -11,6 +11,7 @@ export class UserFriendsComponent implements OnInit {
 	uid: string;
 	users: any[];
 	isFriend: boolean;
+	friendsCount: number = 0;
 
 	constructor(public af: AngularFire) {
 	    this.af.auth.subscribe(
@@ -40,6 +41,7 @@ export class UserFriendsComponent implements OnInit {
 						    			user => {
 						    				if(user.uid !== this.uid) {
 						    					this.users.push(this.af.database.object('users' + '/' + user.uid));
+						    					this.friendsCount += 1;
 						    				}
 						    			}
 						    		);

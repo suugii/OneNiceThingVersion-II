@@ -12,12 +12,10 @@ export class DashboardComponent implements OnInit {
 	stories: FirebaseListObservable<any[]>;
 	favorites: FirebaseListObservable<any[]>;
 	user: string;
-	array: any[];
 	requestCount: number = 0;
 	storiesCount: number = 0;
 	favoritesCount: number = 0;
 	friendsCount: number = 0;
-	users: any[];
 	isFriend: boolean;
 
 	constructor(public af: AngularFire) {
@@ -58,10 +56,12 @@ export class DashboardComponent implements OnInit {
 		);
 	   	this.requests.subscribe(
 	    	dataReq => {
-				this.array = [];
+	    		this.requestCount = 0;
 	    		dataReq.forEach(
 	    			request => {
-    					this.requestCount += 1;
+	    				if (!request.seen) {
+    						this.requestCount += 1;
+	    				}
 	    			}
 	    		)
 	    	}

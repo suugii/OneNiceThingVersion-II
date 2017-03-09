@@ -32,8 +32,10 @@ export class UserComponent implements OnInit {
 	user: string;
 	stories: any[];
 	error: any;
+	status: number = 0;
 
 	constructor(private router: Router, private route: ActivatedRoute, private af: AngularFire, private storyService: StoryService) {
+	    this.status = 0;
 	    this.af.auth.subscribe(
 	        (auth) => {
 	            if (auth) {
@@ -101,7 +103,7 @@ export class UserComponent implements OnInit {
 	    		dataReq.forEach(
 	    			request => {
 	    				if (request.rid == this.key) {
-	    					this.isRequested = true;
+	    					this.status = 1;
 	    					this.requestKey = request.$key;
 	    				}
 	    			}
@@ -113,7 +115,7 @@ export class UserComponent implements OnInit {
 	    		dataReq.forEach(
 	    			request => {
 	    				if (request.sid == this.key) {
-	    					this.isToRequested = true;
+	    					this.status = 2;
 	    					this.toRequestKey = request.$key;
 	    				}
 	    			}
@@ -138,6 +140,7 @@ export class UserComponent implements OnInit {
 						    			user => {
 						    				if(user.uid == this.key) {
 						    					this.isFriend = true;
+						    					this.status = 3;
 						    					this.friendKey = friend.$key;
 						    				}
 						    			}
@@ -159,12 +162,10 @@ export class UserComponent implements OnInit {
 
 	cancelRequest() {
 		this.requests.remove(this.requestKey);
-		this.isRequested = false;
 	}
 
 	unFriend() {
 		this.friends.remove(this.friendKey);
-		this.isFriend = false;
 	}
 
 	approveRequest() {

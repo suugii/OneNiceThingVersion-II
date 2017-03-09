@@ -17,6 +17,7 @@ export class UserFavoritesComponent implements OnInit {
 	counter: number = 0;
 	favorited: boolean = false;
 	user: string;
+	favoritesCount: number = 0;
 	
 	constructor(public af: AngularFire, private storyService: StoryService) {
 	    this.af.auth.subscribe(
@@ -34,6 +35,7 @@ export class UserFavoritesComponent implements OnInit {
 		});
 	   	this.favorites.subscribe(
 	    	dataFav => {
+				this.favoritesCount = dataFav.length;
 				this.stories = [];
 	    		dataFav.forEach(
 	    			favorite => {

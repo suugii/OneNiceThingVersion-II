@@ -13,6 +13,7 @@ export class UserRequestsComponent implements OnInit {
 	uid: string;
 	array: any[];
 	error: any;
+	requestCount: number = 0;
 
 	constructor(public af: AngularFire) {
 	    this.af.auth.subscribe(
@@ -33,6 +34,9 @@ export class UserRequestsComponent implements OnInit {
 				this.array = [];
 	    		dataReq.forEach(
 	    			request => {
+	    				if (request.seen == false) {
+    						this.requestCount += 1;
+	    				}
 	    				this.af.database.list('requests').update(request.$key, { seen: true });
 						this.user = this.af.database.object('users' + '/' + request.sid);
 						request.user = this.user;

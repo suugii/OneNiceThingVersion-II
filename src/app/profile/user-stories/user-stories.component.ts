@@ -16,6 +16,7 @@ export class UserStoriesComponent implements OnInit {
 	favorited: boolean = false;
 	user: string;
 	stories: any[];
+	storiesCount: number = 0;
 
 	constructor(private af: AngularFire, private storyService: StoryService) {
 	    this.af.auth.subscribe(
@@ -34,6 +35,7 @@ export class UserStoriesComponent implements OnInit {
 
 	    this.objects.subscribe(
 	    	dataStory => {
+				this.storiesCount = dataStory.length;
 	    		dataStory.forEach(
 	    			story => {
 						this.favorites = this.af.database.list('favorites', {
