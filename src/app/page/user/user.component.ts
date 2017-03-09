@@ -35,7 +35,6 @@ export class UserComponent implements OnInit {
 	status: number = 0;
 
 	constructor(private router: Router, private route: ActivatedRoute, private af: AngularFire, private storyService: StoryService) {
-	    this.status = 0;
 	    this.af.auth.subscribe(
 	        (auth) => {
 	            if (auth) {
@@ -100,6 +99,7 @@ export class UserComponent implements OnInit {
 	    );
 	    this.requests.subscribe(
 	    	dataReq => {
+	    		this.status = 0;
 	    		dataReq.forEach(
 	    			request => {
 	    				if (request.rid == this.key) {
@@ -112,6 +112,7 @@ export class UserComponent implements OnInit {
 	    );
 	    this.toRequests.subscribe(
 	    	dataReq => {
+	    		this.status = 0;
 	    		dataReq.forEach(
 	    			request => {
 	    				if (request.sid == this.key) {
@@ -124,6 +125,7 @@ export class UserComponent implements OnInit {
 	    );
 		this.friends.subscribe(
 	    	dataFriends => {
+	    		this.status = 0;
 	    		dataFriends.forEach(
 	    			friend => {
 	    				this.af.database.list('friends' + '/' + friend.$key + '/' + 'users').subscribe(
@@ -139,7 +141,6 @@ export class UserComponent implements OnInit {
 						    		dataUsers.forEach(
 						    			user => {
 						    				if(user.uid == this.key) {
-						    					this.isFriend = true;
 						    					this.status = 3;
 						    					this.friendKey = friend.$key;
 						    				}
@@ -158,14 +159,17 @@ export class UserComponent implements OnInit {
 
 	addFriend() {
         this.af.database.list('requests').push({ sid: this.user, rid: this.key, seen: false });
+        this.status = 1;
 	}
 
 	cancelRequest() {
 		this.requests.remove(this.requestKey);
+		this.status = 0;
 	}
 
 	unFriend() {
 		this.friends.remove(this.friendKey);
+		this.status = 0;
 	}
 
 	approveRequest() {
@@ -175,6 +179,7 @@ export class UserComponent implements OnInit {
 					this.af.database.list('friends' + '/' + friend.key + '/' + 'users').push({uid: request.sid}).then(() => {
 						this.af.database.list('friends' + '/' + friend.key + '/' + 'users').push({uid: request.rid}).then(() => {
 							this.toRequests.remove(this.toRequestKey);
+	    					this.status = 3
 						}).catch((error: any) => {
 				            this.error = error;
 				            this.af.database.list('friends').remove(friend.key);
@@ -192,6 +197,7 @@ export class UserComponent implements OnInit {
 
 	declineRequest() {
 		this.toRequests.remove(this.toRequestKey);
+		this.status = 0;
 	}
 
 }
