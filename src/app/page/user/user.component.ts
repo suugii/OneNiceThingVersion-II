@@ -112,7 +112,6 @@ export class UserComponent implements OnInit {
 	    );
 	    this.toRequests.subscribe(
 	    	dataReq => {
-	    		this.status = 0;
 	    		dataReq.forEach(
 	    			request => {
 	    				if (request.sid == this.key) {
@@ -143,6 +142,7 @@ export class UserComponent implements OnInit {
 						    				if(user.uid == this.key) {
 						    					this.status = 3;
 						    					this.friendKey = friend.$key;
+						    					console.log(this.status);
 						    				}
 						    			}
 						    		);
@@ -153,6 +153,7 @@ export class UserComponent implements OnInit {
 	    		);
 	    	}
 	    );
+	    console.log(this.status);
 	}
 
 	ngOnInit() { }
