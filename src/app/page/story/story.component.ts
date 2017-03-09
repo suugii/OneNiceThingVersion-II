@@ -20,29 +20,7 @@ export class StoryComponent implements OnInit {
 	counter: number = 0;
 	favorited: boolean = false;
 	user: any;
-
-	lat: number = 47.919991;
-	lng: number = 106.917708;
-	latA: number = 47.907018;
-	lngA: number = 106.908609;
 	zoom: number = 13;
-
-	iconURL: any = {
-		url: "http://www.famousbirthdays.com/headshots/ne-yo-3.jpg",
-		scaledSize: {
-			height: 40,
-			width: 40
-		}
-	};
-	iconURL1: any = {
-		url: "http://www.famousbirthdays.com/headshots/ne-yo-3.jpg",
-		scaledSize: {
-			height: 40,
-			width: 40
-		}
-	}
-
-
 	constructor(public authService: AuthService, private router: Router, private route: ActivatedRoute, private af: AngularFire, private storyService: StoryService) {
 		this.authService.af.auth.subscribe(
 			(auth) => {
