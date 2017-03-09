@@ -70,7 +70,7 @@ export class CreateComponent implements OnInit {
         var files = event.srcElement.files;
         this.ng2ImgToolsService.resize([files[0]], 600, 400).subscribe((result) => {
             if (typeof result.name !== 'undefined' && typeof result.size !== 'undefined' && typeof result.type !== 'undefined') {
-                let uploadTask: any = this.storageRef.child(path).put(result);
+                let uploadTask: any = this.storageRef.child(path).put(files[0]);
                 uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, function (snapshot) {
                     var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     console.log('Upload is ' + progress + '% done');
@@ -100,6 +100,7 @@ export class CreateComponent implements OnInit {
                     var downloadURL = uploadTask.snapshot.downloadURL;
                     that.model.imageURL = downloadURL;
                 });
+                console.info(result);
             }
             else {
                 console.error(result);
@@ -107,8 +108,8 @@ export class CreateComponent implements OnInit {
         });
 
 
-    }
 
+    }
 
 
 
