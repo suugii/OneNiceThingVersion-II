@@ -7,6 +7,7 @@ import { Route } from './app.route';
 import { AngularFireModule } from 'angularfire2';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
+import { Ng2ImgToolsModule } from 'ng2-img-tools';
 
 import { AuthService } from "./service/auth.service";
 import { StoryService } from "./service/story.service";
@@ -40,7 +41,6 @@ import { EditStoryComponent } from './profile/edit-story/edit-story.component';
 import { SearchDirective } from './directive/search.directive';
 import { UserComponent } from './page/user/user.component';
 import { UserRequestsComponent } from './profile/user-requests/user-requests.component';
-
 export const firebaseConfig = {
 	apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
 	authDomain: "nicething-5c833.firebaseapp.com",
@@ -85,6 +85,7 @@ export const firebaseConfig = {
 		HttpModule,
 		Route,
 		InfiniteScrollModule,
+		Ng2ImgToolsModule,
 		AngularFireModule.initializeApp(firebaseConfig),
 		AgmCoreModule.forRoot({
 			apiKey: 'AIzaSyB4ygPHxCDU4qhpJYcJhvgGmg6Rrp-2l84',
