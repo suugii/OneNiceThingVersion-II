@@ -1,45 +1,52 @@
 <div class="ui container">
-	<div class="ui stackable grid">
-		<div class="ui six wide column">
-			<div class="ui fluid card">
-	            <div class="extra content">
-	                <img class="ui avatar image" src="assets/img/elliot.jpg"> 
-	                <a routerLink="/user/{{ (story.user | async)?.$key }}">{{ (story.user | async)?.username }}</a>
-	                <span>
+    <div class="ui stackable grid">
+        <div class="ui six wide column">
+            <div class="ui fluid card" *ngIf="story">
+                <div class="extra content">
+                    <img class="ui avatar image" src="assets/img/elliot.jpg">
+                    <a routerLink="/user/{{ (story.user | async)?.$key }}">{{ (story.user | async)?.username }}</a>
+                    <span>
 	                </span>
-	            	<span class="right floated">
+                    <span class="right floated">
 	                	<i class="right arrow icon"></i>
 		                <img class="ui avatar image" src="assets/img/elliot.jpg"> 
 	                	<a routerLink="/user/{{ (story.touser | async)?.$key }}">{{ (story.touser | async)?.username }}</a>
 	                </span>
-	            </div>
-				<div class="content">
-					{{ story.story }}
-				</div>
-				<div class="content">
-		            <p class="meta">
-	                    <span>
+                </div>
+                <div class="content">
+                    {{ story.story }}
+                </div>
+                <div class="content">
+                    <p class="meta">
+                        <span>
 							<i class="quote left icon"></i> {{ story.feeling }}
 						</span>
-	                </p>
-	                <p class="meta">
-	                    <span>
+                    </p>
+                    <p class="meta">
+                        <span>
 						    <i class="location arrow icon"></i> {{ (story.location)?.name }}
 						</span>
-	                </p>
-				</div>
-				<div class="extra content">
-	                <span class="right floated">
+                    </p>
+                </div>
+                <div class="extra content">
+                    <span class="right floated">
 						<i class="heart red like icon" *ngIf="user && story.favorited" (click)="storyService.removeFavorite(story.$key)"></i>
 	                    <i class="heart outline like icon" *ngIf="user && !story.favorited" (click)="storyService.addFavorite(story.$key)"></i>
 	                    <i class="heart outline like icon" *ngIf="!user"></i> 
 	                    {{ story.favorite }}
 					</span>
-                	<i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
-				</div>
-			</div>
-		</div>
-		<div class="ui ten wide column">
-		</div>
-	</div>
+                    <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
+                </div>
+            </div>
+        </div>
+        <div class="ui ten wide column">
+
+            <div class="google-map">
+                <sebm-google-map [latitude]="story.location.latitude" [longitude]="story.location.longitude" [zoom]="zoom">
+                    <sebm-google-map-marker [latitude]="story.location.latitude" [longitude]="story.location.longitude">
+                    </sebm-google-map-marker>
+                </sebm-google-map>
+            </div>
+        </div>
+    </div>
 </div>
