@@ -22,6 +22,7 @@ export class CreateComponent implements OnInit {
     @ViewChild("search")
     public searchElementRef: ElementRef;
     public storageRef: any = firebase.storage().ref();
+
     constructor(private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
         this.requests = af.database.list('requests');
@@ -57,19 +58,23 @@ export class CreateComponent implements OnInit {
             });
         });
     }
+
     onChange(event) {
+        var that = this;
         let path: string = 'images/' + Math.random().toString(36).substr(2, 9) + '.jpg';
         var files = event.srcElement.files;
         let uploadTask: any = this.storageRef.child(path).put(files[0]);
         uploadTask.on('state_changed', function (snapshot) {
             console.log(snapshot);
         }, function (error) {
-            console.log(error);
+            this.error = error;
         }, function () {
             var downloadURL = uploadTask.snapshot.downloadURL;
             console.log(downloadURL);
+            that.model.imageURL = downloadURL;
         });
     }
+
     storeStory() {
         this.stories.push(this.model).then(() => {
             this.success = 'Successfully added';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFire, FirebaseListObservable } from 'angularfire2';
-
+import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import * as _ from 'lodash';
 @Component({
 	selector: 'app-user-friends',
 	templateUrl: './user-friends.component.html',
@@ -8,14 +8,51 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 })
 export class UserFriendsComponent implements OnInit {
 
-	users: FirebaseListObservable<any[]>;
-	
+	uid: string;
+	users: any[];
+	isFriend: boolean;
+
 	constructor(public af: AngularFire) {
-		this.users = this.af.database.list('users');
+	    this.af.auth.subscribe(
+	        (auth) => {
+	            if (auth) {
+	                this.uid = auth.uid;
+	            }
+	        }
+	    );
+		this.users = [];
+		this.af.database.list('friends').subscribe(
+	    	dataFriends => {
+	    		dataFriends.forEach(
+	    			friend => {
+	    				this.isFriend = false;
+	    				this.af.database.list('friends' + '/' + friend.$key + '/' + 'users').subscribe(
+	    					dataUsers => {
+					    		dataUsers.forEach(
+					    			user => {
+					    				if(user.uid == this.uid) {
+					    					this.isFriend = true;
+					    				}
+					    			}
+					    		);
+		    					if (this.isFriend) {
+						    		dataUsers.forEach(
+						    			user => {
+						    				if(user.uid !== this.uid) {
+						    					this.users.push(this.af.database.object('users' + '/' + user.uid));
+						    				}
+						    			}
+						    		);
+		    					}
+	    					}
+    					);
+	    			}
+	    		);
+	    	}
+	    );
 	}
 
 	ngOnInit() {
-		this.users;
 	}
 
 }

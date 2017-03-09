@@ -13,6 +13,9 @@
 	                	<a routerLink="/user/{{ (story.touser | async)?.$key }}">{{ (story.touser | async)?.username }}</a>
 	                </span>
                 </div>
+                <div class="image">
+                    <img src="{{ story.imageURL }}">
+                </div>
                 <div class="content">
                     {{ story.story }}
                 </div>
@@ -40,7 +43,6 @@
             </div>
         </div>
         <div class="ui ten wide column">
-
             <div class="google-map">
                 <sebm-google-map [latitude]="story.location.latitude" [longitude]="story.location.longitude" [zoom]="zoom">
                     <sebm-google-map-marker [latitude]="story.location.latitude" [longitude]="story.location.longitude">

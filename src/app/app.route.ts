@@ -23,6 +23,7 @@ import { UserSettingsComponent } from './profile/user-settings/user-settings.com
 import { ChangePasswordComponent } from './profile/change-password/change-password.component';
 import { ChatComponent } from './profile/chat/chat.component';
 import { EditStoryComponent } from './profile/edit-story/edit-story.component';
+import { UserRequestsComponent } from './profile/user-requests/user-requests.component';
 
 export const Route: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent },
@@ -42,6 +43,7 @@ export const Route: ModuleWithProviders = RouterModule.forRoot([
         { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: 'home', component: UserHomeComponent, canActivate: [GuardService] },
         { path: 'friends', component: UserFriendsComponent, canActivate: [GuardService] },
+        { path: 'requests', component: UserRequestsComponent, canActivate: [GuardService] },
         { path: 'favorites', component: UserFavoritesComponent, canActivate: [GuardService] },
         { path: 'stories', component: UserStoriesComponent, canActivate: [GuardService] },
         { path: 'stories/edit/:key', component: EditStoryComponent, canActivate: [GuardService] },

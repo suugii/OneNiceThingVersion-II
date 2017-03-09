@@ -4,7 +4,7 @@ export class Story {
 		public touser: string = null,
 		public location: any = null,
 		public story: string = null,
-		public image: any = null,
+		public imageURL: string = null,
 		public name: string = null,
 		public feeling: string = null,
 		public message: string = null,

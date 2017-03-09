@@ -1,24 +1,18 @@
 <div class="ui three stackable cards">
-    <div class="ui card" *ngFor="let user of users | async">
+    <div class="ui card" *ngFor="let user of users">
         <div class="image">
-            <img *ngIf="user.photoURL" [src]="user.photoURL">
-            <img *ngIf="!user.photoURL" src="assets/img/elliot.jpg">
+            <img [src]="(user | async)?.photoURL">
         </div>
         <div class="content">
-            <a class="header" href="#">{{ user.username }}</a>
+            <a class="header" routerLink="/user/{{ (user | async)?.$key }}">{{ (user | async)?.username }}</a>
             <div class="meta">
                 <span class="date">
-					<i class="calendar outline icon"></i> Joined on {{ user.created_at | date:'MMM dd'}}
-				</span>
-            </div>
-            <div class="meta">
-                <span class="date">
-					<i class="home icon"></i> {{ user.location }}
+					<i class="calendar outline icon"></i> Joined on {{ (user | async)?.created_at | date:'MMM dd'}}
 				</span>
             </div>
         </div>
         <div class="extra content">
-            <a href="#">
+            <a>
                 <i class="comments outline icon"></i> Chat
             </a>
         </div>
