@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, NgZone, ViewChild, Inject } from '@angul
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Story } from './../../class/story';
 import { MapsAPILoader } from 'angular2-google-maps/core';
-import { Ng2ImgToolsService } from 'ng2-img-tools';
+import { ImageResult, ResizeOptions } from 'ng2-imageupload';
 import * as firebase from 'firebase';
 
 @Component({
@@ -24,12 +24,17 @@ export class CreateComponent implements OnInit {
     @ViewChild("search")
     public searchElementRef: ElementRef;
     public storageRef: any = firebase.storage().ref();
+    public isValid: boolean = false;
+    src: string = "";
+    resizeOptions: ResizeOptions = {
+        resizeMaxHeight: 200,
+        resizeMaxWidth: 300
+    };
 
 
-    constructor(private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone, private ng2ImgToolsService: Ng2ImgToolsService) {
+    constructor(private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
         this.requests = af.database.list('requests');
-
 
         this.af.auth.subscribe(
             (auth) => {
@@ -63,57 +68,54 @@ export class CreateComponent implements OnInit {
         });
     }
 
+    selected(imageResult: ImageResult) {
+        this.src = imageResult.resized
+            && imageResult.resized.dataURL
+            || imageResult.dataURL;
+        this.uploadImage(this.src);
+    }
 
-    onChange(event) {
+    uploadImage(image) {
         var that = this;
-        let path: string = 'images/' + Math.random().toString(36).substr(2, 9) + '.jpg';
-        var files = event.srcElement.files;
-        this.ng2ImgToolsService.resize([files[0]], 600, 400).subscribe((result) => {
-            if (typeof result.name !== 'undefined' && typeof result.size !== 'undefined' && typeof result.type !== 'undefined') {
-                let uploadTask: any = this.storageRef.child(path).put(files[0]);
-                uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, function (snapshot) {
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    console.log('Upload is ' + progress + '% done');
-                    switch (snapshot.state) {
-                        case firebase.storage.TaskState.PAUSED: // or 'paused'
-                            console.log('Upload is paused');
-                            break;
-                        case firebase.storage.TaskState.RUNNING: // or 'running'
-                            console.log('Upload is running');
-                            break;
-                    }
-                }, function (error) {
-                    switch (error.code) {
-                        case 'storage/unauthorized':
-                            // User doesn't have permission to access the object
-                            console.log(error);
-                            break;
-                        case 'storage/canceled':
-                            console.log(error);
-                            break;
-                        case 'storage/unknown':
-                            // Unknown error occurred, inspect error.serverResponse
-                            console.log(error);
-                            break;
-                    }
-                }, function () {
-                    var downloadURL = uploadTask.snapshot.downloadURL;
-                    that.model.imageURL = downloadURL;
-                });
-                console.info(result);
+        let path: string = 'image/' + Math.random().toString(36).substr(2, 9) + '.jpg';
+        var files = image;
+        let uploadTask: any = this.storageRef.child(path).putString(image, 'data_url');
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, function (snapshot) {
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log(progress);
+            switch (snapshot.state) {
+                case firebase.storage.TaskState.PAUSED: // or 'paused'
+                    console.log('Upload is paused');
+                    break;
+                case firebase.storage.TaskState.RUNNING: // or 'running'
+                    console.log('Upload is running');
+                    break;
             }
-            else {
-                console.error(result);
+
+        }, function (error) {
+            switch (error.code) {
+                case 'storage/unauthorized':
+                    // User doesn't have permission to access the object
+                    console.log(error);
+                    break;
+                case 'storage/canceled':
+                    console.log(error);
+                    break;
+                case 'storage/unknown':
+                    // Unknown error occurred, inspect error.serverResponse
+                    console.log(error);
+                    break;
             }
+        }, function () {
+            that.isValid = true;
+            var downloadURL = uploadTask.snapshot.downloadURL;
+            that.model.imageURL = downloadURL;
         });
-
-
-
     }
 
 
-
-    storeStory() {
+    storeStory(e) {
+        e.preventDefault();
         this.stories.push(this.model).then(() => {
             this.success = 'Successfully added';
             this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });

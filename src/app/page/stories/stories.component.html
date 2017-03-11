@@ -2,7 +2,7 @@
     <div class="ui four stackable cards">
         <div class="card" *ngFor="let story of stories">
             <div class="extra content">
-                <img class="ui avatar image" src="{{ (story.user | async)?.photoURL }}"> 
+                <img class="ui avatar image" src="{{ (story.user | async)?.photoURL }}">
                 <a routerLink="/user/{{ (story.user | async)?.$key }}">{{ (story.user | async)?.username }}</a>
             </div>
             <div class="blurring dimmable image">

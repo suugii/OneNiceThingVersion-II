@@ -7,7 +7,7 @@ import { Route } from './app.route';
 import { AngularFireModule } from 'angularfire2';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
-import { Ng2ImgToolsModule } from 'ng2-img-tools';
+import { ImageUploadModule } from 'ng2-imageupload';
 
 import { AuthService } from "./service/auth.service";
 import { StoryService } from "./service/story.service";
@@ -88,7 +88,7 @@ export const firebaseConfig = {
 		HttpModule,
 		Route,
 		InfiniteScrollModule,
-		Ng2ImgToolsModule,
+		ImageUploadModule,
 		AngularFireModule.initializeApp(firebaseConfig),
 		AgmCoreModule.forRoot({
 			apiKey: 'AIzaSyB4ygPHxCDU4qhpJYcJhvgGmg6Rrp-2l84',

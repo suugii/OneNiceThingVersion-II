@@ -6,7 +6,7 @@
                 <span class="ui green ribbon label">Report Nice Thing !</span>
                 <span>Tell your story to one you know :)</span>
                 <p></p>
-                <form class="ui form" (ngSubmit)='storeStory()'>
+                <form class="ui form" (ngSubmit)='storeStory($event)'>
                     <div class="field">
                         <label>Username Lookup</label>
                         <div class="ui search">
@@ -45,8 +45,13 @@
                     </div>
                     <div class="field">
                         <label>Image</label>
-                        <input type="file" (change)="onChange($event)">
+                        <div class="file-upload">
+                            <span class="text">Upload</span>
+                            <input id="custom-input" type="file" image-upload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions">
+                        </div>
+
                     </div>
+                    <img [src]="src" [hidden]="!src"><br>
                     <div class="field">
                         <label>Privacy</label>
                         <select class="ui dropdown" name="privacy" [(ngModel)]="model.privacy">
@@ -57,7 +62,7 @@
 						</select>
                     </div>
                     <div class="field">
-                        <button class="ui fluid green button" type="submit">Submit</button>
+                        <button class="ui fluid green button" [disabled]="!isValid" type="submit">Submit</button>
                     </div>
                 </form>
                 <div class="ui success message" *ngIf='success'>
