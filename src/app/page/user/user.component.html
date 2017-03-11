@@ -14,16 +14,16 @@
                     </div>
                 </div>
                 <div class="extra content" *ngIf="!isUser">
-                    <a *ngIf="status == 0" (click)="addFriend()">
+                    <a *ngIf="!statusRequest && !statusFriend && !statusToRequest" (click)="addFriend()">
                         <i class="add icon"></i>Add Friend
                     </a>
-                    <a *ngIf="status == 1" (click)="cancelRequest()">
+                    <a *ngIf="statusRequest" (click)="cancelRequest()">
                         <i class="remove icon"></i>Cancel Request
                     </a>
-                    <a *ngIf="status == 3" (click)="unFriend()">
+                    <a *ngIf="statusFriend" (click)="unFriend()">
                         <i class="remove icon"></i>Unfriend
                     </a>
-                    <div class="ui two buttons" *ngIf="status == 2">
+                    <div class="ui two buttons" *ngIf="statusToRequest">
                         <div class="ui basic green button" (click)="approveRequest()">Approve</div>
                         <div class="ui basic red button" (click)="declineRequest()">Decline</div>
                     </div>

@@ -32,10 +32,12 @@ export class UserComponent implements OnInit {
 	user: string;
 	stories: any[];
 	error: any;
-	status: number = 0;
+	statusRequest: boolean = false;
+	statusToRequest: boolean = false;
+	statusFriend: boolean = false;
 
 	constructor(private router: Router, private route: ActivatedRoute, private af: AngularFire, private storyService: StoryService) {
-	    this.af.auth.subscribe(
+		this.af.auth.subscribe(
 	        (auth) => {
 	            if (auth) {
 	                this.user = auth.uid;
@@ -99,11 +101,11 @@ export class UserComponent implements OnInit {
 	    );
 	    this.requests.subscribe(
 	    	dataReq => {
-	    		this.status = 0;
+	    		this.statusRequest = false;
 	    		dataReq.forEach(
 	    			request => {
 	    				if (request.rid == this.key) {
-	    					this.status = 1;
+	    					this.statusRequest = true;
 	    					this.requestKey = request.$key;
 	    				}
 	    			}
@@ -112,10 +114,11 @@ export class UserComponent implements OnInit {
 	    );
 	    this.toRequests.subscribe(
 	    	dataReq => {
+	    		this.statusToRequest = false;
 	    		dataReq.forEach(
 	    			request => {
 	    				if (request.sid == this.key) {
-	    					this.status = 2;
+	    					this.statusToRequest = true;
 	    					this.toRequestKey = request.$key;
 	    				}
 	    			}
@@ -124,7 +127,7 @@ export class UserComponent implements OnInit {
 	    );
 		this.friends.subscribe(
 	    	dataFriends => {
-	    		this.status = 0;
+	    		this.statusFriend = false;
 	    		dataFriends.forEach(
 	    			friend => {
 	    				this.af.database.list('friends' + '/' + friend.$key + '/' + 'users').subscribe(
@@ -140,55 +143,41 @@ export class UserComponent implements OnInit {
 						    		dataUsers.forEach(
 						    			user => {
 						    				if(user.uid == this.key) {
-						    					this.status = 3;
+						    					this.statusFriend = true;
 						    					this.friendKey = friend.$key;
-						    					console.log(this.status);
 						    				}
 						    			}
 						    		);
 		    					}
+								this.userFriend = false;
 	    					}
     					);
 	    			}
 	    		);
 	    	}
 	    );
-	    console.log(this.status);
 	}
 
 	ngOnInit() { }
 
 	addFriend() {
         this.af.database.list('requests').push({ sid: this.user, rid: this.key, seen: false });
-        this.status = 1;
 	}
 
 	cancelRequest() {
 		this.requests.remove(this.requestKey);
-		this.status = 0;
 	}
 
 	unFriend() {
 		this.friends.remove(this.friendKey);
-		this.status = 0;
 	}
 
 	approveRequest() {
 		this.af.database.object('requests' + '/' + this.toRequestKey).subscribe(
 	    	request => {
-		        this.af.database.list('friends').push({created_at: Date.now()}).then((friend) => {
-					this.af.database.list('friends' + '/' + friend.key + '/' + 'users').push({uid: request.sid}).then(() => {
-						this.af.database.list('friends' + '/' + friend.key + '/' + 'users').push({uid: request.rid}).then(() => {
-							this.toRequests.remove(this.toRequestKey);
-	    					this.status = 3
-						}).catch((error: any) => {
-				            this.error = error;
-				            this.af.database.list('friends').remove(friend.key);
-				        });
-					}).catch((error: any) => {
-			            this.error = error;
-			            this.af.database.list('friends').remove(friend.key);
-			        });
+		        this.friends.push({created_at: Date.now(), users: [{uid: request.sid}, {uid: request.rid}]}).then((friend) => {
+					this.toRequests.remove(this.toRequestKey);
+					this.statusFriend = true;
 		        }).catch((error: any) => {
 		            this.error = error;
 		        });
@@ -198,7 +187,6 @@ export class UserComponent implements OnInit {
 
 	declineRequest() {
 		this.toRequests.remove(this.toRequestKey);
-		this.status = 0;
 	}
 
 }
