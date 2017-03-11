@@ -6,6 +6,7 @@ export class StoryService {
 
 	user: string;
 	favorites: FirebaseListObservable<any[]>;
+	key: string;
 
 	constructor(private af: AngularFire) {
 	    this.af.auth.subscribe(
@@ -15,43 +16,31 @@ export class StoryService {
 	            }
 	        }
 	    );
+		this.favorites = this.af.database.list('favorites', {
+			query: {
+				orderByChild: 'uid',
+				equalTo: this.user
+			}
+	    });
 	}
 
 	addFavorite(key: string) {
-        this.af.auth.subscribe(
-            (auth) => {
-                if (auth) {
-					this.favorites = this.af.database.list('favorites');
-					this.favorites.push({uid: this.user, sid: key});
-                }
-            }
-        );
+		this.favorites.push({uid: this.user, sid: key});
 	}
 
 	removeFavorite(key: string) {
-        this.af.auth.subscribe(
-            (auth) => {
-                if (auth) {
-					this.favorites = this.af.database.list('favorites', {
-						query: {
-							orderByChild: 'uid',
-							equalTo: this.user
+	   	this.favorites.subscribe(
+	    	favData => {
+	    		favData.forEach(
+	    			favorite => {
+						if (favorite.sid == key) {
+							this.key = favorite.$key;
 						}
-					});
-			       	this.favorites.subscribe(
-			        	favData => {
-			        		favData.forEach(
-			        			favorite => {
-		        					if (favorite.uid == this.user && favorite.sid == key) {
-										this.favorites.remove(favorite.$key);
-		        					}
-			        			}
-			        		)
-			        	}
-			        )
-                }
-            }
-        );
+	    			}
+	    		)
+	    	}
+	    );
+		this.favorites.remove(this.key);
 	}	
 
 }
