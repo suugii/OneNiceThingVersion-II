@@ -3,19 +3,19 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { StoryService } from "../../service/story.service";
 
 @Component({
-	selector: 'app-user-stories',
-	templateUrl: './user-stories.component.html',
-	styleUrls: ['./user-stories.component.css']
+	selector: 'app-user-originate',
+	templateUrl: './user-originate.component.html',
+	styleUrls: ['./user-originate.component.css']
 })
-export class UserStoriesComponent implements OnInit {
+export class UserOriginateComponent implements OnInit {
 
 	objects: FirebaseListObservable<any[]>;
 	favorites: FirebaseListObservable<any[]>;
-
+	
 	counter: number = 0;
-	favorited: boolean = false;
 	user: string;
 	stories: any[];
+	favorited: boolean = false;
 
 	constructor(private af: AngularFire, private storyService: StoryService) {
 	    this.af.auth.subscribe(
@@ -27,7 +27,7 @@ export class UserStoriesComponent implements OnInit {
 	    );
 		this.objects = this.af.database.list('stories', {
 			query: {
-				orderByChild: 'user',
+				orderByChild: 'touser',
 				equalTo: this.user
 			}
 		});
@@ -66,16 +66,7 @@ export class UserStoriesComponent implements OnInit {
 	    );
 	}
 
-	ngOnInit() { }
-
-	destroyStory(key: string) {
-		this.objects.remove(key);
-		this.af.database.list('favorites', {
-			query: {
-				orderByChild: 'sid',
-				equalTo: key
-			}
-		}).remove();
+	ngOnInit() {
 	}
 
 }

@@ -7,8 +7,8 @@
             <div class="ui dimmer">
                 <div class="content">
                     <div class="center">
-                        <div class="ui inverted button" routerLink="edit/{{ story.$key }}">edit</div>
-                        <div class="ui red inverted button" (click)="destroyStory(story.$key)">delete</div>
+                        <a class="ui inverted button" routerLink="edit/{{ story.$key }}">edit</a>
+                        <a class="ui red inverted button" (click)="destroyStory(story.$key)">delete</a>
                     </div>
                 </div>
             </div>

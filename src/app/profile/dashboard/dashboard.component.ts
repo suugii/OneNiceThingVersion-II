@@ -10,10 +10,12 @@ export class DashboardComponent implements OnInit {
 
 	requests: FirebaseListObservable<any[]>;
 	stories: FirebaseListObservable<any[]>;
+	originate: FirebaseListObservable<any[]>;
 	favorites: FirebaseListObservable<any[]>;
 	user: string;
 	requestCount: number = 0;
 	storiesCount: number = 0;
+	originateCount: number = 0;
 	favoritesCount: number = 0;
 	friendsCount: number = 0;
 	isFriend: boolean;
@@ -38,6 +40,12 @@ export class DashboardComponent implements OnInit {
 				equalTo: this.user
 			}
 		});
+		this.originate = this.af.database.list('stories', {
+			query: {
+				orderByChild: 'touser',
+				equalTo: this.user
+			}
+		});
 		this.favorites = this.af.database.list('favorites', {
 			query: {
 				orderByChild: 'uid',
@@ -47,6 +55,11 @@ export class DashboardComponent implements OnInit {
 		this.stories.subscribe(
 			dataStory => {
 				this.storiesCount = dataStory.length;
+			}
+		);
+		this.originate.subscribe(
+			dataStory => {
+				this.originateCount = dataStory.length;
 			}
 		);
 		this.favorites.subscribe(

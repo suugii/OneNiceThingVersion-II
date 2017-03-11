@@ -41,6 +41,8 @@ import { EditStoryComponent } from './profile/edit-story/edit-story.component';
 import { SearchDirective } from './directive/search.directive';
 import { UserComponent } from './page/user/user.component';
 import { UserRequestsComponent } from './profile/user-requests/user-requests.component';
+import { UserOriginateComponent } from './profile/user-originate/user-originate.component';
+
 export const firebaseConfig = {
 	apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
 	authDomain: "nicething-5c833.firebaseapp.com",
@@ -78,6 +80,7 @@ export const firebaseConfig = {
 		SearchDirective,
 		UserComponent,
 		UserRequestsComponent,
+		UserOriginateComponent,
 	],
 	imports: [
 		BrowserModule,
