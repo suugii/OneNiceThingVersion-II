@@ -63,10 +63,18 @@ export class AuthService {
 		return firebase.auth().confirmPasswordReset(code, password);
 	}
 
-	changeUserPassword(password) {
-		// return firebase.auth().changePassword(password);
+	updateUserPassword(newPassword) {
+		return firebase.auth().currentUser.updatePassword(newPassword)
 	}
 
+	reauthenticateUser(email, password) {
+		const credential = firebase.auth.EmailAuthProvider.credential(
+			email,
+			password
+		)
+		return firebase.auth().currentUser.reauthenticate(credential);
+	}
+	
 	loginWithEmail(email, password) {
 		return this.af.auth.login({
 			email: email,
@@ -89,6 +97,10 @@ export class AuthService {
 
 	getUsers() {
 		return this.users = this.af.database.list('users');
+	}
+
+	updateUser(data, $key) {
+		return this.af.database.object('/users/' + $key).update(data);
 	}
 
 }

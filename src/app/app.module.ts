@@ -8,6 +8,8 @@ import { AngularFireModule } from 'angularfire2';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { ImageUploadModule } from 'ng2-imageupload';
+import { ImageCropperComponent } from 'ng2-img-cropper';
+
 
 import { AuthService } from "./service/auth.service";
 import { StoryService } from "./service/story.service";
@@ -81,6 +83,7 @@ export const firebaseConfig = {
 		UserComponent,
 		UserRequestsComponent,
 		UserOriginateComponent,
+		ImageCropperComponent
 	],
 	imports: [
 		BrowserModule,

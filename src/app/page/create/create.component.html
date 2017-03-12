@@ -49,9 +49,9 @@
                             <span class="text">Upload</span>
                             <input id="custom-input" type="file" image-upload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions">
                         </div>
-
+                        <img [src]="src" [hidden]="!src"><br>
                     </div>
-                    <img [src]="src" [hidden]="!src"><br>
+
                     <div class="field">
                         <label>Privacy</label>
                         <select class="ui dropdown" name="privacy" [(ngModel)]="model.privacy">

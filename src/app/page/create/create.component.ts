@@ -3,6 +3,8 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Story } from './../../class/story';
 import { MapsAPILoader } from 'angular2-google-maps/core';
 import { ImageResult, ResizeOptions } from 'ng2-imageupload';
+import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
+
 import * as firebase from 'firebase';
 
 @Component({
@@ -30,11 +32,18 @@ export class CreateComponent implements OnInit {
         resizeMaxHeight: 200,
         resizeMaxWidth: 300
     };
-
+    data: any;
+    cropperSettings: CropperSettings;
+    @ViewChild('cropper', undefined)
+    cropper: ImageCropperComponent;
 
     constructor(private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
         this.requests = af.database.list('requests');
+
+        this.cropperSettings = new CropperSettings();
+        this.cropperSettings.noFileInput = true;
+        this.data = {};
 
         this.af.auth.subscribe(
             (auth) => {
