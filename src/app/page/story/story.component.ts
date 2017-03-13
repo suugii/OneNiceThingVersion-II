@@ -21,6 +21,7 @@ export class StoryComponent implements OnInit {
 	favorited: boolean = false;
 	user: any;
 	zoom: number = 13;
+	storylocation: any;
 	constructor(public authService: AuthService, private router: Router, private route: ActivatedRoute, private af: AngularFire, private storyService: StoryService) {
 		this.authService.af.auth.subscribe(
 			(auth) => {
@@ -40,6 +41,7 @@ export class StoryComponent implements OnInit {
 
 		this.object.subscribe(
 			(object) => {
+				this.storylocation = object.location;
 				this.favorites.subscribe(
 					dataFav => {
 						dataFav.forEach(

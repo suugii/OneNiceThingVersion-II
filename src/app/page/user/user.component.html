@@ -3,7 +3,8 @@
         <div class="four wide column">
             <div class="ui fluid card">
                 <div class="image">
-                    <img [src]="(profile | async)?.photoURL">
+                    <img *ngIf="(profile | async)?.photoURL" [src]="(profile | async)?.photoURL">
+                    <img *ngIf="!(profile | async)?.photoURL" src="../../../assets/img/elliot.jpg">
                 </div>
                 <div class="content">
                     <p class="header">{{ (profile | async)?.username }}</p>
@@ -34,7 +35,8 @@
             <div class="ui three stackable cards">
                 <div class="card" *ngFor="let story of stories">
                     <div class="extra content">
-                        <img class="ui avatar image" src="{{ (story.user | async)?.photoURL }}"> {{ (story.user | async)?.username }}
+                        <img class="ui avatar image" *ngIf="(story.user | async)?.photoURL" src="{{ (story.user | async)?.photoURL }}">
+                        <img class="ui avatar image" *ngIf="!(story.user | async)?.photoURL" src="../../../assets/img/elliot.jpg"> {{ (story.user | async)?.username }}
                     </div>
                     <div class="blurring dimmable image">
                         <div class="ui dimmer">
@@ -44,7 +46,8 @@
                                 </div>
                             </div>
                         </div>
-                        <img src="{{ story.imageURL }}">
+                        <img *ngIf="story.imageURL" src="{{ story.imageURL }}" style="height:150px">
+                        <img *ngIf="!story.imageURL" src="../../../assets/img/image.png" style="height:150px">
                     </div>
                     <div class="content">
                         <p>{{ story.story }}</p>

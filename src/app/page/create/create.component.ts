@@ -1,11 +1,14 @@
 import { Component, OnInit, ElementRef, NgZone, ViewChild, Inject } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Story } from './../../class/story';
 import { MapsAPILoader } from 'angular2-google-maps/core';
 import { ImageResult, ResizeOptions } from 'ng2-imageupload';
-import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
-
+import { AuthService } from "./../../service/auth.service";
 import * as firebase from 'firebase';
+import * as _ from 'lodash';
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
     selector: 'app-create',
@@ -20,7 +23,7 @@ export class CreateComponent implements OnInit {
 
     model: Story = new Story();
     user: string;
-
+    users: any[] = [];
     public error: any;
     public success: any;
     @ViewChild("search")
@@ -32,18 +35,10 @@ export class CreateComponent implements OnInit {
         resizeMaxHeight: 200,
         resizeMaxWidth: 300
     };
-    data: any;
-    cropperSettings: CropperSettings;
-    @ViewChild('cropper', undefined)
-    cropper: ImageCropperComponent;
-
-    constructor(private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
+    public storyForm: FormGroup;
+    constructor(private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
         this.requests = af.database.list('requests');
-
-        this.cropperSettings = new CropperSettings();
-        this.cropperSettings.noFileInput = true;
-        this.data = {};
 
         this.af.auth.subscribe(
             (auth) => {
@@ -52,9 +47,20 @@ export class CreateComponent implements OnInit {
                 }
             }
         );
+
+        this.authService.getUsers().subscribe(datas => {
+            this.users = _.reject(datas, { $key: this.model.user });;
+        });
+
+    }
+
+    valueChanged(newVal) {
+        this.model.touser = newVal.$key;
+
     }
 
     ngOnInit() {
+        this.buildForm();
         this.mapsAPILoader.load().then(() => {
             let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
             autocomplete.addListener("place_changed", () => {
@@ -77,6 +83,62 @@ export class CreateComponent implements OnInit {
         });
     }
 
+    buildForm(): void {
+        this.storyForm = this.fb.group({
+            'touser': [this.model.touser, Validators.required],
+            'location': [this.model.location, Validators.required],
+            'story': [this.model.story, Validators.required],
+            'name': [this.model.name, Validators.required],
+            'feeling': [this.model.feeling, Validators.required],
+            'privacy': [this.model.privacy, Validators.required],
+        });
+        this.storyForm.valueChanges
+            .subscribe(data => this.onValueChanged(data));
+        this.onValueChanged();
+    }
+    onValueChanged(data?: any) {
+        if (!this.storyForm) { return; }
+        const form = this.storyForm;
+        for (const field in this.formErrors) {
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                for (const key in control.errors) {
+                    this.formErrors[field] += messages[key] + ' ';
+                }
+            }
+        }
+    }
+    formErrors = {
+        'touser': '',
+        'location': '',
+        'story': '',
+        'name': '',
+        'feeling': '',
+        'privacy': '',
+    };
+    validationMessages = {
+        'touser': {
+            'required': 'Please enter your email.',
+        },
+        'location': {
+            'required': 'Please enter your location.',
+        },
+        'story': {
+            'required': 'Do not blank this field.',
+        },
+        'name': {
+            'required': 'Do not blank this field.',
+        },
+        'feeling': {
+            'required': 'Do not blank this field.',
+        },
+        'privacy': {
+            'required': 'Do not blank this field.',
+        }
+
+    };
     selected(imageResult: ImageResult) {
         this.src = imageResult.resized
             && imageResult.resized.dataURL
@@ -116,19 +178,24 @@ export class CreateComponent implements OnInit {
                     break;
             }
         }, function () {
-            that.isValid = true;
+            this.isValid = true;
             var downloadURL = uploadTask.snapshot.downloadURL;
             that.model.imageURL = downloadURL;
         });
     }
 
+    autocompleListFormatter = (data: any): SafeHtml => {
+        let html = `<span>${data.email}</span>`;
+        return this._sanitizer.bypassSecurityTrustHtml(html);
+    }
 
     storeStory(e) {
         e.preventDefault();
-        this.stories.push(this.model).then(() => {
+        this.stories.push(this.model).then((data) => {
             this.success = 'Successfully added';
-            this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });
+            // this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });
             this.model = new Story();
+            this.router.navigate(['/stories', data.key]);
         }).catch((error: any) => {
             this.error = error;
         });

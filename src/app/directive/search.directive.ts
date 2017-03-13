@@ -7,13 +7,13 @@ declare var jQuery: any;
 	selector: '.ui.search'
 })
 export class SearchDirective implements OnInit, OnDestroy {
-	@Input() public users: string[];
+	@Input() public users: any[];
 
 	constructor(private af: AngularFire, private element: ElementRef) {
 		this.users = [];
 		af.database.list('users').forEach((datas) => {
 			datas.forEach(data => {
-				this.users.push(data);
+				this.users.push({ 'title': data.email });
 			});
 		});
 
@@ -21,10 +21,12 @@ export class SearchDirective implements OnInit, OnDestroy {
 
 	public ngOnInit() {
 		jQuery(this.element.nativeElement).search({
-			searchFields: ['email'],
 			source: this.users,
-			onSelect: function (event) {
-				console.log(event);
+			searchFields: [
+				'title'
+			],
+			onSelect: function (result, response) {
+				console.log(result)
 			}
 		});
 	}

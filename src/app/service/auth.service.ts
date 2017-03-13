@@ -96,7 +96,7 @@ export class AuthService {
 	}
 
 	getUsers() {
-		return this.users = this.af.database.list('users');
+		return this.af.database.list('users');
 	}
 
 	updateUser(data, $key) {

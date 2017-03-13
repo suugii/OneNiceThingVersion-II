@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Route } from './app.route';
 
@@ -8,8 +8,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AgmCoreModule } from 'angular2-google-maps/core';
 import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { ImageUploadModule } from 'ng2-imageupload';
-import { ImageCropperComponent } from 'ng2-img-cropper';
-
+import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 
 import { AuthService } from "./service/auth.service";
 import { StoryService } from "./service/story.service";
@@ -83,15 +82,16 @@ export const firebaseConfig = {
 		UserComponent,
 		UserRequestsComponent,
 		UserOriginateComponent,
-		ImageCropperComponent
 	],
 	imports: [
 		BrowserModule,
+		ReactiveFormsModule,
 		FormsModule,
 		HttpModule,
 		Route,
 		InfiniteScrollModule,
 		ImageUploadModule,
+		Ng2AutoCompleteModule,
 		AngularFireModule.initializeApp(firebaseConfig),
 		AgmCoreModule.forRoot({
 			apiKey: 'AIzaSyB4ygPHxCDU4qhpJYcJhvgGmg6Rrp-2l84',

@@ -5,3 +5,7 @@
 .infowindow p {
     margin-top: 5px;
 }
+
+.image {
+    height: 100% !important;
+}

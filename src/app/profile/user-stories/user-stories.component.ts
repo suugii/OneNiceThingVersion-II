@@ -69,7 +69,7 @@ export class UserStoriesComponent implements OnInit {
 	ngOnInit() { }
 
 	destroyStory(key: string) {
-		this.objects.remove(key);
+		this.af.database.list('stories').remove(key);
 		this.af.database.list('favorites', {
 			query: {
 				orderByChild: 'sid',

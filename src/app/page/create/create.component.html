@@ -6,73 +6,88 @@
                 <span class="ui green ribbon label">Report Nice Thing !</span>
                 <span>Tell your story to one you know :)</span>
                 <p></p>
-                <form class="ui form" (ngSubmit)='storeStory($event)'>
+                <form [formGroup]="storyForm" class="ui form" (ngSubmit)='storeStory($event)'>
                     <div class="field">
                         <label>Username Lookup</label>
-                        <div class="ui search">
-                            <div class="ui icon input">
-                                <input class="prompt" type="text" placeholder="Search username..." name="touser" [(ngModel)]="model.touser">
-                                <i class="search icon"></i>
-                            </div>
-                            <div class="results"></div>
+                        <input ng2-auto-complete name="touser" formControlName="touser" required (valueChanged)="valueChanged($event)" [source]="users" [list-formatter]="autocompleListFormatter" value-property-name="id" display-property-name="email" placeholder="Search email">
+                        <div *ngIf="formErrors.touser" class="ui negative message">
+                            {{ formErrors.touser }}
                         </div>
                     </div>
                     <div class="field">
                         <label>Location where did you do your nice thing ?</label>
-                        <input placeholder="Enter Location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+                        <input placeholder="Enter Location" formControlName="location" required autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+                        <div *ngIf="formErrors.location" class="ui negative message">
+                            {{ formErrors.location }}
+                        </div>
                     </div>
                     <div class="field">
                         <label>What nice thing did you do ?</label>
-                        <textarea rows="2" placeholder="What did you do ?" name="story" [(ngModel)]="model.story"></textarea>
+                        <textarea rows="2" placeholder="What did you do ?" formControlName="story" required name="story" [(ngModel)]="model.story"></textarea>
+                        <div *ngIf="formErrors.story" class="ui negative message">
+                            {{ formErrors.story }}
+                        </div>
                     </div>
+
                     <div class="field">
                         <label>Who did you do it for ?</label>
-                        <input type="text" placeholder="Who did you do it for ?" name="name" [(ngModel)]="model.name">
+                        <input type="text" placeholder="Who did you do it for ?" formControlName="name" required name="name" [(ngModel)]="model.name">
+                        <div *ngIf="formErrors.name" class="ui negative message">
+                            {{ formErrors.name }}
+                        </div>
                     </div>
                     <div class="field">
                         <label>How did you respond, how did you feel ?</label>
-                        <input type="text" placeholder="How did you feel ?" name="feeling" [(ngModel)]="model.feeling">
+                        <input type="text" placeholder="How did you feel ?" name="feeling" formControlName="feeling" required [(ngModel)]="model.feeling ">
+                        <div *ngIf="formErrors.feeling" class="ui negative message">
+                            {{ formErrors.feeling }}
+                        </div>
                     </div>
-                    <div class="field">
-                        <div class="ui checkbox">
+                    <div class="field ">
+                        <div class="ui checkbox ">
                             <input type="checkbox">
                             <label>Did you ask them to keep it going and did they agree ?</label>
                         </div>
                     </div>
-                    <div class="field">
+                    <div class="field ">
                         <label>Would you like to leave any other message for this member ?</label>
-                        <textarea rows="2" placeholder="Any message" name="message" [(ngModel)]="model.message"></textarea>
+                        <textarea rows="2 " placeholder="Any message " name="message" [(ngModel)]="model.message" [ngModelOptions]="{standalone: true}"></textarea>
                     </div>
-                    <div class="field">
+                    <div class="field ">
                         <label>Image</label>
-                        <div class="file-upload">
-                            <span class="text">Upload</span>
-                            <input id="custom-input" type="file" image-upload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions">
+                        <div class="file-upload ">
+                            <span class="text ">Upload</span>
+                            <input id="cust" type="file" name="imageURL " image-upload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions">
                         </div>
-                        <img [src]="src" [hidden]="!src"><br>
+                        <img [src]="src " [hidden]="!src "><br>
+
                     </div>
 
-                    <div class="field">
+                    <div class="field ">
                         <label>Privacy</label>
-                        <select class="ui dropdown" name="privacy" [(ngModel)]="model.privacy">
+                        <select class="ui dropdown " name="privacy " formControlName="privacy" required [(ngModel)]="model.privacy ">
 							<option value="">Privacy</option>
-							<option value="1">Only me</option>
-							<option value="2">Friends</option>
-							<option value="3">Public</option>
+							<option value="1 ">Only me</option>
+							<option value="2 ">Friends</option>
+							<option value="3 ">Public</option>
 						</select>
+                        <div *ngIf="formErrors.privacy" class="ui negative message">
+                            {{ formErrors.privacy }}
+                        </div>
                     </div>
-                    <div class="field">
-                        <button class="ui fluid green button" [disabled]="!isValid" type="submit">Submit</button>
+
+                    <div class="field ">
+                        <button class="ui fluid green button " type="submit " [disabled]="!storyForm.valid">Submit</button>
                     </div>
                 </form>
-                <div class="ui success message" *ngIf='success'>
+                <div class="ui success message " *ngIf='success'>
                     {{ success }}
                 </div>
-                <div class="ui warning message" *ngIf='error'>
+                <div class="ui warning message " *ngIf='error'>
                     {{ error.message }}
                 </div>
             </div>
         </div>
-        <div class="four wide column"></div>
+        <div class="four wide column "></div>
     </div>
 </div>

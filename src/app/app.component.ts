@@ -10,12 +10,19 @@ import { Router } from "@angular/router";
 export class AppComponent {
     public isLoggedIn: any;
     public userdata: any;
-
+    public authByEmail: boolean;
     constructor(public authService: AuthService, private router: Router) {
+
         this.authService.af.auth.subscribe(
             (auth) => {
+                this.authByEmail = false;
                 if (auth) {
-                    this.userdata = auth;
+                    this.authService.getUser(auth.uid).subscribe((data) =>{
+                       this.userdata = data;
+                    })
+                    if (auth.provider == 4) {
+                        this.authByEmail = true;
+                    }
                     this.isLoggedIn = true;
                 }
                 else {

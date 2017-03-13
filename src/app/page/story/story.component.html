@@ -3,7 +3,8 @@
         <div class="ui six wide column">
             <div class="ui fluid card" *ngIf="story">
                 <div class="extra content">
-                    <img class="ui avatar image" src="{{ (story.user | async)?.photoURL }}"> 
+                    <img class="ui avatar image" *ngIf=" (story.user | async)?.photoURL" src="{{ (story.user | async)?.photoURL }}">
+                    <img class="ui avatar image" *ngIf=" !(story.user | async)?.photoURL" src="../../../assets/img/elliot.jpg">
                     <a routerLink="/user/{{ (story.user | async)?.$key }}">{{ (story.user | async)?.username }}</a>
                     <span>
 	                </span>
@@ -14,7 +15,8 @@
 	                </span>
                 </div>
                 <div class="image">
-                    <img src="{{ story.imageURL }}">
+                    <img *ngIf="story.imageURL" src="{{ story.imageURL }}">
+                    <img *ngIf="!story.imageURL" src="../../../assets/img/image.png">
                 </div>
                 <div class="content">
                     {{ story.story }}
@@ -43,9 +45,9 @@
             </div>
         </div>
         <div class="ui ten wide column">
-            <div class="google-map">
-                <sebm-google-map [latitude]="story.location.latitude" [longitude]="story.location.longitude" [zoom]="zoom">
-                    <sebm-google-map-marker [latitude]="story.location.latitude" [longitude]="story.location.longitude">
+            <div class="google-map" *ngIf="storylocation">
+                <sebm-google-map [latitude]="storylocation.latitude" [longitude]="storylocation.longitude" [zoom]="zoom">
+                    <sebm-google-map-marker [latitude]="storylocation.latitude" [longitude]="storylocation.longitude">
                     </sebm-google-map-marker>
                 </sebm-google-map>
             </div>
