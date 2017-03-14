@@ -68,6 +68,7 @@ export class UserStoriesComponent implements OnInit {
 				this.isCounter = false;
 				if (dataStory.length == 0) {
 					this.isCounter = true;
+					this.queryable = false;
 				}
 				dataStory.forEach(
 					story => {

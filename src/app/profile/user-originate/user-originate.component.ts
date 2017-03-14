@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { StoryService } from "../../service/story.service";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import "rxjs/add/operator/map";
 
 @Component({
 	selector: 'app-user-originate',
@@ -17,6 +19,9 @@ export class UserOriginateComponent implements OnInit {
 	stories: any[];
 	favorited: boolean = false;
 	isCounter: boolean;
+	limit: BehaviorSubject<number> = new BehaviorSubject<number>(8);
+	lastKey: string;
+	queryable: boolean = true;
 
 	constructor(private af: AngularFire, private storyService: StoryService) {
 		this.af.auth.subscribe(
@@ -26,18 +31,46 @@ export class UserOriginateComponent implements OnInit {
 				}
 			}
 		);
+
+		this.af.database.list('/stories', {
+			query: {
+				orderByChild: 'touser',
+				equalTo: this.user,
+				limitToFirst: 1
+			}
+		}).subscribe((data) => {
+			if (data.length > 0) {
+				this.lastKey = data[0].$key;
+			} else {
+				this.lastKey = '';
+			}
+		});
+
 		this.objects = this.af.database.list('stories', {
 			query: {
 				orderByChild: 'touser',
-				equalTo: this.user
+				equalTo: this.user,
+				limitToLast: this.limit,
+			}
+		}).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
+		
+		this.objects.subscribe((data) => {
+			if (data.length > 0) {
+				if (data[data.length - 1].$key === this.lastKey) {
+					this.queryable = false;
+				} else {
+					this.queryable = true;
+				}
 			}
 		});
+
 
 		this.objects.subscribe(
 			dataStory => {
 				this.isCounter = false;
 				if (dataStory.length == 0) {
 					this.isCounter = true;
+					this.queryable = false;
 				}
 				dataStory.forEach(
 					story => {
@@ -73,5 +106,9 @@ export class UserOriginateComponent implements OnInit {
 
 	ngOnInit() {
 	}
-
+	scrolled(): void {
+		if (this.queryable) {
+			this.limit.next(this.limit.getValue() + 8);
+		}
+	}
 }
