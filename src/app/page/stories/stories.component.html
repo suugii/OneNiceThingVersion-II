@@ -47,4 +47,7 @@
             No stories yet
         </div>
     </div>
+    <div class="search-results" *ngIf="queryable" infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="10" (scrolled)="scrolled()">
+        <div class="ui active centered inline loader"></div>
+    </div>
 </div>
