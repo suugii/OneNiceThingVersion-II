@@ -35,6 +35,7 @@ export class CreateComponent implements OnInit {
         resizeMaxHeight: 200,
         resizeMaxWidth: 300
     };
+    public isProgressed: boolean;
     public storyForm: FormGroup;
     constructor(private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
@@ -147,6 +148,7 @@ export class CreateComponent implements OnInit {
     }
 
     uploadImage(image) {
+        this.isProgressed = true;
         var that = this;
         let path: string = 'image/' + Math.random().toString(36).substr(2, 9) + '.jpg';
         var files = image;
@@ -178,7 +180,7 @@ export class CreateComponent implements OnInit {
                     break;
             }
         }, function () {
-            this.isValid = true;
+            that.isProgressed = false;
             var downloadURL = uploadTask.snapshot.downloadURL;
             that.model.imageURL = downloadURL;
         });

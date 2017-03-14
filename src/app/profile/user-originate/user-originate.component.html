@@ -1,4 +1,4 @@
-<div class="ui three stackable cards">
+<div class="ui three stackable cards" *ngIf="!isCounter">
     <div class="card" *ngFor="let story of stories">
         <div class="extra content">
             <img class="ui avatar image" *ngIf="(story.user | async)?.photoURL" src="{{ (story.user | async)?.photoURL }}">
@@ -38,5 +38,10 @@
             </span>
             <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
         </div>
+    </div>
+</div>
+<div class="ui one column stackable center aligned page grid" *ngIf="isCounter">
+    <div class="column sixteen wide">
+        No stories yet
     </div>
 </div>

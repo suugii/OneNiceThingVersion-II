@@ -1,18 +1,23 @@
-<div class="ui three stackable cards">
-	<div class="card" *ngFor="let request of array">
-		<div class="content">
-			<img class="ui right floated mini image" src="{{ (request.user | async)?.photoURL }}">
-			<div class="header">
-				<a routerLink="/user/{{ (user | async)?.$key }}">{{ (request.user | async)?.username }}</a>
-			</div>
-			<div class="meta">Joined in  {{ (request.user | async)?.created_at | date:'yyyy'}}</div>
-			<div class="description">Elliot requested permission to view your contact details</div>
-		</div>
-		<div class="extra content">
-			<div class="ui two buttons">
-				<div class="ui basic green button" (click)="approve(request.$key)">Approve</div>
-				<div class="ui basic red button" (click)="decline(request.$key)">Decline</div>
-			</div>
-		</div>
-	</div>
+<div class="ui three stackable cards" *ngIf="!iCounter">
+    <div class="card" *ngFor="let request of array">
+        <div class="content">
+            <img class="ui right floated mini image" src="{{ (request.user | async)?.photoURL }}">
+            <div class="header">
+                <a routerLink="/user/{{ (user | async)?.$key }}">{{ (request.user | async)?.username }}</a>
+            </div>
+            <div class="meta">Joined in {{ (request.user | async)?.created_at | date:'yyyy'}}</div>
+            <div class="description">Elliot requested permission to view your contact details</div>
+        </div>
+        <div class="extra content">
+            <div class="ui two buttons">
+                <div class="ui basic green button" (click)="approve(request.$key)">Approve</div>
+                <div class="ui basic red button" (click)="decline(request.$key)">Decline</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui one column stackable center aligned page grid" *ngIf="isCounter">
+    <div class="column sixteen wide">
+        No friend request yet
+    </div>
 </div>

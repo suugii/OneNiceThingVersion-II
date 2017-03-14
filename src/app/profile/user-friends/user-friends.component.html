@@ -1,4 +1,4 @@
-<div class="ui three stackable cards">
+<div class="ui three stackable cards" *ngIf="!isCounter">
     <div class="ui card" *ngFor="let user of users">
         <div class="image">
             <img [src]="(user | async)?.photoURL">
@@ -14,5 +14,10 @@
                 <i class="comments outline icon"></i> Chat
             </a>
         </div>
+    </div>
+</div>
+<div class="ui one column stackable center aligned page grid" *ngIf="isCounter">
+    <div class="column sixteen wide">
+        No friends yet
     </div>
 </div>

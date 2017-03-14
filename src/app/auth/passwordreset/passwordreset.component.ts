@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "./../../service/auth.service";
-
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
 	selector: 'app-passwordreset',
 	templateUrl: './passwordreset.component.html',
@@ -9,20 +9,51 @@ import { AuthService } from "./../../service/auth.service";
 export class PasswordresetComponent implements OnInit {
 
 	public message: any;
-	
-	constructor(private authService: AuthService) { }
+	public resetForm: FormGroup;
+
+	constructor(private authService: AuthService, private fb: FormBuilder, ) { }
 
 	ngOnInit() {
+		this.buildForm();
 	}
 
-	onSubmit(formData) {
-		if (formData.valid) {
-			this.authService.resetPassword(formData.value.email).then((response) => {
-				this.message = 'Check your email for reset link';
-			}).catch((error) => {
-				this.message = error;
-			})
+	onSubmit(data) {
+		this.authService.resetPassword(data).then((response) => {
+			this.message = 'Check your email for reset link';
+		}).catch((error) => {
+			this.message = error;
+		})
+	}
+	buildForm(): void {
+		this.resetForm = this.fb.group({
+			'email': [null, [Validators.required]],
+		});
+		this.resetForm.valueChanges
+			.subscribe(data => this.onValueChanged(data));
+		this.onValueChanged();
+	}
+	onValueChanged(data?: any) {
+		if (!this.resetForm) { return; }
+		const form = this.resetForm;
+		for (const field in this.formErrors) {
+			this.formErrors[field] = '';
+			const control = form.get(field);
+			if (control && control.dirty && !control.valid) {
+				const messages = this.validationMessages[field];
+				for (const key in control.errors) {
+					this.formErrors[field] += messages[key] + ' ';
+				}
+			}
 		}
 	}
+	formErrors = {
+		'email': '',
+	};
+	validationMessages = {
+		'email': {
+			'required': 'Please enter your email.',
+			'pattern': 'Email is required and format should be john@doe.com.',
+		}
+	};
 
 }

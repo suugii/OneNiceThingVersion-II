@@ -5,7 +5,7 @@ export class User {
         public firstname: string = null,
         public lastname: string = null,
         public password: string = null,
-        public location: string = null,
+        public location: any = null,
         public photoURL: string = null,
         public created_at: any = Date.now(),
         public updated_at: any = Date.now(),

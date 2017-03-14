@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from "./../../service/auth.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import { User } from './../../class/user';
-
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ValidationService } from './../../service/validation.service';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -13,9 +14,12 @@ export class LoginComponent implements OnInit {
     public error: any;
     public returnUrl: string;
     public user = new User();
-    constructor(private route: ActivatedRoute, public authService: AuthService, private router: Router) { }
+    public loginForm: FormGroup;
+
+    constructor(private route: ActivatedRoute, private fb: FormBuilder, public authService: AuthService, private router: Router) { }
 
     ngOnInit() {
+        this.buildForm();
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
@@ -102,5 +106,46 @@ export class LoginComponent implements OnInit {
                 }
             });
     }
+
+    buildForm(): void {
+        this.loginForm = this.fb.group({
+            'email': [null, [Validators.required]],
+            'password': [null, [
+                Validators.required,
+                Validators.minLength(6),
+            ]],
+        });
+        this.loginForm.valueChanges
+            .subscribe(data => this.onValueChanged(data));
+        this.onValueChanged();
+    }
+    onValueChanged(data?: any) {
+        if (!this.loginForm) { return; }
+        const form = this.loginForm;
+        for (const field in this.formErrors) {
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                for (const key in control.errors) {
+                    this.formErrors[field] += messages[key] + ' ';
+                }
+            }
+        }
+    }
+    formErrors = {
+        'email': '',
+        'password': '',
+    };
+    validationMessages = {
+        'email': {
+            'required': 'Please enter your email.',
+            'pattern': 'Email is required and format should be john@doe.com.',
+        },
+        'password': {
+            'required': 'Please enter your password.',
+            'minlength': 'Email must be at least 6 characters long.',
+        },
+    };
 
 }

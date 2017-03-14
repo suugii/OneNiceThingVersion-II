@@ -47,6 +47,14 @@
             <label>Username</label>
             <input type="text" placeholder="Username" [(ngModel)]="user.username" name="username">
         </div>
+        <div class="field ">
+            <label>Profile image</label>
+            <div class="file-upload ">
+                <input id="cust" type="file" name="imageURL " image-upload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions">
+            </div>
+        </div>
+        <div class="ui active centered inline loader" *ngIf="isProgressed"></div>
+        <img [src]="src" *ngIf="!isProgressed"><br>
         <div class="field">
             <div class="ui checkbox">
                 <input type="checkbox">
