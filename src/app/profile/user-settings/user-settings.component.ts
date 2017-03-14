@@ -4,6 +4,7 @@ import { AuthService } from "./../../service/auth.service";
 import * as _ from 'lodash';
 import { ImageResult, ResizeOptions } from 'ng2-imageupload';
 import * as firebase from 'firebase';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-user-settings',
@@ -23,10 +24,13 @@ export class UserSettingsComponent implements OnInit {
         resizeMaxWidth: 300
     };
     public isProgressed: boolean;
-    constructor(private authService: AuthService) {
+    public upgradeUserForm: FormGroup;
+
+    constructor(private authService: AuthService, private fb: FormBuilder, ) {
     }
 
     ngOnInit() {
+        this.buildForm();
         this.authService.af.auth.subscribe(
             (data) => {
                 if (data) {
@@ -48,6 +52,8 @@ export class UserSettingsComponent implements OnInit {
             }
         );
     }
+
+
 
     selected(imageResult: ImageResult) {
         this.src = imageResult.resized
@@ -98,12 +104,14 @@ export class UserSettingsComponent implements OnInit {
 
     upgradeUser(event) {
         event.preventDefault();
+        var result = _.pickBy(this.user, _.identity);
         this.authService.anonymousToPermanent(this.user).then((data) => {
             if (data) {
                 this.message = 'Succesfully Upgraded Your Account';
                 this.classCondition = true;
                 delete this.user.password;
-                this.authService.saveUserInfoFromForm(data.uid, this.user).then(() => {
+                this.authService.saveUserInfoFromForm(data.uid, result).then(() => {
+                    this.isAnonymous = false;
                 }).catch((error) => {
                     if (error) {
                         this.classCondition = false;
@@ -141,4 +149,62 @@ export class UserSettingsComponent implements OnInit {
             }
         });
     }
+
+    buildForm(): void {
+        this.upgradeUserForm = this.fb.group({
+            'email': [this.user.email, [Validators.required]],
+            'firstname': [this.user.firstname, [Validators.required]],
+            'username': [this.user.username, [Validators.required]],
+            'lastname': [this.user.lastname, [Validators.required]],
+            'password': [this.user.password, [
+                Validators.required,
+                Validators.minLength(6),
+            ]],
+
+        });
+        this.upgradeUserForm.valueChanges
+            .subscribe(data => this.onValueChanged(data));
+        this.onValueChanged();
+    }
+    onValueChanged(data?: any) {
+        if (!this.upgradeUserForm) { return; }
+        const form = this.upgradeUserForm;
+        for (const field in this.formErrors) {
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                for (const key in control.errors) {
+                    this.formErrors[field] += messages[key] + ' ';
+                }
+            }
+        }
+    }
+    formErrors = {
+        'email': '',
+        'password': '',
+        'firstname': '',
+        'username': '',
+        'lastname': '',
+    };
+    validationMessages = {
+        'email': {
+            'required': 'Please enter your email.',
+            'pattern': 'Email is required and format should be john@doe.com.',
+        },
+        'firstname': {
+            'required': 'Please enter your firstname.',
+        },
+        'lastname': {
+            'required': 'Please enter your lastname.',
+        },
+        'username': {
+            'required': 'Please enter your username.',
+        },
+        'password': {
+            'required': 'Please enter your password.',
+            'minlength': 'Email must be at least 6 characters long.',
+        },
+    };
+
 }

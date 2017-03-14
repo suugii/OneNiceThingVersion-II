@@ -66,6 +66,7 @@ export class LoginComponent implements OnInit {
     loginWithGuest() {
         this.authService.loginWithGuest().then((data) => {
             delete this.user.password;
+            this.user.username = "Anonymous";
             this.authService.saveUserInfoFromForm(data.uid, this.user).then(() => {
                 this.router.navigate([this.returnUrl]);
             })

@@ -20,7 +20,8 @@
                         <i class="dropdown icon"></i>
                     </a>
                     <div class="menu">
-                        <div class="header">{{ userdata.email }}</div>
+                        <div class="header" *ngIf="userdata.email">{{ userdata.email }}</div>
+                        <div class="header" *ngIf="!userdata.email">{{ userdata.username }}</div>
                         <div class="divider"></div>
                         <a routerLink="/profile/settings" class="item">Settings</a>
                         <a routerLink="/profile/changepassword" class="item" *ngIf="authByEmail == true">Change Password</a>
