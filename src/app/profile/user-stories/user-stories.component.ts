@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { StoryService } from "../../service/story.service";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import "rxjs/add/operator/map";
 
 @Component({
 	selector: 'app-user-stories',
@@ -11,7 +13,9 @@ export class UserStoriesComponent implements OnInit {
 
 	objects: FirebaseListObservable<any[]>;
 	favorites: FirebaseListObservable<any[]>;
-
+	limit: BehaviorSubject<number> = new BehaviorSubject<number>(6);
+	lastKey: string;
+	queryable: boolean = true;
 	counter: number = 0;
 	favorited: boolean = false;
 	user: string;
@@ -25,12 +29,39 @@ export class UserStoriesComponent implements OnInit {
 				}
 			}
 		);
+
+		this.af.database.list('/stories', {
+			query: {
+				orderByChild: 'user',
+				equalTo: this.user,
+				limitToFirst: 1,
+			}
+		}).subscribe((data) => {
+			if (data.length > 0) {
+				this.lastKey = data[0].$key;
+			} else {
+				this.lastKey = '';
+			}
+		});
+
 		this.objects = this.af.database.list('stories', {
 			query: {
 				orderByChild: 'user',
-				equalTo: this.user
+				equalTo: this.user,
+				limitToLast: this.limit,
+			}
+		}).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
+
+		this.objects.subscribe((data) => {
+			if (data.length > 0) {
+				if (data[data.length - 1].$key === this.lastKey) {
+					this.queryable = false;
+				} else {
+					this.queryable = true;
+				}
 			}
 		});
+
 
 		this.objects.subscribe(
 			dataStory => {
@@ -82,4 +113,10 @@ export class UserStoriesComponent implements OnInit {
 		}).remove();
 	}
 
+
+	scrolled(): void {
+		if (this.queryable) {
+			this.limit.next(this.limit.getValue() + 6);
+		}
+	}
 }
