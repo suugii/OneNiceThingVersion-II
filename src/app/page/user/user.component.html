@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="twelve wide column">
-            <div class="ui three stackable cards">
+            <div class="ui three stackable cards" *ngIf="!isCounter">
                 <div class="card" *ngFor="let story of stories">
                     <div class="extra content">
                         <img class="ui avatar image" *ngIf="(story.user | async)?.photoURL" src="{{ (story.user | async)?.photoURL }}">
@@ -46,8 +46,8 @@
                                 </div>
                             </div>
                         </div>
-                        <img *ngIf="story.imageURL" src="{{ story.imageURL }}" style="height:150px">
-                        <img *ngIf="!story.imageURL" src="../../../assets/img/image.png" style="height:150px">
+                        <img *ngIf="story.imageURL" routerLink="/stories/{{ story.$key }}" src="{{ story.imageURL }}" style="height:150px">
+                        <img *ngIf="!story.imageURL" routerLink="/stories/{{ story.$key }}" src="../../../assets/img/image.png" style="height:150px">
                     </div>
                     <div class="content">
                         <p>{{ story.story }}</p>
@@ -71,6 +71,14 @@
                         </span>
                         <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
                     </div>
+                </div>
+            </div>
+            <div class="search-results" *ngIf="queryable" infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="300" (scrolled)="scrolled()">
+                <div class="ui active centered inline loader"></div>
+            </div>
+            <div class="ui one column stackable center aligned page grid" *ngIf="isCounter">
+                <div class="column sixteen wide">
+                    No stories yet
                 </div>
             </div>
         </div>

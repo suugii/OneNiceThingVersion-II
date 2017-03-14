@@ -21,6 +21,7 @@ export class StoriesComponent implements OnInit {
 	user: string;
 	stories: any[];
 	isCounter: boolean;
+	
 	constructor(private af: AngularFire, private storyService: StoryService) {
 		this.af.auth.subscribe(
 			(auth) => {
