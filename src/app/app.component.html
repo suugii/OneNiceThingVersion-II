@@ -1,48 +1,61 @@
-<div id="wrapper">
-    <div id="header">
-        <div class="ui container">
-            <div class="brand">
-                <a routerLink="/">
-                    <img src="assets/img/logo.png">
+<div class="ui sidebar inverted vertical menu">
+    <a class="item" routerLink="create" routerLinkActive="active">Add</a>
+    <a class="item" routerLink="work" routerLinkActive="active">How it Works</a>
+    <a class="item" routerLink="stories" routerLinkActive="active">Success Stories</a>
+    <a class="item" routerLink="about" routerLinkActive="active">About</a>
+    <a class="item" routerLink="login" routerLinkActive="active" *ngIf="!isLoggedIn">Login</a>
+    <a class="item" routerLink="profile" routerLinkActive="active" *ngIf="isLoggedIn">My page</a>
+</div>
+<div class="pusher">
+    <div id="wrapper">
+        <div id="header">
+            <div class="ui container">
+                <div class="brand">
+                    <a routerLink="/">
+                        <img src="assets/img/logo.png">
+                    </a>
+                </div>
+                <ul>
+                    <li><a routerLink="create" routerLinkActive="active">Add</a></li>
+                    <li><a class="green" routerLink="work" routerLinkActive="active">How it Works</a></li>
+                    <li><a class="yellow" routerLink="stories" routerLinkActive="active">Success Stories</a></li>
+                    <li><a routerLink="about" routerLinkActive="active">About</a></li>
+                    <li><a routerLink="login" routerLinkActive="active" *ngIf="!isLoggedIn">Login</a></li>
+                    <li><a routerLink="profile" routerLinkActive="active" *ngIf="isLoggedIn">My page</a></li>
+                    <li class="ui dropdown" *ngIf="isLoggedIn && userdata">
+                        <a>
+                            <img class="ui avatar image" *ngIf="userdata.photoURL" src="{{userdata.photoURL}}">
+                            <img class="ui avatar image" *ngIf="!userdata.photoURL" src="assets/img/elliot.jpg">
+                            <i class="dropdown icon"></i>
+                        </a>
+                        <div class="menu">
+                            <div class="header" *ngIf="userdata.email">{{ userdata.email }}</div>
+                            <div class="header" *ngIf="!userdata.email">{{ userdata.username }}</div>
+                            <div class="divider"></div>
+                            <a routerLink="/profile/settings" class="item">Settings</a>
+                            <a routerLink="/profile/changepassword" class="item" *ngIf="authByEmail == true">Change Password</a>
+                            <a class="item" (click)="logout()">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+                <a class="navicon">
+                    <i class="content icon"></i>
                 </a>
             </div>
-            <ul>
-                <li><a routerLink="create" routerLinkActive="active">Add</a></li>
-                <li><a class="green" routerLink="work" routerLinkActive="active">How it Works</a></li>
-                <li><a class="yellow" routerLink="stories" routerLinkActive="active">Success Stories</a></li>
-                <li><a routerLink="about" routerLinkActive="active">About</a></li>
-                <li><a routerLink="login" routerLinkActive="active" *ngIf="!isLoggedIn">Login</a></li>
-                <li><a routerLink="profile" routerLinkActive="active" *ngIf="isLoggedIn">My page</a></li>
-                <li class="ui dropdown" *ngIf="isLoggedIn && userdata">
-                    <a>
-                        <img class="ui avatar image" *ngIf="userdata.photoURL" src="{{userdata.photoURL}}">
-                        <img class="ui avatar image" *ngIf="!userdata.photoURL" src="assets/img/elliot.jpg">
-                        <i class="dropdown icon"></i>
-                    </a>
-                    <div class="menu">
-                        <div class="header" *ngIf="userdata.email">{{ userdata.email }}</div>
-                        <div class="header" *ngIf="!userdata.email">{{ userdata.username }}</div>
-                        <div class="divider"></div>
-                        <a routerLink="/profile/settings" class="item">Settings</a>
-                        <a routerLink="/profile/changepassword" class="item" *ngIf="authByEmail == true">Change Password</a>
-                        <a class="item" (click)="logout()">Logout</a>
-                    </div>
-                </li>
-            </ul>
         </div>
-    </div>
-    <div id="content">
-        <router-outlet></router-outlet>
-    </div>
-    <div id="footer">
-        <div class="text-center">
-            <ul>
-                <li><a routerLink="about">About Us</a></li>
-                <li><a routerLink="work">How it Works</a></li>
-                <li><a routerLink="stories">Success Stories</a></li>
-                <li><a routerLink="work">Privacy Policy</a></li>
-                <li><a routerLink="contact">Contact Us</a></li>
-            </ul>
+        <div id="content">
+            <router-outlet></router-outlet>
+        </div>
+        <div id="footer">
+            <div class="text-center">
+                <ul>
+                    <li><a routerLink="about">About Us</a></li>
+                    <li><a routerLink="work">How it Works</a></li>
+                    <li><a routerLink="stories">Success Stories</a></li>
+                    <li><a routerLink="work">Privacy Policy</a></li>
+                    <li><a routerLink="contact">Contact Us</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
