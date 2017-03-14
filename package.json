@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^2.4.0",
     "@angular/platform-browser-dynamic": "^2.4.0",
     "@angular/router": "^3.4.0",
+    "@angularclass/form-errors": "^2.0.0",
+    "@angularclass/match-control": "^2.0.0",
     "@types/lodash": "^4.14.54",
     "angular2-google-maps": "^0.17.0",
     "angular2-infinite-scroll": "^0.3.4",

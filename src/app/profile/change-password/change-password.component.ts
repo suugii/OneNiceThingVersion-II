@@ -5,7 +5,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
 	selector: 'app-change-password',
 	templateUrl: './change-password.component.html',
-	styleUrls: ['./change-password.component.css']
+	styleUrls: ['./change-password.component.css'],
+
 })
 export class ChangePasswordComponent implements OnInit {
 	message: any;
@@ -25,6 +26,7 @@ export class ChangePasswordComponent implements OnInit {
 
 	ngOnInit() {
 		this.buildForm();
+
 	}
 
 	buildForm(): void {
@@ -44,6 +46,9 @@ export class ChangePasswordComponent implements OnInit {
 			.subscribe(data => this.onValueChanged(data));
 		this.onValueChanged();
 	}
+
+
+
 	onValueChanged(data?: any) {
 		if (!this.changepassForm) { return; }
 		const form = this.changepassForm;
@@ -75,6 +80,7 @@ export class ChangePasswordComponent implements OnInit {
 		},
 		'confirmpassword': {
 			'required': 'Please enter your password.',
+			'pristine': 'Password mismatch',
 		},
 	};
 
