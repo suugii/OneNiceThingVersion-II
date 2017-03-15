@@ -18,8 +18,9 @@ export class DashboardComponent implements OnInit {
 	originateCount: number = 0;
 	favoritesCount: number = 0;
 	friendsCount: number = 0;
+	threadsCount: number = 0;
 	isFriend: boolean;
-
+	mythreads: any[];
 	constructor(public af: AngularFire) {
 	    this.af.auth.subscribe(
 	        (auth) => {
@@ -79,6 +80,21 @@ export class DashboardComponent implements OnInit {
 	    		)
 	    	}
 	    );
+
+		this.af.database.list('threads').subscribe((threads) => {
+			this.mythreads = [];
+			if (threads) {
+				threads.forEach((thread) => {
+					if (thread.userID == this.user || thread.receiverID == this.user) {
+						if(thread.isRead == false){
+							this.mythreads.push(thread);
+						}
+					}
+				})
+			}
+			this.threadsCount = this.mythreads.length;
+		});
+
 		this.af.database.list('friends').subscribe(
 	    	dataFriends => {
 	    		dataFriends.forEach(

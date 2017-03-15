@@ -37,10 +37,12 @@ export class CreateComponent implements OnInit {
     };
     public isProgressed: boolean;
     public storyForm: FormGroup;
+    privacy = [{ id: 0, name: 'Privacy' }, { id: 1, name: 'Only me' }, { id: 2, name: 'Friends' }, { id: 3, name: 'Public' }];
+
     constructor(private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
         this.requests = af.database.list('requests');
-
+        this.model.privacy = this.privacy[3].id;
         this.af.auth.subscribe(
             (auth) => {
                 if (auth) {
@@ -50,7 +52,12 @@ export class CreateComponent implements OnInit {
         );
 
         this.authService.getUsers().subscribe(datas => {
-            this.users = _.reject(datas, { $key: this.model.user });;
+            var result = _.pickBy(_.reject(datas, { $key: this.model.user }), function (v, k) {
+                if (v.email) {
+                    return v;
+                }
+            });
+            this.users = _.toArray(result);
         });
 
     }

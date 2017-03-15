@@ -19,7 +19,7 @@ export class UserOriginateComponent implements OnInit {
 	stories: any[];
 	favorited: boolean = false;
 	isCounter: boolean;
-	limit: BehaviorSubject<number> = new BehaviorSubject<number>(8);
+	limit: BehaviorSubject<number> = new BehaviorSubject<number>(6);
 	lastKey: string;
 	queryable: boolean = true;
 
@@ -72,6 +72,9 @@ export class UserOriginateComponent implements OnInit {
 					this.isCounter = true;
 					this.queryable = false;
 				}
+				if (dataStory.length < 6) {
+					this.queryable = false;
+				}
 				dataStory.forEach(
 					story => {
 						this.favorites = this.af.database.list('favorites', {
@@ -108,7 +111,7 @@ export class UserOriginateComponent implements OnInit {
 	}
 	scrolled(): void {
 		if (this.queryable) {
-			this.limit.next(this.limit.getValue() + 8);
+			this.limit.next(this.limit.getValue() + 6);
 		}
 	}
 }

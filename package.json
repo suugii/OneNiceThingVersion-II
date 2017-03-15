@@ -23,6 +23,7 @@
     "@angularclass/form-errors": "^2.0.0",
     "@angularclass/match-control": "^2.0.0",
     "@types/lodash": "^4.14.54",
+    "angular2-drag-scroll": "^1.2.6",
     "angular2-google-maps": "^0.17.0",
     "angular2-infinite-scroll": "^0.3.4",
     "angular2-resizing-cropping-image": "^1.0.0-beta.35",

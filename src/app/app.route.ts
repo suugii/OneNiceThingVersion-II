@@ -25,6 +25,7 @@ import { ChatComponent } from './profile/chat/chat.component';
 import { EditStoryComponent } from './profile/edit-story/edit-story.component';
 import { UserRequestsComponent } from './profile/user-requests/user-requests.component';
 import { UserOriginateComponent } from './profile/user-originate/user-originate.component';
+import { UserTreeComponent } from './profile/user-tree/user-tree.component';
 
 export const Route: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent },
@@ -44,6 +45,7 @@ export const Route: ModuleWithProviders = RouterModule.forRoot([
         { path: '', redirectTo: 'home', pathMatch: 'full' },
         { path: 'home', component: UserHomeComponent, canActivate: [GuardService] },
         { path: 'friends', component: UserFriendsComponent, canActivate: [GuardService] },
+        { path: 'tree', component: UserTreeComponent, canActivate: [GuardService] },
         { path: 'requests', component: UserRequestsComponent, canActivate: [GuardService] },
         { path: 'favorites', component: UserFavoritesComponent, canActivate: [GuardService] },
         { path: 'stories', component: UserStoriesComponent, canActivate: [GuardService] },

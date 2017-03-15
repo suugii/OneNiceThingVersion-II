@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Thread } from '../../class/thread';
 import { Message } from '../../class/message';
 import * as moment from "moment";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Component({
 	selector: 'app-chat',
@@ -23,20 +24,27 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 	public msgVal: string = '';
 	public threads: any[];
 	public showMessage: boolean = false;
+	public isRead: boolean;
 	public mythreads: any[];
 	public newMessage = new Message();
 	public newThread = new Thread();
 	public limit: BehaviorSubject<number> = new BehaviorSubject<number>(10);
 	@ViewChild('scrollMe') private myScrollContainer: ElementRef;
-	constructor(public authservice: AuthService, public af: AngularFire) {
+	constructor(public authservice: AuthService, public af: AngularFire, private _sanitizer: DomSanitizer) {
 		this.af.auth.subscribe(auth => {
 			if (auth) {
 				this.currentUser = auth;
 			}
 		});
-		this.authservice.getUsers().subscribe((users) => {
-			this.users = _.reject(users, { $key: this.currentUser.uid });
-		});
+
+		this.authservice.getUsers().subscribe(datas => {
+            var result = _.pickBy(_.reject(datas, { $key: this.currentUser.uid }), function (v, k) {
+                if (v.email) {
+                    return v;
+                }
+            });
+            this.users = _.toArray(result);
+        });
 
 		this.af.database.list('threads').subscribe((threads) => {
 			this.mythreads = [];
@@ -80,6 +88,18 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
 
 	getMessages(data) {
+		if (data.userID == this.currentUser.uid || data.receiverID == this.currentUser.uid) {
+						if (data.userID == this.currentUser.uid) {
+							data.name = data.user2name;
+						} else {
+							data.name = data.user1name;
+						}
+		}
+		if(data.senderPerson != this.currentUser.uid){
+			data.isRead = true;
+			this.af.database.object('/threads/' + data.$key).set(data);
+		}
+		this.isRead = data.isRead;
 		this.messages = '';
 		this.receiver = data;
 		this.messages = this.af.database.list('messages');
@@ -100,7 +120,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 			return false;
 	}
 
-
+   autocompleListFormatter = (data: any): SafeHtml => {
+        let html = `<span>${data.email}</span>`;
+        return this._sanitizer.bypassSecurityTrustHtml(html);
+    }
+    valueChanged(newVal) {
+		this.createNewMsg(newVal);
+    }
 
 	createNewMsg(data) {
 		var isAvailable = false;
@@ -122,6 +148,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 			this.newThread.receiverID = data.$key;
 			this.newThread.lastMessage = this.msgVal;
 			this.newThread.user2name = data.email;
+			this.newThread.senderPerson = this.currentUser.uid;
 			this.newThread.user1name = this.currentUser.auth.email;
 			this.newThread.date = _.now();
 			this.af.database.list('threads').push(this.newThread).then((resp) => {
@@ -134,17 +161,21 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 		}
 	}
 
-	chatSend() {
-		this.af.database.object('/threads/' + this.receiver.$key).take(1).subscribe(data => {
-			this.newMessage.message = this.msgVal;
-			this.newMessage.name = this.currentUser.auth.email;
-			this.newMessage.date = _.now();
-			this.newMessage.thread = data.$key;
-			data.lastMessage = this.msgVal;
-			data.date = _.now();
-			this.af.database.object('/threads/' + data.$key).set(data);
-			this.messages.push(this.newMessage);
-		});
-		this.msgVal = '';
+	chatSend(e) {
+		if (e.length !== 0){
+			this.af.database.object('/threads/' + this.receiver.$key).take(1).subscribe(data => {
+				this.newMessage.message = this.msgVal;
+				this.newMessage.name = this.currentUser.auth.email;
+				this.newMessage.date = _.now();
+				this.newMessage.thread = data.$key;
+				data.lastMessage = this.msgVal;
+				data.date = _.now();
+				data.senderPerson = this.currentUser.uid;
+				data.isRead = false;
+				this.af.database.object('/threads/' + data.$key).set(data);
+				this.messages.push(this.newMessage);
+			});
+			this.msgVal = '';
+		}
 	}
 }

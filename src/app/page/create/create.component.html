@@ -9,7 +9,7 @@
                 <form [formGroup]="storyForm" class="ui form" (ngSubmit)='storeStory($event)'>
                     <div class="field">
                         <label>Username Lookup</label>
-                        <input ng2-auto-complete name="touser" formControlName="touser" required (valueChanged)="valueChanged($event)" [source]="users" [list-formatter]="autocompleListFormatter" value-property-name="id" display-property-name="email" placeholder="Search email">
+                        <input autocomplete="off" ng2-auto-complete name="touser" formControlName="touser" required (valueChanged)="valueChanged($event)" [source]="users" [list-formatter]="autocompleListFormatter" value-property-name="id" display-property-name="email" placeholder="Search email">
                         <div *ngIf="formErrors.touser" class="ui negative message">
                             {{ formErrors.touser }}
                         </div>
@@ -64,12 +64,9 @@
 
                     <div class="field ">
                         <label>Privacy</label>
-                        <select class="ui dropdown " name="privacy " formControlName="privacy" required [(ngModel)]="model.privacy ">
-							<option value="">Privacy</option>
-							<option value="1 ">Only me</option>
-							<option value="2 ">Friends</option>
-							<option value="3 ">Public</option>
-						</select>
+                        <select name="privacy " formControlName="privacy" [(ngModel)]="model.privacy">
+                            <option *ngFor="let object of privacy" [disabled]="object.id==0" [ngValue]="object.id">{{object.name}}</option>
+                        </select>
                         <div *ngIf="formErrors.privacy" class="ui negative message">
                             {{ formErrors.privacy }}
                         </div>

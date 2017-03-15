@@ -1,0 +1,129 @@
+.tree ul,
+.tree li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+}
+
+.tree ul {
+    display: flex;
+    display: -webkit-flex;
+    text-align: center;
+}
+
+.tree ul ul {
+    padding-top: 20px;
+}
+
+.tree li>a {
+    display: inline-flex;
+    display: -webkit-inline-flex;
+    flex-direction: column;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    text-align: center;
+    background: #ffe6a2;
+    padding: 5px;
+    font-size: 0.75em;
+    border-radius: 3px;
+}
+
+.tree li:nth-child(n+2) {
+    padding-left: 20px;
+}
+
+.tree li {
+    padding-top: 20px;
+}
+
+.tree ul ul::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 20px;
+    width: 0;
+    border-left: 2px solid #40B553;
+}
+
+.tree li::before,
+.tree li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 2px solid #40B553;
+    width: 50%;
+    height: 20px;
+}
+
+.tree li::after {
+    left: 50%;
+    right: auto;
+    border-left: 2px solid #40B553;
+}
+
+.tree li:only-child::after,
+.tree li:only-child::before {
+    display: none;
+}
+
+.tree li:first-child::before,
+.tree li:last-child::after {
+    border: 0 none;
+}
+
+.tree li:last-child::before {
+    border-right: 2px solid #40B553;
+    border-radius: 0 5px 0 0;
+    left: 0;
+}
+
+.tree li:first-child::after {
+    border-radius: 5px 0 0 0;
+}
+
+.tree {
+    overflow: scroll;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    max-height: 600px;
+    background: #f5f8fa;
+    cursor: grab;
+    cursor: -webkit-grab;
+}
+
+.tree img {
+    width: 32px;
+    height: 32px;
+    margin: 10px;
+    border-radius: 100%;
+}
+
+.tree ul li a,
+.tree ul li {
+    opacity: 0;
+}
+
+.tree .active>li>a,
+.tree .active>li {
+    opacity: 1;
+    transition: all 0.5s;
+}
+
+.tree .active>li>a,
+.tree .active>li>a:hover {
+    cursor: pointer;
+}
+
+.tree>ul>li {
+    width: auto;
+    margin: auto;
+    height: auto;
+    padding-top: 8%;
+}
+
+.tree .show {
+    position: absolute;
+    z-index: 0;
+}

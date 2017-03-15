@@ -1,24 +1,25 @@
 <div class="ui segment chat">
     <div class="ui stackable grid">
         <div class="six wide column chat-list">
-            <div class="ui fluid search">
-                <div class="ui icon fluid input">
-                    <input class="prompt" type="text" placeholder="Search...">
-                    <i class="search icon"></i>
+            <div class="ui form">
+                <div class="field">
+                    <input autocomplete="off" ng2-auto-complete name="touser" (valueChanged)="valueChanged($event)" [source]="users" [list-formatter]="autocompleListFormatter" value-property-name="id" display-property-name="email" placeholder="Search email">
                 </div>
-                <div class="results"></div>
             </div>
             <div class="ui divided list">
                 <div class="item" *ngFor="let thread of threads ">
                     <img class="ui avatar image" src="assets/img/elliot.jpg">
                     <div class="content">
                         <div class="header" (click)="getMessages(thread)" *ngIf="thread.name">
-                            {{thread.name}}
+                            <p>{{thread.name}}</p>
                         </div>
                         <div class="header" (click)="getMessages(thread)" *ngIf="!thread.name">
-                            {{thread.$key}}
+                            <p>{{thread.$key}}</p>
                         </div>
-                        {{thread.lastMessage}}
+                        <div>
+                            <b *ngIf="!thread.isRead">{{thread.lastMessage}}</b>
+                            <p *ngIf="thread.isRead">{{thread.lastMessage}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -26,7 +27,7 @@
         <div class="ten wide column chat-action" *ngIf="this.receiver">
             <h3>{{ receiver.name }}</h3>
             <div class="ui divider"></div>
-            <div class="conversation" #scrollMe *ngIf="userMessages.length > 0">
+            <div class="conversation" #scrollMe>
                 <div class="ui aligned list">
                     <div class="item" *ngFor="let message of userMessages">
                         <div class="content" *ngIf="!isMe(message.name)">
@@ -41,17 +42,24 @@
                             </div>
                         </div>
                     </div>
+                    <div class="comment" *ngIf="userMessages.length == 0">
+                        No messages
+                    </div>
+                    <div class="item" *ngIf="!userMessages.length == 0">
+                        <div class="right floated content" *ngIf="isRead">
+                            <i class="checkmark icon"></i>Seen
+                        </div>
+                    </div>
                 </div>
-                <div class="comment" *ngIf="userMessages.length == 0">
-                    No messages
-                </div>
+
             </div>
+
             <form class="ui reply form">
                 <div class="field">
-                    <textarea name="message" rows="5" (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal"></textarea>
-                </div>
-                <div class="ui primary submit right labeled icon fluid button">
-                    <i class="icon edit"></i> Send
+                    <div class="ui fluid action input">
+                        <input autocomplete="off" type="text" name="message" (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal">
+                        <div class="ui primary button" (click)="chatSend(msgVal)">Send</div>
+                    </div>
                 </div>
             </form>
         </div>

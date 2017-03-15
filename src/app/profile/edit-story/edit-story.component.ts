@@ -56,7 +56,12 @@ export class EditStoryComponent implements OnInit {
 		);
 
 		this.authService.getUsers().subscribe(datas => {
-			this.users = _.reject(datas, { $key: this.model.user });;
+			var result = _.pickBy(_.reject(datas, { $key: this.model.user }), function (v, k) {
+				if (v.email) {
+					return v;
+				}
+			});
+			this.users = _.toArray(result);
 		});
 	}
 
