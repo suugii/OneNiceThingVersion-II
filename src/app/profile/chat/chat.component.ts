@@ -93,17 +93,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 		})
 	}
 
-	isYou(email) {
-		if (email == this.currentUser.auth.email)
-			return true;
-		else
-			return false;
-	}
 	isMe(email) {
 		if (email == this.currentUser.auth.email)
-			return false;
-		else
 			return true;
+		else
+			return false;
 	}
 
 

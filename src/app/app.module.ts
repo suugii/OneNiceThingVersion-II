@@ -44,7 +44,6 @@ import { UserComponent } from './page/user/user.component';
 import { UserRequestsComponent } from './profile/user-requests/user-requests.component';
 import { UserOriginateComponent } from './profile/user-originate/user-originate.component';
 import { EqualValidator } from './directive/equal-validator.directive';
-import { SidebarDirective } from './directive/sidebar.directive';
 
 export const firebaseConfig = {
 	apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
@@ -85,7 +84,6 @@ export const firebaseConfig = {
 		UserRequestsComponent,
 		UserOriginateComponent,
 		EqualValidator,
-		SidebarDirective,
 	],
 	imports: [
 		BrowserModule,

@@ -1,54 +1,57 @@
-<div class="ui grid">
-    <div class="four wide column">
-        <div class="ui aligned selection list">
-            <h2>All Users</h2>
-            <div class="item" *ngFor="let user of users ">
-                <img class="ui avatar image" src="assets/img/elliot.jpg">
-                <div class="content">
-                    <div class="header" (click)="createNewMsg(user)" *ngIf="user.username">
-                        {{user.email}}
+<div class="ui segment chat">
+    <div class="ui stackable grid">
+        <div class="six wide column chat-list">
+            <div class="ui fluid search">
+                <div class="ui icon fluid input">
+                    <input class="prompt" type="text" placeholder="Search...">
+                    <i class="search icon"></i>
+                </div>
+                <div class="results"></div>
+            </div>
+            <div class="ui divided list">
+                <div class="item" *ngFor="let thread of threads ">
+                    <img class="ui avatar image" src="assets/img/elliot.jpg">
+                    <div class="content">
+                        <div class="header" (click)="getMessages(thread)" *ngIf="thread.name">
+                            {{thread.name}}
+                        </div>
+                        <div class="header" (click)="getMessages(thread)" *ngIf="!thread.name">
+                            {{thread.$key}}
+                        </div>
+                        {{thread.lastMessage}}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="four wide column">
-        <div class="ui aligned selection list">
-            <h2>Latest</h2>
-
-            <div class="item" *ngFor="let thread of threads ">
-                <img class="ui avatar image" src="assets/img/elliot.jpg">
-                <div class="content">
-                    <div class="header" (click)="getMessages(thread)" *ngIf="thread.name">
-                        {{thread.name}}
-                        <p>{{thread.lastMessage}}</p>
-                    </div>
-                    <div class="header" (click)="getMessages(thread)" *ngIf="!thread.name">{{thread.$key}}</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="eight wide column" *ngIf="this.receiver">
-        <div class="ui small comments">
-            <div class="search-results" #scrollMe *ngIf="userMessages.length > 0">
-                <div *ngFor="let message of userMessages">
-                    <div class="bubble" [class.you]="isYou(message.name)" [class.me]="isMe(message.name)">
-                        <p>{{ message.message }}</p>
-                        <div class="author">
-                            {{ message.name }} | {{ message.date | date:'dd.MM.y HH:mm:ss' }}
+        <div class="ten wide column chat-action" *ngIf="this.receiver">
+            <h3>{{ receiver.name }}</h3>
+            <div class="ui divider"></div>
+            <div class="conversation" #scrollMe *ngIf="userMessages.length > 0">
+                <div class="ui aligned list">
+                    <div class="item" *ngFor="let message of userMessages">
+                        <div class="content" *ngIf="!isMe(message.name)">
+                            <img class="ui avatar image" src="assets/img/elliot.jpg">
+                            <div class="ui horizontal label">
+                                {{ message.message }}
+                            </div>
+                        </div>
+                        <div class="right floated content" *ngIf="isMe(message.name)">
+                            <div class="ui horizontal blue label">
+                                {{ message.message }}
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div>
-                    Seen
+                <div class="comment" *ngIf="userMessages.length == 0">
+                    No messages
                 </div>
-            </div>
-            <div class="comment" *ngIf="userMessages.length == 0">
-                No messages
             </div>
             <form class="ui reply form">
                 <div class="field">
-                    <input type="text" name="message" placeholder="Chat here..." (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal">
+                    <textarea name="message" rows="5" (keyup.enter)="chatSend($event.target.value)" [(ngModel)]="msgVal"></textarea>
+                </div>
+                <div class="ui primary submit right labeled icon fluid button">
+                    <i class="icon edit"></i> Send
                 </div>
             </form>
         </div>
