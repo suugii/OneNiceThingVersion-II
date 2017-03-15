@@ -73,7 +73,7 @@
                     </div>
                 </div>
             </div>
-            <div class="search-results" *ngIf="queryable" infinite-scroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="300" (scrolled)="scrolled()">
+            <div class="search-results" *ngIf="queryable" infinite-scroll [infiniteScrollDistance]="1.5" [infiniteScrollThrottle]="500" (scrolled)="scrolled()">
                 <div class="ui active centered inline loader"></div>
             </div>
             <div class="ui one column stackable center aligned page grid" *ngIf="isCounter">

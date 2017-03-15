@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { StoryService } from "../../service/story.service";
+import * as _ from 'lodash';
 
 @Component({
 	selector: 'app-user-favorites',
@@ -18,7 +19,6 @@ export class UserFavoritesComponent implements OnInit {
 	favorited: boolean = false;
 	user: string;
 	isCounter: boolean;
-
 	constructor(public af: AngularFire, private storyService: StoryService) {
 		this.af.auth.subscribe(
 			(auth) => {
@@ -64,6 +64,7 @@ export class UserFavoritesComponent implements OnInit {
 										this.favorited = false;
 									}
 								)
+								console.log(object);
 								object.user = this.af.database.object('users' + '/' + object.user);
 								this.stories.push(object);
 							}
