@@ -1,8 +1,10 @@
 <div class="ui three stackable cards" *ngIf="!isCounter">
     <div class="card" *ngFor="let story of stories">
         <div class="extra content">
-            <img class="ui avatar image" src="{{ (story.user | async)?.photoURL }}">
-            <a routerLink="/user/{{ (story.user | async)?.$key }}">{{ (story.user | async)?.username }}</a>
+            <img class="ui avatar image" *ngIf=" (story.user | async)?.photoURL" src="{{ (story.user | async)?.photoURL }}">
+            <img class="ui avatar image" *ngIf=" !(story.user | async)?.photoURL" src="../../../assets/img/elliot.jpg">
+            <a routerLink="/user/{{ (story.user | async)?.$key }}" *ngIf="(story.user | async)?.username">{{ (story.user | async)?.username }}</a>
+            <a routerLink="/user/{{ (story.user | async)?.$key }}" *ngIf="!(story.user | async)?.username">{{ (story.user | async)?.email }}</a>
         </div>
         <div class="blurring dimmable image">
             <div class="ui dimmer">
@@ -12,7 +14,8 @@
                     </div>
                 </div>
             </div>
-            <img src="{{ story.imageURL }}">
+            <img *ngIf="story.imageURL" routerLink="/stories/{{ story.$key }}" src="{{ story.imageURL }}" style="height:150px">
+            <img *ngIf="!story.imageURL" routerLink="/stories/{{ story.$key }}" src="../../../assets/img/image.png" style="height:150px">
         </div>
         <div class="content">
             <p>{{ story.story }}</p>
@@ -41,4 +44,7 @@
     <div class="column sixteen wide">
         No favorited yet
     </div>
+</div>
+<div class="search-results" *ngIf="queryable" infinite-scroll [infiniteScrollDistance]="1.5" [infiniteScrollThrottle]="500" (scrolled)="scrolled()">
+    <div class="ui active centered inline loader"></div>
 </div>

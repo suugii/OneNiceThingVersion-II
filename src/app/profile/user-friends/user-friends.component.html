@@ -1,7 +1,8 @@
 <div class="ui three stackable cards" *ngIf="!isCounter">
     <div class="ui card" *ngFor="let user of users">
         <div class="image">
-            <img [src]="(user | async)?.photoURL">
+            <img *ngIf=" (user| async)?.photoURL" src="{{ (user | async)?.photoURL }}">
+            <img *ngIf=" !(user | async)?.photoURL" src="../../../assets/img/elliot.jpg">
         </div>
         <div class="content">
             <a class="header" routerLink="/user/{{ (user | async)?.$key }}">{{ (user | async)?.username }}</a>
@@ -21,3 +22,6 @@
         No friends yet
     </div>
 </div>
+<!--<div class="search-results" *ngIf="queryable" infinite-scroll [infiniteScrollDistance]="1.5" [infiniteScrollThrottle]="500" (scrolled)="scrolled()">
+    <div class="ui active centered inline loader"></div>
+</div>-->

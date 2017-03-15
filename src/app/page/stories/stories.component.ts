@@ -21,7 +21,7 @@ export class StoriesComponent implements OnInit {
 	user: string;
 	stories: any[];
 	isCounter: boolean;
-	
+
 	constructor(private af: AngularFire, private storyService: StoryService) {
 		this.af.auth.subscribe(
 			(auth) => {
@@ -44,6 +44,7 @@ export class StoriesComponent implements OnInit {
 			}
 		});
 
+
 		this.objects = this.af.database.list('stories', {
 			query: {
 				orderByChild: 'created_at',
@@ -58,6 +59,9 @@ export class StoriesComponent implements OnInit {
 					this.queryable = true;
 				}
 			}
+			if(data.length < 8){
+				this.queryable = false;
+			}
 		});
 
 		this.objects.subscribe(
@@ -67,6 +71,7 @@ export class StoriesComponent implements OnInit {
 					this.isCounter = true;
 					this.queryable = false;
 				}
+			
 				dataStory.forEach(
 					story => {
 						this.favorites = this.af.database.list('favorites', {

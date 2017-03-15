@@ -85,6 +85,9 @@ export class UserComponent implements OnInit {
 					this.queryable = true;
 				}
 			}
+			if (data.length < 6) {
+				this.queryable = false;
+			}
 		});
 
 		this.friends = this.af.database.list('friends');

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import "rxjs/add/operator/map";
 
 @Component({
 	selector: 'app-user-requests',
@@ -14,6 +16,9 @@ export class UserRequestsComponent implements OnInit {
 	array: any[];
 	error: any;
 	isCounter: boolean;
+	limit: BehaviorSubject<number> = new BehaviorSubject<number>(6);
+	lastKey: string;
+	queryable: boolean = true;
 
 	constructor(public af: AngularFire) {
 		this.af.auth.subscribe(
@@ -23,12 +28,46 @@ export class UserRequestsComponent implements OnInit {
 				}
 			}
 		);
-		this.requests = this.af.database.list('requests', {
+
+
+		this.af.database.list('/requests', {
 			query: {
 				orderByChild: 'rid',
-				equalTo: this.uid
+				equalTo: this.uid,
+				limitToFirst: 1
+			}
+		}).subscribe((data) => {
+			if (data.length > 0) {
+				this.lastKey = data[0].$key;
+			} else {
+				this.lastKey = '';
 			}
 		});
+
+
+
+		this.requests = this.af.database.list('/requests', {
+			query: {
+				orderByChild: 'rid',
+				equalTo: this.uid,
+				limitToLast: this.limit,
+			}
+		}).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
+
+
+		this.requests.subscribe((data) => {
+			if (data.length > 0) {
+				if (data[data.length - 1].$key === this.lastKey) {
+					this.queryable = false;
+				} else {
+					this.queryable = true;
+				}
+			}
+			if (data.length < 6) {
+				this.queryable = false;
+			}
+		});
+
 		this.requests.subscribe(
 			dataReq => {
 				this.isCounter = false;
@@ -43,9 +82,17 @@ export class UserRequestsComponent implements OnInit {
 				)
 				if (this.array.length == 0) {
 					this.isCounter = true;
+					this.queryable = false;
 				}
 			}
 		);
+	}
+
+
+	scrolled(): void {
+		if (this.queryable) {
+			this.limit.next(this.limit.getValue() + 6);
+		}
 	}
 
 	ngOnInit() {
@@ -72,6 +119,8 @@ export class UserRequestsComponent implements OnInit {
 			}
 		);
 	}
+
+
 
 	decline(key) {
 		this.af.database.list('requests').remove(key);

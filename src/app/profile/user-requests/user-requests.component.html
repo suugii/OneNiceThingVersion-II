@@ -1,9 +1,11 @@
 <div class="ui three stackable cards" *ngIf="!iCounter">
     <div class="card" *ngFor="let request of array">
         <div class="content">
-            <img class="ui right floated mini image" src="{{ (request.user | async)?.photoURL }}">
+            <img class="ui right floated mini image" *ngIf="(request.user | async)?.photoURL" src="{{ (request.user | async)?.photoURL }}">
+            <img class="ui right floated mini image" *ngIf="!(request.user | async)?.photoURL" src="../../../assets/img/elliot.jpg">
             <div class="header">
-                <a routerLink="/user/{{ (user | async)?.$key }}">{{ (request.user | async)?.username }}</a>
+                <a routerLink="/user/{{ (user | async)?.$key }}" *ngIf="(request.user | async)?.username">{{ (request.user | async)?.username }}</a>
+                <a routerLink="/user/{{ (user | async)?.$key }}" *ngIf="!(request.user | async)?.username">{{ (request.user | async)?.email }}</a>
             </div>
             <div class="meta">Joined in {{ (request.user | async)?.created_at | date:'yyyy'}}</div>
             <div class="description">Elliot requested permission to view your contact details</div>
@@ -20,4 +22,7 @@
     <div class="column sixteen wide">
         No friend request yet
     </div>
+</div>
+<div class="search-results" *ngIf="queryable" infinite-scroll [infiniteScrollDistance]="1.5" [infiniteScrollThrottle]="500" (scrolled)="scrolled()">
+    <div class="ui active centered inline loader"></div>
 </div>

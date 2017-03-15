@@ -60,6 +60,9 @@ export class UserStoriesComponent implements OnInit {
 					this.queryable = true;
 				}
 			}
+			if (data.length < 6) {
+				this.queryable = false;
+			}
 		});
 
 
