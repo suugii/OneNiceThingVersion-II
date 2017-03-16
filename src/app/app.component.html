@@ -13,7 +13,7 @@
                 <li><a routerLink="about" routerLinkActive="active">About</a></li>
                 <li><a routerLink="login" routerLinkActive="active" *ngIf="!isLoggedIn">Login</a></li>
                 <li><a routerLink="profile" routerLinkActive="active" *ngIf="isLoggedIn">My page</a></li>
-                <li class="ui dropdown" *ngIf="isLoggedIn && userdata" style="z-index:1001g">
+                <li class="ui dropdown" *ngIf="isLoggedIn && userdata" style="z-index:1001">
                     <a>
                         <img class="ui avatar image" *ngIf="userdata.photoURL" src="{{userdata.photoURL}}">
                         <img class="ui avatar image" *ngIf="!userdata.photoURL" src="assets/img/elliot.jpg">

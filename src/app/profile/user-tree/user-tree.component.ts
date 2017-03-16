@@ -17,7 +17,7 @@ export class UserTreeComponent implements OnInit {
 	public myData: any;
 	public subTousers: any[];
 	limit: BehaviorSubject<number>;
-
+	innerHtmlVar: any;
 	constructor(private _sanitizer: DomSanitizer, private af: AngularFire, private el: ElementRef, public authService: AuthService) {
 		this.authService.af.auth.subscribe(
 			(auth) => {
@@ -55,9 +55,15 @@ export class UserTreeComponent implements OnInit {
 	}
 
 	showTouser(data) {
-		var test = this.el.nativeElement.querySelector('.' + data.$key);
-		let html = `<span>${data.email}</span>`;
-		console.log(test.querySelector('ul').append(html));
+		var treeClass = this.el.nativeElement.querySelector('.' + data.$key);
+		this.innerHtmlVar = '<li *ngFor="let user of subTousers" (click)="showTouser(user)" class="{{user.$key}}"> \
+                            <a> \
+                                <span>{{user.email}}</span> \
+                            </a> \
+                            <ul class="active">\
+                            </ul>\
+                        </li>';
+		treeClass.querySelector('ul').innerHTML(this.innerHtmlVar);
 	}
 
 	ngOnInit() {
