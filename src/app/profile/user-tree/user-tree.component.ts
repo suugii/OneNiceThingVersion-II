@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import "rxjs/add/operator/map";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { TreelistComponent } from '../treelist/treelist.component';
 
 @Component({
 	selector: 'app-user-tree',
@@ -18,6 +19,9 @@ export class UserTreeComponent implements OnInit {
 	public subTousers: any[];
 	limit: BehaviorSubject<number>;
 	innerHtmlVar: any;
+	nodes: any[] = [];
+	userIDs: any[] = [];
+
 	constructor(private _sanitizer: DomSanitizer, private af: AngularFire, private el: ElementRef, public authService: AuthService) {
 		this.authService.af.auth.subscribe(
 			(auth) => {
@@ -25,6 +29,8 @@ export class UserTreeComponent implements OnInit {
 					this.user = auth;
 					this.authService.getUser(auth.uid).subscribe(data => {
 						this.myData = data;
+						this.userIDs.push(this.myData.$key);
+						this.nodes.push({ id: data.$key, email: data.email, children: [] });
 					})
 				}
 
@@ -48,9 +54,10 @@ export class UserTreeComponent implements OnInit {
 				_.forEach(uniqueTousers, function (value) {
 					that.authService.getUser(value).subscribe((userdata) => {
 						that.subTousers.push(userdata);
+						that.userIDs.push(userdata.$key);
+						that.nodes[0].children.push({id:userdata.$key, email: userdata.email, children:[]});
 					})
 				})
-				console.log(that.subTousers);
 			});
 	}
 

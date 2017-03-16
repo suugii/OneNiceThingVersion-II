@@ -10,6 +10,7 @@ import { InfiniteScrollModule } from 'angular2-infinite-scroll';
 import { ImageUploadModule } from 'ng2-imageupload';
 import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 import { DragScrollModule } from 'angular2-drag-scroll';
+import { TreeModule } from 'angular-tree-component';
 
 import { AuthService } from "./service/auth.service";
 import { StoryService } from "./service/story.service";
@@ -99,6 +100,7 @@ export const firebaseConfig = {
 		DragScrollModule,
 		InfiniteScrollModule,
 		ImageUploadModule,
+		TreeModule,
 		Ng2AutoCompleteModule,
 		AngularFireModule.initializeApp(firebaseConfig),
 		AgmCoreModule.forRoot({

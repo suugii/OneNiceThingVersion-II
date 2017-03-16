@@ -1,3 +1,18 @@
+<!--<ul>
+    <li *ngFor="let node of treeData">
+        <span *ngIf="node.children?.length" (click)="toggleChildren()">[+]</span> {{node.name}}
+        <app-treelist [treeData]="node.children">
+        </app-treelist>
+    </li>
+</ul>-->
+
 <ul class="active">
-    <div>{{myHtml}}</div>
+    <li *ngFor="let node of treeData">
+        <a (click)="toggleChildren(node)">
+            <img src="../../../assets/img/elliot.jpg">
+            <span>{{node.email}}</span>
+        </a>
+        <app-treelist [treeData]="node.children" [userIDs]="userIDs">
+        </app-treelist>
+    </li>
 </ul>
