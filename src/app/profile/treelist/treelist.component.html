@@ -9,7 +9,8 @@
 <ul class="active">
     <li *ngFor="let node of treeData">
         <a (click)="toggleChildren(node)">
-            <img src="../../../assets/img/elliot.jpg">
+            <img *ngIf="!node.imageURL" src="../../../assets/img/elliot.jpg">
+            <img *ngIf="node.imageURL" src="{{node.imageURL}}">
             <span>{{node.email}}</span>
         </a>
         <app-treelist [treeData]="node.children" [userIDs]="userIDs">

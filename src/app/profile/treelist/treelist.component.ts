@@ -37,7 +37,7 @@ export class TreelistComponent implements OnInit {
               return obj === userdata.$key;
             })
             if (!foundedID) {
-              node.children.push({ id: userdata.$key, email: userdata.email, children: [] });
+              node.children.push({ id: userdata.$key, email: userdata.email, imageURL: userdata.photoURL, children: [] });
               that.userIDs.push(userdata.$key);
             }
           })

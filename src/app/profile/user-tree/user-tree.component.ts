@@ -30,7 +30,7 @@ export class UserTreeComponent implements OnInit {
 					this.authService.getUser(auth.uid).subscribe(data => {
 						this.myData = data;
 						this.userIDs.push(this.myData.$key);
-						this.nodes.push({ id: data.$key, email: data.email, children: [] });
+						this.nodes.push({ id: data.$key, email: data.email, imageURL: data.photoURL, children: [] });
 					})
 				}
 
@@ -55,7 +55,7 @@ export class UserTreeComponent implements OnInit {
 					that.authService.getUser(value).subscribe((userdata) => {
 						that.subTousers.push(userdata);
 						that.userIDs.push(userdata.$key);
-						that.nodes[0].children.push({id:userdata.$key, email: userdata.email, children:[]});
+						that.nodes[0].children.push({ id: userdata.$key, email: userdata.email, imageURL: userdata.photoURL, children: [] });
 					})
 				})
 			});
