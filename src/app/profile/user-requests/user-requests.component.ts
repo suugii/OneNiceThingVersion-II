@@ -88,7 +88,6 @@ export class UserRequestsComponent implements OnInit {
 		);
 	}
 
-
 	scrolled(): void {
 		if (this.queryable) {
 			this.limit.next(this.limit.getValue() + 6);
@@ -101,26 +100,14 @@ export class UserRequestsComponent implements OnInit {
 	approve(key) {
 		this.af.database.object('requests' + '/' + key).subscribe(
 			request => {
-				this.af.database.list('friends').push({ created_at: Date.now() }).then((friend) => {
-					this.af.database.list('friends' + '/' + friend.key + '/' + 'users').push({ uid: request.sid }).then(() => {
-						this.af.database.list('friends' + '/' + friend.key + '/' + 'users').push({ uid: request.rid }).then(() => {
-							this.af.database.list('requests').remove(key);
-						}).catch((error: any) => {
-							this.error = error;
-							this.af.database.list('friends').remove(friend.key);
-						});
-					}).catch((error: any) => {
-						this.error = error;
-						this.af.database.list('friends').remove(friend.key);
-					});
+				this.af.database.list('friends').push({ created_at: Date.now(), users: [{uid: request.sid}, {uid: request.rid}] }).then((friend) => {
+					this.af.database.list('requests').remove(key);
 				}).catch((error: any) => {
 					this.error = error;
 				});
 			}
 		);
 	}
-
-
 
 	decline(key) {
 		this.af.database.list('requests').remove(key);
