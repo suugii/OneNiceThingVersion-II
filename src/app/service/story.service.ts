@@ -4,6 +4,7 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 @Injectable()
 export class StoryService {
 
+	favorites: FirebaseListObservable<any[]>;
 	user: string;
 	key: string = null;
 
@@ -15,19 +16,21 @@ export class StoryService {
 	            }
 	        }
 	    );
-	}
 
-	addFavorite(key: string) {
-		this.af.database.list('favorites').push({uid: this.user, sid: key});
-	}
-
-	removeFavorite(key: string) {
-		this.af.database.list('favorites', {
+	    this.favorites = this.af.database.list('favorites', {
 			query: {
 				orderByChild: 'uid',
 				equalTo: this.user
 			}
-	    }).subscribe(
+	    });
+	}
+
+	addFavorite(key: string) {
+		this.favorites.push({uid: this.user, sid: key});
+	}
+
+	removeFavorite(key: string) {
+		this.favorites.subscribe(
 	    	favData => {
 	    		favData.forEach(
 	    			favorite => {
