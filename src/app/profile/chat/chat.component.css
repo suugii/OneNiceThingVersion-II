@@ -1,51 +1,58 @@
 .chat {
     border: 1px solid rgba(34, 36, 38, 0.14902);
 }
-
 @media (min-width: 768px) {
     .chat-list {
         border-right: 1px solid rgba(34, 36, 38, 0.14902);
     }
 }
-
 .chat-list .list {
-    /*overflow-y: auto;*/
-    /*overflow-x: hidden;*/
+    overflow-y: auto;
     max-height: calc(5.28rem + 60vh + 108px);
+}
+.chat-list .list .item {
+    position: relative;
+}
+.chat-list .list .item .image {
+    position: absolute;
+    top: 3px;
+    left: 0;
+}
+.chat-list .list .item .content {
+    width: 100%;
+    padding-left: calc(2rem + 10px);
+}
+.chat-list .list .item .content * {
+    width: 100%;
+    overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-
 .chat-action h3 {
     font-size: 1.28rem;
     line-height: 1.28rem;
 }
-
 .conversation {
     height: 60vh;
     margin: 1rem 0;
     overflow-y: auto;
     overflow-x: hidden;
 }
-
 .chat-list .list::-webkit-scrollbar,
 .conversation::-webkit-scrollbar {
     width: 6px;
     margin: 2px;
 }
-
 .chat-list .list::-webkit-scrollbar-track,
 .conversation::-webkit-scrollbar-track {
     border-radius: 4px;
     background-color: #eee;
 }
-
 .chat-list .list::-webkit-scrollbar-thumb,
 .conversation::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background-color: #ccc;
 }
-
-.header p {
+.chat-list .list {
     cursor: pointer;
 }

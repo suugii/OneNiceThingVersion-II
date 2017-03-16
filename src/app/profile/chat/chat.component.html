@@ -7,17 +7,17 @@
                 </div>
             </div>
             <div class="ui divided list">
-                <div class="item" *ngFor="let thread of threads ">
+                <div class="item" *ngFor="let thread of threads" (click)="getMessages(thread)">
                     <img class="ui avatar image" src="assets/img/elliot.jpg">
                     <div class="content">
-                        <div class="header" (click)="getMessages(thread)" *ngIf="thread.name">
+                        <div class="header" *ngIf="thread.name">
                             <p>{{thread.name}}</p>
                         </div>
-                        <div class="header" (click)="getMessages(thread)" *ngIf="!thread.name">
+                        <div class="header" *ngIf="!thread.name">
                             <p>{{thread.$key}}</p>
                         </div>
-                        <div>
-                            <b *ngIf="!thread.isRead">{{thread.lastMessage}}</b>
+                        <div class="description">
+                            <p *ngIf="!thread.isRead">{{thread.lastMessage}}</p>
                             <p *ngIf="thread.isRead">{{thread.lastMessage}}
                         </div>
                     </div>
