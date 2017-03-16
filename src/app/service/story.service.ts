@@ -5,31 +5,29 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 export class StoryService {
 
 	user: string;
-	favorites: FirebaseListObservable<any[]>;
-	key: string;
+	key: string = null;
 
 	constructor(private af: AngularFire) {
 	    this.af.auth.subscribe(
-	        (auth) => {
+	        auth => {
 	            if (auth) {
 	                this.user = auth.uid;
 	            }
 	        }
 	    );
-		this.favorites = this.af.database.list('favorites', {
+	}
+
+	addFavorite(key: string) {
+		this.af.database.list('favorites').push({uid: this.user, sid: key});
+	}
+
+	removeFavorite(key: string) {
+		this.af.database.list('favorites', {
 			query: {
 				orderByChild: 'uid',
 				equalTo: this.user
 			}
-	    });
-	}
-
-	addFavorite(key: string) {
-		this.favorites.push({uid: this.user, sid: key});
-	}
-
-	removeFavorite(key: string) {
-	   	this.favorites.subscribe(
+	    }).subscribe(
 	    	favData => {
 	    		favData.forEach(
 	    			favorite => {
@@ -38,9 +36,12 @@ export class StoryService {
 						}
 	    			}
 	    		)
+				if (this.key) {
+					this.af.database.list('favorites').remove(this.key);
+					this.key = null;
+				}
 	    	}
 	    );
-		this.favorites.remove(this.key);
 	}	
 
 }
