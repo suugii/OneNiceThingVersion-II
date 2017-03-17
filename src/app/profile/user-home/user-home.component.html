@@ -43,28 +43,16 @@
     </div>
 </div>
 <div class="google-map">
-    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
-        <sebm-google-map-marker [latitude]="latA" [longitude]="lngA" [iconUrl]="iconURL">
-            <sebm-google-map-info-window>
-                <div class="infowindow">
-                    <img class="ui avatar image" [src]="iconURL.url"> Tugsbileg
-                    <p>I'll suggest you to help people</p>
-                </div>
-            </sebm-google-map-info-window>
-        </sebm-google-map-marker>
-        <sebm-google-map-marker [latitude]="latB" [longitude]="lngB" [iconUrl]="iconURL1">
-            <sebm-google-map-info-window>
-                <div class="infowindow">
-                    <img class="ui avatar image" [src]="iconURL1.url"> Neyo
-                    <p>I helped old lady</p>
-                </div>
-            </sebm-google-map-info-window>
-        </sebm-google-map-marker>
-        <sebm-google-map-polyline [strokeColor]="'#49B85B'" [strokeOpacity]="1" [strokeWeight]="2">
-            <sebm-google-map-polyline-point [latitude]="latA" [longitude]="lngA">
-            </sebm-google-map-polyline-point>
-            <sebm-google-map-polyline-point [latitude]="latB" [longitude]="lngB">
-            </sebm-google-map-polyline-point>
-        </sebm-google-map-polyline>
+    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" sebmGoogleMapFitContents [usePanning]="true" [disableDefaultUI]="true">
+        <div *ngFor="let object of objects | async">
+            <sebm-google-map-marker [latitude]="object.location.latitude" [longitude]="object.location.longitude">
+                <sebm-google-map-info-window>
+                    <div class="infowindow">
+                        <!--<img class="ui avatar image" [src]="iconURL.url"> Tugsbileg-->
+                        <p>{{object.feeling}}</p>
+                    </div>
+                </sebm-google-map-info-window>
+            </sebm-google-map-marker>
+        </div>
     </sebm-google-map>
 </div>

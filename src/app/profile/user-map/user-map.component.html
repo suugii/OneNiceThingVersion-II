@@ -1,3 +1,14 @@
-<p>
-  user-map works!
-</p>
+<div class="google-map">
+    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" sebmGoogleMapFitContents [usePanning]="true" [disableDefaultUI]="true">
+        <div *ngFor="let object of objects | async">
+            <sebm-google-map-marker [latitude]="object.location.latitude" [longitude]="object.location.longitude">
+                <sebm-google-map-info-window>
+                    <div class="infowindow">
+                        <!--<img class="ui avatar image" [src]="iconURL.url"> Tugsbileg-->
+                        <p>{{object.feeling}}</p>
+                    </div>
+                </sebm-google-map-info-window>
+            </sebm-google-map-marker>
+        </div>
+    </sebm-google-map>
+</div>
