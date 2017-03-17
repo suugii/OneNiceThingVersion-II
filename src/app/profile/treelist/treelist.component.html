@@ -1,19 +1,10 @@
-<!--<ul>
-    <li *ngFor="let node of treeData">
-        <span *ngIf="node.children?.length" (click)="toggleChildren()">[+]</span> {{node.name}}
-        <app-treelist [treeData]="node.children">
-        </app-treelist>
-    </li>
-</ul>-->
-
-<ul class="active">
-    <li *ngFor="let node of treeData">
-        <a (click)="toggleChildren(node)">
-            <img *ngIf="!node.imageURL" src="../../../assets/img/elliot.jpg">
-            <img *ngIf="node.imageURL" src="{{node.imageURL}}">
-            <span>{{node.email}}</span>
-        </a>
-        <app-treelist [treeData]="node.children" [userIDs]="userIDs">
-        </app-treelist>
-    </li>
-</ul>
+<div class="tree">
+    <ul class="active">
+        <li *ngFor="let node of treeData" (click)="toggleChildren(node)">
+            <div *ngIf="node.imageURL" class="image" [ngStyle]="{'background-image': 'url(' + node.imageURL + ')'}"></div>
+            <div *ngIf="!node.imageURL" class="image" style="background-image:url('../../../assets/img/elliot.jpg')"></div>
+            <a>{{node.email}}</a>
+            <app-treelist [treeData]="node.children" [userIDs]="userIDs"></app-treelist>
+        </li>
+    </ul>
+</div>
