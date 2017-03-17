@@ -44,15 +44,28 @@
 </div>
 <div class="google-map">
     <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [zoomControl]="false" sebmGoogleMapFitContents [usePanning]="true" [disableDefaultUI]="true">
-        <div *ngFor="let object of objects">
-            <sebm-google-map-marker [latitude]=" object.location.latitude " [longitude]="object.location.longitude ">
+        <div *ngFor="let story of objects">
+            <sebm-google-map-marker [latitude]=" story.location.latitude " [longitude]="story.location.longitude ">
                 <sebm-google-map-info-window>
                     <div class="infowindow ">
-                        <img class="ui avatar image" *ngIf="object.user?.photoURL" src="{{object.user.photoURL}}">
-                        <img class="ui avatar image" *ngIf="!object.user?.photoURL" src="../../../assets/img/elliot.jpg">
-                        <span *ngIf="object.user?.email">{{object.user?.email}}</span>
-                        <span *ngIf="!object.user?.email">{{object.user?.username}}</span>
-                        <p>{{object.feeling}}</p>
+                        <div class="card">
+                            <div class="content">
+                                <p routerLink="/stories/{{ story.$key }}">{{ story.story }}</p>
+                                <p class="meta">
+                                    <span>
+                                        <i class="quote left icon"></i> {{ story.feeling }}
+                                    </span>
+                                </p>
+                                <p class="meta">
+                                    <span>
+                                        <i class="location arrow icon"></i> {{ story.location?.name }}
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="extra content">
+                                <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
+                            </div>
+                        </div>
                     </div>
                 </sebm-google-map-info-window>
             </sebm-google-map-marker>

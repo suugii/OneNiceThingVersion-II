@@ -38,12 +38,16 @@ export class UserMapComponent implements OnInit {
     }).subscribe(datas => {
       this.objects = [];
       datas.forEach(data => {
-        this.af.database.object('touser/' + data.user).subscribe(userData => {
+        this.af.database.object('users/' + data.touser).subscribe(userData => {
+          data.touser = userData;
+        })
+        this.af.database.object('users/' + data.user).subscribe(userData => {
           data.user = userData;
         })
         this.objects.push(data);
       })
-    });    
+    });
+
   }
 
   ngOnInit() {
