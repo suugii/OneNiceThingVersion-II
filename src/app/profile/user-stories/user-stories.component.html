@@ -13,8 +13,8 @@
                     </div>
                 </div>
             </div>
-            <img *ngIf="story.imageURL" routerLink="edit/{{ story.$key }}" src="{{ story.imageURL }}" style="height:150px">
-            <img *ngIf="!story.imageURL" routerLink="edit/{{ story.$key }}" src="../../../assets/img/image.png" style="height:150px">
+            <img *ngIf="story.imageURL" routerLink="edit/{{ story.$key }}" src="{{ story.imageURL }}">
+            <img *ngIf="!story.imageURL" routerLink="edit/{{ story.$key }}" src="../../../assets/img/image.png">
         </div>
         <div class="content">
             <p>{{ story.story }}</p>

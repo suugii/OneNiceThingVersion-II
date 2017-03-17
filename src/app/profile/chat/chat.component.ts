@@ -102,7 +102,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 				data.name = data.user1name;
 			}
 		}
-		if (data.senderPerson != this.currentUser.uid) {
+		if (data.senderPerson != this.currentUser.uid ) {
 			data.isRead = true;
 			this.af.database.object('/threads/' + data.$key).set(data);
 		}

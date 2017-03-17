@@ -1,4 +1,17 @@
-<div id="wrapper">
+<div class="ui sidebar inverted vertical menu">
+    <a class="item sidebar-item" routerLink="create" routerLinkActive="active">Add</a>
+    <a class="item sidebar-item" routerLink="work" routerLinkActive="active">How it Works</a>
+    <a class="item sidebar-item" routerLink="stories" routerLinkActive="active">Success Stories</a>
+    <a class="item sidebar-item" routerLink="about" routerLinkActive="active">About</a>
+    <a class="item sidebar-item" routerLink="login" routerLinkActive="active" *ngIf="!isLoggedIn">Login</a>
+    <a class="item sidebar-item" routerLink="profile" routerLinkActive="active" *ngIf="isLoggedIn">My page</a>
+    <div *ngIf="isLoggedIn && userdata">
+        <a class="item sidebar-item" routerLink="/profile/settings">Settings</a>
+        <a class="item sidebar-item" routerLink="/profile/changepassword" *ngIf="authByEmail == true">Change Password</a>
+        <a class="item sidebar-item" (click)="logout()">Logout</a>
+    </div>
+</div>
+<div class="pusher" id="wrapper">
     <div id="header">
         <div class="ui container">
             <div class="brand">

@@ -50,6 +50,8 @@ import { UserTreeComponent } from './profile/user-tree/user-tree.component';
 import { TreelistComponent } from './profile/treelist/treelist.component';
 import { UserMapComponent } from './profile/user-map/user-map.component';
 import { FitContentsDirective } from './directive/fit-contents.directive';
+import { ToggleSidebarDirective } from './directive/toggle-sidebar.directive';
+import { HideSidebarDirective } from './directive/hide-sidebar.directive';
 
 
 export const firebaseConfig = {
@@ -95,6 +97,8 @@ export const firebaseConfig = {
 		TreelistComponent,
 		UserMapComponent,
 		FitContentsDirective,
+		ToggleSidebarDirective,
+		HideSidebarDirective,
 	],
 	imports: [
 		BrowserModule,

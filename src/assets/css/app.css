@@ -94,11 +94,14 @@ h1,h2,h3,h4,h5,
 .container:after {
 	clear: both;
 }
-#wrapper {
+.pushable > .pusher {
+	background-color: #fff;
+}
+/*#wrapper {
 	height: auto;
 	min-height: calc(100% - 1em - 50px);
 	position: relative;
-}
+}*/
 #header {
 	border-bottom: 1px solid #ccc;
 }
@@ -240,7 +243,7 @@ h1,h2,h3,h4,h5,
 	margin-bottom: 30px;
 	box-shadow: 0 5px 8px #ddd;
 }
-#footer {
+/*#footer {
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -250,7 +253,7 @@ h1,h2,h3,h4,h5,
 	 	-ms-transform: translate(0, 100%);
 	 	 -o-transform: translate(0, 100%);
 	      	transform: translate(0, 100%);
-}
+}*/
  #footer ul {
  	margin: 0;
  	padding: 0;
@@ -288,4 +291,10 @@ h1,h2,h3,h4,h5,
  }
  .wizard-item.active {
  	background-color: #40b553;
+ }
+
+
+ .card .image img {
+ 	height: 150px !important;
+ 	width: 100% !important;
  }

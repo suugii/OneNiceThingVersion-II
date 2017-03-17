@@ -16,20 +16,22 @@
                 <div class="ui raised segment">
                     <span class="ui green ribbon label">Tell your story to one you know :)</span>
                     <p></p>
-                    <form class="ui form" (ngSubmit)='storeStory()'>
+                    <form [formGroup]="storyForm" #formCtrl="ngForm" class="ui form" (ngSubmit)='storeStory($event)'>
                         <div class="ui tab active" data-tab="first">
                             <div class="field">
                                 <label>Username Lookup</label>
-                                <div class="ui search">
-                                    <input type="text" placeholder="Search username..." name="user" [(ngModel)]="model.user">
-                                    <div class="results"></div>
+                                <input autocomplete="off" ng2-auto-complete name="touser" required formControlName="touser" required (valueChanged)="valueChanged($event)" [source]="users" [list-formatter]="autocompleListFormatter" value-property-name="id" display-property-name="email" placeholder="Search email">
+                                <div *ngIf="formErrors.touser" class="ui negative message">
+                                    {{ formErrors.touser }}
                                 </div>
                             </div>
                             <div class="field">
-                                <a class="ui green button tab-button" data-tab="second">Next</a>
+                                <button class="ui green button tab-button" data-tab="second" 
+                                [disabled]="!formCtrl.form.valid">Next</button>
                             </div>
                             <div class="wizard">
                                 <span class="wizard-item active"></span>
+                                <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
@@ -41,7 +43,10 @@
                         <div class="ui tab" data-tab="second">
                             <div class="field">
                                 <label>Location where did you do your nice thing ?</label>
-                                <input type="text" placeholder="Enter Location" name="location" [(ngModel)]="model.location">
+                                <input placeholder="Enter Location" formControlName="location" required autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+                                <div *ngIf="formErrors.location" class="ui negative message">
+                                    {{ formErrors.location }}
+                                </div>
                             </div>
                             <div class="field">
                                 <a class="ui button tab-button" data-tab="first">Back</a>
@@ -55,12 +60,16 @@
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
+                                <span class="wizard-item"></span>
                             </div>
                         </div>
                         <div class="ui tab" data-tab="third">
                             <div class="field">
                                 <label>What nice thing did you do ?</label>
-                                <textarea rows="2" placeholder="What did you do ?" name="story" [(ngModel)]="model.story"></textarea>
+                                <textarea rows="2" placeholder="What did you do ?" formControlName="story" required name="story" [(ngModel)]="model.story"></textarea>
+                                <div *ngIf="formErrors.story" class="ui negative message">
+                                    {{ formErrors.story }}
+                                </div>
                             </div>
                             <div class="field">
                                 <a class="ui button tab-button" data-tab="second">Back</a>
@@ -74,12 +83,16 @@
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
+                                <span class="wizard-item"></span>
                             </div>
                         </div>
                         <div class="ui tab" data-tab="fourth">
                             <div class="field">
                                 <label>Who did you do it for ?</label>
-                                <input type="text" placeholder="Who did you do it for ?" name="name" [(ngModel)]="model.name">
+                                <input type="text" placeholder="Who did you do it for ?" formControlName="name" required name="name" [(ngModel)]="model.name">
+                                <div *ngIf="formErrors.name" class="ui negative message">
+                                    {{ formErrors.name }}
+                                </div>
                             </div>
                             <div class="field">
                                 <a class="ui button tab-button" data-tab="third">Back</a>
@@ -93,12 +106,16 @@
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
+                                <span class="wizard-item"></span>
                             </div>
                         </div>
                         <div class="ui tab" data-tab="fifth">
                             <div class="field">
                                 <label>How did you respond, how did you feel ?</label>
-                                <input type="text" placeholder="How did you feel ?" name="feel" [(ngModel)]="model.feel">
+                                <input type="text" placeholder="How did you feel ?" name="feeling" formControlName="feeling" required [(ngModel)]="model.feeling ">
+                                <div *ngIf="formErrors.feeling" class="ui negative message">
+                                    {{ formErrors.feeling }}
+                                </div>
                             </div>
                             <div class="field">
                                 <a class="ui button tab-button" data-tab="fourth">Back</a>
@@ -112,12 +129,13 @@
                                 <span class="wizard-item active"></span>
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
+                                <span class="wizard-item"></span>
                             </div>
                         </div>
                         <div class="ui tab" data-tab="sixth">
-                            <div class="field">
+                            <div class="field ">
                                 <label>Would you like to leave any other message for this member ?</label>
-                                <textarea rows="2" placeholder="Any message" name="message" [(ngModel)]="model.message"></textarea>
+                                <textarea rows="2 " placeholder="Any message " name="message" [(ngModel)]="model.message" [ngModelOptions]="{standalone: true}"></textarea>
                             </div>
                             <div class="field">
                                 <a class="ui button tab-button" data-tab="fifth">Back</a>
@@ -131,20 +149,48 @@
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item active"></span>
                                 <span class="wizard-item"></span>
+                                <span class="wizard-item"></span>
                             </div>
                         </div>
                         <div class="ui tab" data-tab="seventh">
+                            <div class="field ">
+                                <label>Image</label>
+                                <div class="file-upload ">
+                                    <input id="cust" type="file" name="imageURL " image-upload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions">
+                                </div>
+                                <img [src]="src" [hidden]="!src" *ngIf="!isProgressed"><br>
+                                <div class="ui active centered inline loader" *ngIf="isProgressed"></div>
+                            </div>
                             <div class="field">
+                                <a class="ui button tab-button" data-tab="sixth">Back</a>
+                                <a class="ui green button tab-button" data-tab="eighth">Next</a>
+                            </div>
+                            <div class="wizard">
+                                <span class="wizard-item"></span>
+                                <span class="wizard-item"></span>
+                                <span class="wizard-item"></span>
+                                <span class="wizard-item"></span>
+                                <span class="wizard-item"></span>
+                                <span class="wizard-item"></span>
+                                <span class="wizard-item active"></span>
+                                <span class="wizard-item"></span>
+                            </div>
+                        </div>
+                        <div class="ui tab" data-tab="eighth">
+                            <div class="field ">
                                 <label>Privacy</label>
-                                <select class="ui dropdown" name="privacy" [(ngModel)]="model.privacy">
-                                    <option value="">Permission</option>
+                                <select name="privacy " class="ui dropdown" formControlName="privacy" [(ngModel)]="model.privacy">
+                                    <option value="">Privacy</option>
                                     <option value="1">Only me</option>
                                     <option value="2">Friends</option>
                                     <option value="3">Public</option>
                                 </select>
+                                <div *ngIf="formErrors.privacy" class="ui negative message">
+                                    {{ formErrors.privacy }}
+                                </div>
                             </div>
                             <div class="field">
-                                <a class="ui button tab-button" data-tab="sixth">Back</a>
+                                <a class="ui button tab-button" data-tab="seventh">Back</a>
                                 <button class="ui green button" type="submit">Finish</button>
                             </div>
                             <div class="wizard">

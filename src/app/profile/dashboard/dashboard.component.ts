@@ -86,12 +86,13 @@ export class DashboardComponent implements OnInit {
 			if (threads) {
 				threads.forEach((thread) => {
 					if (thread.userID == this.user || thread.receiverID == this.user) {
-						if(thread.isRead == false){
+						if (thread.senderPerson != this.user && thread.isRead == false) {
 							this.mythreads.push(thread);
 						}
 					}
 				})
 			}
+			console.log(this.mythreads);
 			this.threadsCount = this.mythreads.length;
 		});
 
