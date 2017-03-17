@@ -38,14 +38,17 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 		});
 
 		this.authservice.getUsers().subscribe(datas => {
-            var result = _.pickBy(_.reject(datas, { $key: this.currentUser.uid }), function (v, k) {
-                if (v.email) {
-                    return v;
-                }
-            });
-            this.users = _.toArray(result);
-        });
+			var result = _.pickBy(_.reject(datas, { $key: this.currentUser.uid }), function (v, k) {
+				if (v.email) {
+					return v;
+				}
+			});
+			this.users = _.toArray(result);
+		});
 
+		this.checkThread();
+	}
+	checkThread() {
 		this.af.database.list('threads').subscribe((threads) => {
 			this.mythreads = [];
 			if (threads) {
@@ -67,8 +70,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 			}
 		});
 	}
-
 	ngOnInit() {
+	}
+	
+	ngOnDestroy() {
+		this.checkThread();
 	}
 
 	ngAfterViewChecked() {
@@ -89,13 +95,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
 	getMessages(data) {
 		if (data.userID == this.currentUser.uid || data.receiverID == this.currentUser.uid) {
-						if (data.userID == this.currentUser.uid) {
-							data.name = data.user2name;
-						} else {
-							data.name = data.user1name;
-						}
+			if (data.userID == this.currentUser.uid) {
+				data.name = data.user2name;
+			} else {
+				data.name = data.user1name;
+			}
 		}
-		if(data.senderPerson != this.currentUser.uid){
+		if (data.senderPerson != this.currentUser.uid) {
 			data.isRead = true;
 			this.af.database.object('/threads/' + data.$key).set(data);
 		}
@@ -120,13 +126,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 			return false;
 	}
 
-   autocompleListFormatter = (data: any): SafeHtml => {
-        let html = `<span>${data.email}</span>`;
-        return this._sanitizer.bypassSecurityTrustHtml(html);
-    }
-    valueChanged(newVal) {
+	autocompleListFormatter = (data: any): SafeHtml => {
+		let html = `<span>${data.email}</span>`;
+		return this._sanitizer.bypassSecurityTrustHtml(html);
+	}
+	valueChanged(newVal) {
 		this.createNewMsg(newVal);
-    }
+	}
 
 	createNewMsg(data) {
 		var isAvailable = false;
@@ -162,7 +168,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 	}
 
 	chatSend(e) {
-		if (e.length !== 0){
+		if (e.length !== 0) {
 			this.af.database.object('/threads/' + this.receiver.$key).take(1).subscribe(data => {
 				this.newMessage.message = this.msgVal;
 				this.newMessage.name = this.currentUser.auth.email;
