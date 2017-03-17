@@ -8,7 +8,7 @@ import { AuthService } from "./../../service/auth.service";
 import * as firebase from 'firebase';
 import * as _ from 'lodash';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, RouterStateSnapshot } from '@angular/router';
 
 @Component({
     selector: 'app-create',
@@ -199,15 +199,21 @@ export class CreateComponent implements OnInit {
     }
 
     storeStory(e) {
-        e.preventDefault();
-        this.stories.push(this.model).then((data) => {
-            this.success = 'Successfully added';
-            // this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });
-            this.model = new Story();
-            this.router.navigate(['/stories', data.key]);
-        }).catch((error: any) => {
-            this.error = error;
-        });
+        this.af.auth.subscribe((auth) => {
+            if (!auth) {
+                this.router.navigate(['/login']);
+            }
+            else {
+                this.stories.push(this.model).then((data) => {
+                    this.success = 'Successfully added';
+                    // this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });
+                    this.model = new Story();
+                    this.router.navigate(['/stories', data.key]);
+                }).catch((error: any) => {
+                    this.error = error;
+                });
+            }
+        })
     }
 
 }

@@ -145,7 +145,7 @@ export class LoginComponent implements OnInit {
         },
         'password': {
             'required': 'Please enter your password.',
-            'minlength': 'Email must be at least 6 characters long.',
+            'minlength': "Password must be at least 6 characters long."
         },
     };
 

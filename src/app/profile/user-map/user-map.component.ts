@@ -32,19 +32,18 @@ export class UserMapComponent implements OnInit {
 
     this.af.database.list('stories', {
       query: {
-        orderByChild: 'touser',
+        orderByChild: 'user',
         equalTo: this.user,
       }
     }).subscribe(datas => {
       this.objects = [];
       datas.forEach(data => {
-        this.af.database.object('users/' + data.user).subscribe(userData => {
+        this.af.database.object('touser/' + data.user).subscribe(userData => {
           data.user = userData;
         })
         this.objects.push(data);
       })
-    });
-    
+    });    
   }
 
   ngOnInit() {

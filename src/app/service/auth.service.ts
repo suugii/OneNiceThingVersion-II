@@ -4,7 +4,6 @@ import * as firebase from 'firebase';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-
 @Injectable()
 export class AuthService {
 
@@ -74,7 +73,7 @@ export class AuthService {
 		)
 		return firebase.auth().currentUser.reauthenticate(credential);
 	}
-	
+
 	loginWithEmail(email, password) {
 		return this.af.auth.login({
 			email: email,
