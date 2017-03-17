@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { SebmGoogleMap, SebmGoogleMapPolygon, LatLngLiteral } from 'angular2-google-maps/core';
+import { MapsAPILoader } from 'angular2-google-maps/core';
+
 @Component({
   selector: 'app-user-map',
   templateUrl: './user-map.component.html',
@@ -11,9 +14,13 @@ export class UserMapComponent implements OnInit {
   lng: number = -87.770010;
   zoom: number = 2;
   user: string;
-  objects: any;
+  objects: any[];
 
-  constructor(private af: AngularFire) {
+
+  constructor(private af: AngularFire, private mapsAPILoader: MapsAPILoader) {
+
+
+
     this.af.auth.subscribe(
       (auth) => {
         if (auth) {
@@ -23,12 +30,21 @@ export class UserMapComponent implements OnInit {
     );
 
 
-    this.objects = this.af.database.list('stories', {
+    this.af.database.list('stories', {
       query: {
         orderByChild: 'touser',
         equalTo: this.user,
       }
+    }).subscribe(datas => {
+      this.objects = [];
+      datas.forEach(data => {
+        this.af.database.object('users/' + data.user).subscribe(userData => {
+          data.user = userData;
+        })
+        this.objects.push(data);
+      })
     });
+    
   }
 
   ngOnInit() {

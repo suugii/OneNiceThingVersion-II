@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from './../../service/auth.service';
 import { AngularFire, AuthProviders, AuthMethods, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import * as _ from 'lodash';
@@ -28,6 +28,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 	public mythreads: any[];
 	public newMessage = new Message();
 	public newThread = new Thread();
+	public destroyThread: any;
 	public limit: BehaviorSubject<number> = new BehaviorSubject<number>(10);
 	@ViewChild('scrollMe') private myScrollContainer: ElementRef;
 	constructor(public authservice: AuthService, public af: AngularFire, private _sanitizer: DomSanitizer) {
@@ -49,7 +50,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 		this.checkThread();
 	}
 	checkThread() {
-		this.af.database.list('threads').subscribe((threads) => {
+		this.destroyThread = this.af.database.list('threads').subscribe((threads) => {
 			this.mythreads = [];
 			if (threads) {
 				threads.forEach((thread) => {
@@ -74,7 +75,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 	}
 	
 	ngOnDestroy() {
-		this.checkThread();
+		this.destroyThread.unsubscribe();
 	}
 
 	ngAfterViewChecked() {

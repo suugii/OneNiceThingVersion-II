@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
+import { Subject } from 'rxjs/Subject';
+
+
 @Component({
   selector: 'app-user-home',
   templateUrl: './user-home.component.html',
@@ -22,11 +25,19 @@ export class UserHomeComponent implements OnInit {
     );
 
 
-    this.objects = this.af.database.list('stories', {
+    this.af.database.list('stories', {
       query: {
         orderByChild: 'touser',
         equalTo: this.user,
       }
+    }).subscribe(datas => {
+      this.objects = [];
+      datas.forEach(data => {
+        this.af.database.object('users/' + data.user).subscribe(userData => {
+          data.user = userData;
+        })
+        this.objects.push(data);
+      })
     });
 
   }

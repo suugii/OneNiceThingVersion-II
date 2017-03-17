@@ -1,10 +1,13 @@
 <div class="google-map">
-    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" sebmGoogleMapFitContents [usePanning]="true" [disableDefaultUI]="true">
-        <div *ngFor="let object of objects | async">
-            <sebm-google-map-marker [latitude]="object.location.latitude" [longitude]="object.location.longitude">
+    <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [zoomControl]="false" sebmGoogleMapFitContents [usePanning]="true" [disableDefaultUI]="true">
+        <div *ngFor="let object of objects">
+            <sebm-google-map-marker [latitude]=" object.location.latitude " [longitude]="object.location.longitude ">
                 <sebm-google-map-info-window>
-                    <div class="infowindow">
-                        <!--<img class="ui avatar image" [src]="iconURL.url"> Tugsbileg-->
+                    <div class="infowindow ">
+                        <img class="ui avatar image" *ngIf="object.user?.photoURL" src="{{object.user.photoURL}}">
+                        <img class="ui avatar image" *ngIf="!object.user?.photoURL" src="../../../assets/img/elliot.jpg">
+                        <span *ngIf="object.user?.email">{{object.user?.email}}</span>
+                        <span *ngIf="!object.user?.email">{{object.user?.username}}</span>
                         <p>{{object.feeling}}</p>
                     </div>
                 </sebm-google-map-info-window>
