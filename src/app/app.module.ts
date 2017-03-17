@@ -11,6 +11,8 @@ import { ImageUploadModule } from 'ng2-imageupload';
 import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 import { DragScrollModule } from 'angular2-drag-scroll';
 import { TreeModule } from 'angular-tree-component';
+import { CustomFormsModule } from 'ng2-validation'
+import { FormWizardModule } from 'angular2-wizard';
 
 import { AuthService } from "./service/auth.service";
 import { StoryService } from "./service/story.service";
@@ -107,8 +109,10 @@ export const firebaseConfig = {
 		HttpModule,
 		Route,
 		DragScrollModule,
+		CustomFormsModule,
 		InfiniteScrollModule,
 		ImageUploadModule,
+		FormWizardModule,
 		TreeModule,
 		Ng2AutoCompleteModule,
 		AngularFireModule.initializeApp(firebaseConfig),

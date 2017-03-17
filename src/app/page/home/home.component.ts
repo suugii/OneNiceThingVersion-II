@@ -37,6 +37,12 @@ export class HomeComponent implements OnInit {
     public isProgressed: boolean;
     public storyForm: FormGroup;
 
+    isEmpty1: boolean;
+    isEmpty2: boolean;
+    isEmpty3: boolean;
+    isEmpty4: boolean;
+    isEmpty5: boolean;
+    isEmpty6: boolean;
     constructor(private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
         this.requests = af.database.list('requests');
@@ -61,7 +67,7 @@ export class HomeComponent implements OnInit {
 
     valueChanged(newVal) {
         this.model.touser = newVal.$key;
-
+        this.isEmpty1 = true;
     }
 
     ngOnInit() {
@@ -82,6 +88,7 @@ export class HomeComponent implements OnInit {
                     obj.latitude = place.geometry.location.lat();
                     obj.longitude = place.geometry.location.lng();
                     obj.name = place.formatted_address;
+                    this.isEmpty2 = true;
                     this.model.location = obj;
                 });
             });
@@ -114,6 +121,7 @@ export class HomeComponent implements OnInit {
                 }
             }
         }
+
     }
     formErrors = {
         'touser': '',
@@ -212,4 +220,65 @@ export class HomeComponent implements OnInit {
             }
         })
     }
+
+    checkTouserEmpty(e) {
+        this.isEmpty1 = false;
+    }
+
+    checkLocationEmpty(e) {
+        this.isEmpty2 = false;
+    }
+
+    checkStoryEmpty(e) {
+        if (e) {
+            if (e.length > 0) {
+                this.isEmpty3 = true;
+            }
+            else {
+                this.isEmpty3 = false;
+            }
+        }
+        else {
+            this.isEmpty3 = false;
+        }
+    }
+
+    checkNameEmpty(e) {
+        if (e) {
+            if (e.length > 0) {
+                this.isEmpty4 = true;
+            }
+            else {
+                this.isEmpty4 = false;
+            }
+        }
+        else {
+            this.isEmpty4 = false;
+        }
+
+    }
+
+    checkFeelingEmpty(e) {
+        if (e) {
+            if (e.length > 0) {
+                this.isEmpty5 = true;
+            }
+            else {
+                this.isEmpty5 = false;
+            }
+        }
+        else {
+            this.isEmpty5 = false;
+        }
+    }
+
+    checkPrivacyEmpty(e) {
+        if (e) {
+            this.isEmpty6 = true;
+        }
+        else {
+            this.isEmpty6 = false;
+        }
+    }
+
 }
