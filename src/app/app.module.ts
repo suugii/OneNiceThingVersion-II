@@ -48,6 +48,7 @@ import { UserOriginateComponent } from './profile/user-originate/user-originate.
 import { EqualValidator } from './directive/equal-validator.directive';
 import { UserTreeComponent } from './profile/user-tree/user-tree.component';
 import { TreelistComponent } from './profile/treelist/treelist.component';
+import { UserMapComponent } from './profile/user-map/user-map.component';
 
 export const firebaseConfig = {
 	apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
@@ -90,6 +91,7 @@ export const firebaseConfig = {
 		EqualValidator,
 		UserTreeComponent,
 		TreelistComponent,
+		UserMapComponent,
 	],
 	imports: [
 		BrowserModule,

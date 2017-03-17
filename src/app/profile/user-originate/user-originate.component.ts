@@ -53,7 +53,7 @@ export class UserOriginateComponent implements OnInit {
 				limitToLast: this.limit,
 			}
 		}).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
-		
+
 		this.objects.subscribe((data) => {
 			if (data.length > 0) {
 				if (data[data.length - 1].$key === this.lastKey) {
@@ -68,11 +68,11 @@ export class UserOriginateComponent implements OnInit {
 		this.objects.subscribe(
 			dataStory => {
 				this.isCounter = false;
-				if (dataStory.length == 0) {
-					this.isCounter = true;
+				if (dataStory.length < 6) {
 					this.queryable = false;
 				}
-				if (dataStory.length < 6) {
+				if (dataStory.length == 0) {
+					this.isCounter = true;
 					this.queryable = false;
 				}
 				dataStory.forEach(

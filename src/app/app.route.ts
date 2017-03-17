@@ -26,6 +26,7 @@ import { EditStoryComponent } from './profile/edit-story/edit-story.component';
 import { UserRequestsComponent } from './profile/user-requests/user-requests.component';
 import { UserOriginateComponent } from './profile/user-originate/user-originate.component';
 import { UserTreeComponent } from './profile/user-tree/user-tree.component';
+import { UserMapComponent } from './profile/user-map/user-map.component';
 
 export const Route: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent },
@@ -46,6 +47,7 @@ export const Route: ModuleWithProviders = RouterModule.forRoot([
         { path: 'home', component: UserHomeComponent, canActivate: [GuardService] },
         { path: 'friends', component: UserFriendsComponent, canActivate: [GuardService] },
         { path: 'tree', component: UserTreeComponent, canActivate: [GuardService] },
+        { path: 'map', component: UserMapComponent, canActivate: [GuardService] },
         { path: 'requests', component: UserRequestsComponent, canActivate: [GuardService] },
         { path: 'favorites', component: UserFavoritesComponent, canActivate: [GuardService] },
         { path: 'stories', component: UserStoriesComponent, canActivate: [GuardService] },
