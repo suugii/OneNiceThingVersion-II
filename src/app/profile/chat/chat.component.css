@@ -32,6 +32,18 @@
     font-size: 1.28rem;
     line-height: 1.28rem;
 }
+.chat-action .list .item {
+    position: relative;
+}
+.chat-action .list .item .image {
+    position: absolute;
+    top: 3px;
+    left: 0;
+}
+.chat-action .list .item .content {
+    max-width: 70%;
+    padding-left: calc(2rem + 10px);
+}
 .conversation {
     height: 60vh;
     margin: 1rem 0;
