@@ -16,7 +16,7 @@
                 <div class="ui raised segment">
                     <span class="ui green ribbon label">Tell your story to one you know :)</span>
                     <p></p>
-                    <form [formGroup]="storyForm" #formCtrl="ngForm" class="ui form" (ngSubmit)='storeStory($event)'>
+                    <form [formGroup]="storyForm"  class="ui form" (ngSubmit)='storeStory($event)'>
                         <div class="ui tab active" data-tab="first">
                             <div class="field">
                                 <label>Username Lookup</label>
@@ -27,7 +27,7 @@
                             </div>
                             <div class="field">
                                 <button class="ui green button tab-button" data-tab="second" 
-                                [disabled]="!formCtrl.form.valid">Next</button>
+                                [disabled]="!storyForm.touser">Next</button>
                             </div>
                             <div class="wizard">
                                 <span class="wizard-item active"></span>
