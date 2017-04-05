@@ -64,7 +64,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 						this.mythreads.push(thread);
 					}
 				})
-				console.log(this.mythreads);
 				this.threads = _.orderBy(this.mythreads, ['date'], ['desc']);
 				let latest = _.head(this.threads);
 				if (latest) {

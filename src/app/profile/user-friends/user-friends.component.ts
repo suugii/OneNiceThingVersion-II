@@ -53,9 +53,6 @@ export class UserFriendsComponent implements OnInit {
 						);
 					}
 				);
-				if (this.users.length == 0) {
-					this.isCounter = true;
-				}
 			}
 		);
 	}
