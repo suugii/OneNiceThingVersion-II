@@ -44,8 +44,7 @@
     </div>
     <div class="field">
         <label>Privacy</label>
-        <select class="ui dropdown" name="privacy" [(ngModel)]="model.privacy">
-			<option value="">Privacy</option>
+        <select name="privacy" [(ngModel)]="model.privacy">
 			<option value="1" [selected]="model.privacy == 1">Only me</option>
 			<option value="2" [selected]="model.privacy == 2">Friends</option>
 			<option value="3" [selected]="model.privacy == 3">Public</option>

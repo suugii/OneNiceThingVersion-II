@@ -48,7 +48,6 @@ export class EditStoryComponent implements OnInit, AfterViewInit {
 
 	constructor(private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private authService: AuthService, private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
 		this.story = this.af.database.object('stories' + '/' + this.key);
-
 		this.story.subscribe(
 			(story) => {
 				this.model.user = story.user;
@@ -66,7 +65,6 @@ export class EditStoryComponent implements OnInit, AfterViewInit {
 				})
 			}
 		);
-
 
 		this.authService.getUsers().subscribe(datas => {
 			var result = _.pickBy(_.reject(datas, { $key: this.model.user }), function (v, k) {
@@ -89,6 +87,7 @@ export class EditStoryComponent implements OnInit, AfterViewInit {
 	}
 
 	ngOnInit() {
+
 		this.mapsAPILoader.load().then(() => {
 			let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
 			autocomplete.addListener("place_changed", () => {

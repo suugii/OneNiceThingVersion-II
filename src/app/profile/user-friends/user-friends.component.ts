@@ -25,6 +25,7 @@ export class UserFriendsComponent implements OnInit {
 		this.af.database.list('friends').subscribe(
 			dataFriends => {
 				this.isCounter = false;
+
 				dataFriends.forEach(
 					friend => {
 						this.isFriend = false;
@@ -42,15 +43,19 @@ export class UserFriendsComponent implements OnInit {
 										user => {
 											if (user.uid !== this.uid) {
 												this.users.push(this.af.database.object('users' + '/' + user.uid));
+
 											}
 										}
 									);
+
 								}
 							}
 						);
 					}
 				);
-			
+				if (this.users.length == 0) {
+					this.isCounter = true;
+				}
 			}
 		);
 	}
