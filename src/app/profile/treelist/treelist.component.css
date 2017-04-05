@@ -1,20 +1,23 @@
-* {margin: 0; padding: 0;}
+* {
+     margin: 0;
+     padding: 0;
+}
 
 .tree ul {
-     padding-top: 20px; position: relative;
-     
+     padding-top: 20px;
+     position: relative;
      transition: all 0.5s;
      -webkit-transition: all 0.5s;
      -moz-transition: all 0.5s;
+     list-style: none;
+     text-align: center;
+     white-space: nowrap;
 }
 
 .tree li {
-     float: left; 
-     text-align: center;
-     list-style-type: none;
+     display: inline-block;
      position: relative;
      padding: 20px 5px 0 5px;
-
      transition: all 0.5s;
      -webkit-transition: all 0.5s;
      -moz-transition: all 0.5s;
