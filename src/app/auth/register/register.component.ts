@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MapsAPILoader } from 'angular2-google-maps/core';
 import { ImageResult, ResizeOptions } from 'ng2-imageupload';
 import * as firebase from 'firebase';
+import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
 @Component({
     selector: 'app-register',
@@ -27,7 +28,19 @@ export class RegisterComponent implements OnInit {
         resizeMaxWidth: 300
     };
     public isProgressed: boolean;
-    constructor(private route: ActivatedRoute, private fb: FormBuilder, private mapsAPILoader: MapsAPILoader, private authService: AuthService, private router: Router, private ngZone: NgZone) { }
+    data: any;
+
+    cropperSettings: CropperSettings;
+
+    croppedWidth: number;
+    croppedHeight: number;
+
+    @ViewChild('cropper', undefined)
+    cropper: ImageCropperComponent;
+
+    constructor(private route: ActivatedRoute, private fb: FormBuilder, private mapsAPILoader: MapsAPILoader, private authService: AuthService, private router: Router, private ngZone: NgZone) {
+        this.data = {};
+    }
 
     ngOnInit() {
         this.buildForm();
@@ -52,6 +65,24 @@ export class RegisterComponent implements OnInit {
                 });
             });
         });
+        this.cropperSettings = new CropperSettings();
+        this.cropperSettings.fileType = "image/jpeg";
+
+        this.cropperSettings.width = 300;
+        this.cropperSettings.height = 300;
+
+        this.cropperSettings.croppedWidth = 300;
+        this.cropperSettings.croppedHeight = 300;
+
+        this.cropperSettings.canvasWidth = 300;
+        this.cropperSettings.canvasHeight = 300;
+
+        this.cropperSettings.rounded = false;
+        this.cropperSettings.keepAspect = true;
+
+        this.cropperSettings.noFileInput = true;
+        this.cropperSettings.cropperDrawSettings.strokeColor = 'rgba(0,0,0,0.5)';
+        this.cropperSettings.cropperDrawSettings.strokeWidth = 1;
     }
 
     registerUser(event) {
@@ -115,6 +146,25 @@ export class RegisterComponent implements OnInit {
         });
     }
 
+    cropped(bounds: Bounds) {
+        this.croppedHeight = bounds.bottom - bounds.top;
+        this.croppedWidth = bounds.right - bounds.left;
+        this.uploadImage(this.data.image);
+    }
+
+    fileChangeListener($event) {
+        let image: any = new Image();;
+
+        let file = $event.target.files[0];
+        let myReader: FileReader = new FileReader();
+        let that = this;
+        myReader.onloadend = function (loadEvent: any) {
+            that.cropper.reset();
+            image.src = loadEvent.target.result;
+            that.cropper.setImage(image);
+        };
+        myReader.readAsDataURL(file);
+    }
 
     loginWithGoogle() {
         this.authService.loginWithGoogle().then((data) => {

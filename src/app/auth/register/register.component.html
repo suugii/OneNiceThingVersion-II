@@ -12,12 +12,15 @@
                     </div>
                 </div>
                 <div class="field ">
-                    <label>Profile image</label>
-                    <div class="file-upload ">
-                        <input id="cust" type="file" name="imageURL " image-upload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions">
+                    <div class="file-upload">
+                        <span class="text">Profile Image</span>
+                        <input id="custom-input" type="file" (change)="fileChangeListener($event)">
                     </div>
-                    <img [src]="src" [hidden]="!src" *ngIf="!isProgressed"><br>
-                    <div class="ui active centered inline loader" *ngIf="isProgressed"></div>
+                    <img-cropper #cropper [image]="data" [settings]="cropperSettings" (onCrop)="cropped($event)"></img-cropper>
+                    <br>
+                    <span class="result rounded" *ngIf="data.image">
+                            <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+                    </span>
                 </div>
 
                 <div class="field">
@@ -36,14 +39,16 @@
                 </div>
                 <div class="field">
                     <label>Location</label>
-                    <input type="text" placeholder="Location" formControlName="location" required name="location" autocorrect="off" autocapitalize="off" spellcheck="off" #search>
+                    <input type="text" placeholder="Location" formControlName="location" required name="location" autocorrect="off" autocapitalize="off"
+                        spellcheck="off" #search>
                     <div *ngIf="formErrors.location" class="ui negative message">
                         {{ formErrors.location }}
                     </div>
                 </div>
                 <div class="field ">
                     <label>Email</label>
-                    <input type="email" placeholder="Email" formControlName="email" required pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$" [(ngModel)]="user.email " name="email ">
+                    <input type="email" placeholder="Email" formControlName="email" required pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+                        [(ngModel)]="user.email " name="email ">
                     <div *ngIf="formErrors.email " class="ui negative message ">
                         {{ formErrors.email }}
                     </div>
@@ -51,7 +56,8 @@
 
                 <div class="field ">
                     <label>Password</label>
-                    <input type="password" placeholder="Password" required minlength="6" formControlName="password" [(ngModel)]="user.password " name="password ">
+                    <input type="password" placeholder="Password" required minlength="6" formControlName="password" [(ngModel)]="user.password "
+                        name="password ">
                     <div *ngIf="formErrors.password " class="ui negative message ">
                         {{ formErrors.password }}
                     </div>
