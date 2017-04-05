@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from './../../class/user';
 import { AuthService } from "./../../service/auth.service";
 import * as _ from 'lodash';
 import { ImageResult, ResizeOptions } from 'ng2-imageupload';
 import * as firebase from 'firebase';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
 @Component({
     selector: 'app-user-settings',
@@ -26,7 +27,17 @@ export class UserSettingsComponent implements OnInit {
     public isProgressed: boolean;
     public upgradeUserForm: FormGroup;
 
+    data: any;
+
+    cropperSettings: CropperSettings;
+
+    croppedWidth: number;
+    croppedHeight: number;
+
+    @ViewChild('cropper', undefined)
+    cropper: ImageCropperComponent;
     constructor(private authService: AuthService, private fb: FormBuilder, ) {
+        this.data = {};
     }
 
     ngOnInit() {
@@ -51,6 +62,24 @@ export class UserSettingsComponent implements OnInit {
                 }
             }
         );
+        this.cropperSettings = new CropperSettings();
+        this.cropperSettings.fileType = "image/jpeg";
+
+        this.cropperSettings.width = 300;
+        this.cropperSettings.height = 300;
+
+        this.cropperSettings.croppedWidth = 300;
+        this.cropperSettings.croppedHeight = 300;
+
+        this.cropperSettings.canvasWidth = 300;
+        this.cropperSettings.canvasHeight = 300;
+
+        this.cropperSettings.rounded = false;
+        this.cropperSettings.keepAspect = true;
+
+        this.cropperSettings.noFileInput = true;
+        this.cropperSettings.cropperDrawSettings.strokeColor = 'rgba(0,0,0,0.5)';
+        this.cropperSettings.cropperDrawSettings.strokeWidth = 1;
     }
 
 
@@ -148,6 +177,26 @@ export class UserSettingsComponent implements OnInit {
                 })
             }
         });
+    }
+
+    cropped(bounds: Bounds) {
+        this.croppedHeight = bounds.bottom - bounds.top;
+        this.croppedWidth = bounds.right - bounds.left;
+        this.uploadImage(this.data.image);
+    }
+
+    fileChangeListener($event) {
+        let image: any = new Image();;
+
+        let file = $event.target.files[0];
+        let myReader: FileReader = new FileReader();
+        let that = this;
+        myReader.onloadend = function (loadEvent: any) {
+            that.cropper.reset();
+            image.src = loadEvent.target.result;
+            that.cropper.setImage(image);
+        };
+        myReader.readAsDataURL(file);
     }
 
     buildForm(): void {

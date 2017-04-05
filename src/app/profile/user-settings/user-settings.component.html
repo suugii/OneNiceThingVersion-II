@@ -34,7 +34,8 @@
         <img [src]="src" *ngIf="!isProgressed"><br>
         <div class="field">
             <label>Email</label>
-            <input type="email" placeholder="Email" formControlName="email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$" [(ngModel)]="user.email" name="email">
+            <input type="email" placeholder="Email" formControlName="email" pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$"
+                [(ngModel)]="user.email" name="email">
             <div *ngIf="formErrors.email" class="ui negative message">
                 {{ formErrors.email }}
             </div>
@@ -75,13 +76,16 @@
             <input type="text" placeholder="Username" [(ngModel)]="user.username" name="username">
         </div>
         <div class="field ">
-            <label>Profile image</label>
-            <div class="file-upload ">
-                <input id="cust" type="file" name="imageURL " image-upload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions">
+            <div class="file-upload">
+                <span class="text">Profile image</span>
+                <input id="custom-input" type="file" (change)="fileChangeListener($event)">
             </div>
+            <img-cropper #cropper [image]="data" [settings]="cropperSettings" (onCrop)="cropped($event)"></img-cropper>
+            <br>
+            <span class="result rounded" *ngIf="data.image">
+                <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+            </span>
         </div>
-        <div class="ui active centered inline loader" *ngIf="isProgressed"></div>
-        <img [src]="src" *ngIf="!isProgressed"><br>
         <div class="field">
             <div class="ui checkbox">
                 <input type="checkbox">
