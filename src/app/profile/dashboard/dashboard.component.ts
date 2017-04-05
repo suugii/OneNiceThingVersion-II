@@ -92,7 +92,6 @@ export class DashboardComponent implements OnInit {
 					}
 				})
 			}
-			console.log(this.mythreads);
 			this.threadsCount = this.mythreads.length;
 		});
 
