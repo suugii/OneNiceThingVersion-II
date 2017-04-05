@@ -10,7 +10,8 @@
 	                </span>
                     <span class="right floated">
 	                	<i class="right arrow icon"></i>
-		                <img class="ui avatar image" src="{{ (story.touser | async)?.photoURL }}"> 
+                        <img class="ui avatar image" *ngIf=" (story.touser | async)?.photoURL" src="{{ (story.touser | async)?.photoURL }}">
+                        <img class="ui avatar image" *ngIf=" !(story.touser | async)?.photoURL" src="../../../assets/img/elliot.jpg">
 	                	<a routerLink="/user/{{ (story.touser | async)?.$key }}">{{ (story.touser | async)?.username }}</a>
 	                </span>
                 </div>

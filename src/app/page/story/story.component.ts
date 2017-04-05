@@ -63,6 +63,7 @@ export class StoryComponent implements OnInit {
 				this.story = object;
 			}
 		);
+		
 	}
 
 	ngOnInit() {
