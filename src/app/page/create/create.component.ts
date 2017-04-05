@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, NgZone, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, NgZone, ViewChild, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { Story } from './../../class/story';
@@ -37,7 +37,7 @@ export class CreateComponent implements OnInit {
     };
     public isProgressed: boolean;
     public storyForm: FormGroup;
-    public progress:any;
+    public progress: any;
 
     data: any;
 
@@ -247,20 +247,20 @@ export class CreateComponent implements OnInit {
     }
 
     storeStory(e) {
-            this.af.auth.subscribe((auth) => {
-                if (!auth) {
-                    this.router.navigate(['/login']);
-                }
-                else {
-                    this.stories.push(this.model).then((data) => {
-                        this.success = 'Successfully added';
-                        // this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });
-                        this.model = new Story();
-                        this.router.navigate(['/stories', data.key]);
-                    }).catch((error: any) => {
-                        this.error = error;
-                    });
-                }
-            })
+        this.af.auth.subscribe((auth) => {
+            if (!auth) {
+                this.router.navigate(['/login']);
+            }
+            else {
+                this.stories.push(this.model).then((data) => {
+                    this.success = 'Successfully added';
+                    // this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });
+                    this.model = new Story();
+                    this.router.navigate(['/stories', data.key]);
+                }).catch((error: any) => {
+                    this.error = error;
+                });
+            }
+        })
     }
 }

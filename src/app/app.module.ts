@@ -13,7 +13,7 @@ import { DragScrollModule } from 'angular2-drag-scroll';
 import { TreeModule } from 'angular-tree-component';
 import { CustomFormsModule } from 'ng2-validation'
 import { FormWizardModule } from 'angular2-wizard';
-import { ImageCropperComponent, CropperSettings } from 'ng2-img-cropper';
+import { ImageCropperModule  } from "ng2-img-cropper";
 
 import { AuthService } from "./service/auth.service";
 import { StoryService } from "./service/story.service";
@@ -102,7 +102,6 @@ export const firebaseConfig = {
 		FitContentsDirective,
 		ToggleSidebarDirective,
 		HideSidebarDirective,
-		ImageCropperComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -116,6 +115,7 @@ export const firebaseConfig = {
 		ImageUploadModule,
 		FormWizardModule,
 		TreeModule,
+		ImageCropperModule,
 		Ng2AutoCompleteModule,
 		AngularFireModule.initializeApp(firebaseConfig),
 		AgmCoreModule.forRoot({
