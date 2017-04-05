@@ -9,6 +9,7 @@ import * as firebase from 'firebase';
 import * as _ from 'lodash';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { Router, ActivatedRoute, Params, RouterStateSnapshot } from '@angular/router';
+import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
 @Component({
     selector: 'app-home',
@@ -43,6 +44,18 @@ export class HomeComponent implements OnInit {
     isEmpty4: boolean;
     isEmpty5: boolean;
     isEmpty6: boolean;
+
+
+    data: any;
+
+    cropperSettings: CropperSettings;
+
+    croppedWidth: number;
+    croppedHeight: number;
+
+    @ViewChild('cropper', undefined)
+    cropper: ImageCropperComponent;
+
     constructor(private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
         this.requests = af.database.list('requests');
@@ -63,6 +76,7 @@ export class HomeComponent implements OnInit {
             this.users = _.toArray(result);
         });
 
+        this.data = {};
     }
 
     valueChanged(newVal) {
@@ -93,6 +107,24 @@ export class HomeComponent implements OnInit {
                 });
             });
         });
+        this.cropperSettings = new CropperSettings();
+        this.cropperSettings.fileType = "image/jpeg";
+
+        this.cropperSettings.width = 300;
+        this.cropperSettings.height = 200;
+
+        this.cropperSettings.croppedWidth = 300;
+        this.cropperSettings.croppedHeight = 200;
+
+        this.cropperSettings.canvasWidth = 300;
+        this.cropperSettings.canvasHeight = 200;
+
+        this.cropperSettings.rounded = false;
+        this.cropperSettings.keepAspect = true;
+
+        this.cropperSettings.noFileInput = true;
+        this.cropperSettings.cropperDrawSettings.strokeColor = 'rgba(0,0,0,0.5)';
+        this.cropperSettings.cropperDrawSettings.strokeWidth = 1;
     }
 
     buildForm(): void {
@@ -201,6 +233,26 @@ export class HomeComponent implements OnInit {
     autocompleListFormatter = (data: any): SafeHtml => {
         let html = `<span>${data.email}</span>`;
         return this._sanitizer.bypassSecurityTrustHtml(html);
+    }
+
+    cropped(bounds: Bounds) {
+        this.croppedHeight = bounds.bottom - bounds.top;
+        this.croppedWidth = bounds.right - bounds.left;
+        this.uploadImage(this.data.image);
+    }
+
+    fileChangeListener($event) {
+        let image: any = new Image();;
+
+        let file = $event.target.files[0];
+        let myReader: FileReader = new FileReader();
+        let that = this;
+        myReader.onloadend = function (loadEvent: any) {
+            that.cropper.reset();
+            image.src = loadEvent.target.result;
+            that.cropper.setImage(image);
+        };
+        myReader.readAsDataURL(file);
     }
 
     storeStory(e) {

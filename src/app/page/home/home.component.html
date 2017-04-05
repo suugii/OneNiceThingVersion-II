@@ -156,12 +156,15 @@
                         </div>
                         <div class="ui tab" data-tab="seventh">
                             <div class="field ">
-                                <label>Image</label>
-                                <div class="file-upload ">
-                                    <input id="cust" type="file" name="imageURL " image-upload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions">
-                                </div>
-                                <img [src]="src" [hidden]="!src" *ngIf="!isProgressed"><br>
-                                <div class="ui active centered inline loader" *ngIf="isProgressed"></div>
+                                <div class="file-upload">
+                            <span class="text">Image</span>
+                            <input id="custom-input" type="file" (change)="fileChangeListener($event)">
+                            </div>
+                            <img-cropper #cropper [image]="data" [settings]="cropperSettings"  (onCrop)="cropped($event)"></img-cropper>
+                            <br>
+                            <span class="result rounded" *ngIf="data.image">
+                                <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+                            </span>
                             </div>
                             <div class="field">
                                 <a class="ui button tab-button" data-tab="sixth">Back</a>
