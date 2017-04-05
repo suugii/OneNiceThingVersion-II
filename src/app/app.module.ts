@@ -13,12 +13,13 @@ import { DragScrollModule } from 'angular2-drag-scroll';
 import { TreeModule } from 'angular-tree-component';
 import { CustomFormsModule } from 'ng2-validation'
 import { FormWizardModule } from 'angular2-wizard';
-import { ImageCropperModule  } from "ng2-img-cropper";
+import { ImageCropperModule } from "ng2-img-cropper";
 
 import { AuthService } from "./service/auth.service";
 import { StoryService } from "./service/story.service";
 import { ContactService } from "./service/contact.service";
 import { GuardService } from "./service/guard.service";
+import { SpinnerService } from './service/spinner.service';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './page/home/home.component';
@@ -55,6 +56,7 @@ import { UserMapComponent } from './profile/user-map/user-map.component';
 import { FitContentsDirective } from './directive/fit-contents.directive';
 import { ToggleSidebarDirective } from './directive/toggle-sidebar.directive';
 import { HideSidebarDirective } from './directive/hide-sidebar.directive';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 export const firebaseConfig = {
@@ -102,6 +104,7 @@ export const firebaseConfig = {
 		FitContentsDirective,
 		ToggleSidebarDirective,
 		HideSidebarDirective,
+		SpinnerComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -128,6 +131,7 @@ export const firebaseConfig = {
 		GuardService,
 		StoryService,
 		ContactService,
+		SpinnerService,
 	],
 	bootstrap: [AppComponent]
 })

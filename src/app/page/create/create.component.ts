@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { Router, ActivatedRoute, Params, RouterStateSnapshot } from '@angular/router';
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
+import { SpinnerService } from '../../service/spinner.service';
 
 @Component({
     selector: 'app-create',
@@ -49,7 +50,7 @@ export class CreateComponent implements OnInit {
     @ViewChild('cropper', undefined)
     cropper: ImageCropperComponent;
 
-    constructor(private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
+    constructor(public spinner: SpinnerService, private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
         this.requests = af.database.list('requests');
         this.af.auth.subscribe(
@@ -103,14 +104,14 @@ export class CreateComponent implements OnInit {
         this.cropperSettings = new CropperSettings();
         this.cropperSettings.fileType = "image/jpeg";
 
-        this.cropperSettings.width = 300;
-        this.cropperSettings.height = 200;
+        this.cropperSettings.width = 400;
+        this.cropperSettings.height = 265;
 
-        this.cropperSettings.croppedWidth = 300;
-        this.cropperSettings.croppedHeight = 200;
+        this.cropperSettings.croppedWidth = 400;
+        this.cropperSettings.croppedHeight = 265;
 
-        this.cropperSettings.canvasWidth = 300;
-        this.cropperSettings.canvasHeight = 200;
+        this.cropperSettings.canvasWidth = 400;
+        this.cropperSettings.canvasHeight = 265;
 
         this.cropperSettings.rounded = false;
         this.cropperSettings.keepAspect = true;
@@ -248,6 +249,7 @@ export class CreateComponent implements OnInit {
     }
 
     storeStory(e) {
+        this.spinner.start();
         this.af.auth.subscribe((auth) => {
             if (!auth) {
                 this.router.navigate(['/login']);

@@ -112,14 +112,14 @@ export class EditStoryComponent implements OnInit, AfterViewInit {
 		this.cropperSettings = new CropperSettings();
 		this.cropperSettings.fileType = "image/jpeg";
 
-		this.cropperSettings.width = 300;
-		this.cropperSettings.height = 200;
+		this.cropperSettings.width = 400;
+		this.cropperSettings.height = 265;
 
-		this.cropperSettings.croppedWidth = 300;
-		this.cropperSettings.croppedHeight = 200;
+		this.cropperSettings.croppedWidth = 400;
+		this.cropperSettings.croppedHeight = 265;
 
-		this.cropperSettings.canvasWidth = 300;
-		this.cropperSettings.canvasHeight = 200;
+		this.cropperSettings.canvasWidth = 400;
+		this.cropperSettings.canvasHeight = 265;
 
 		this.cropperSettings.rounded = false;
 		this.cropperSettings.keepAspect = true;

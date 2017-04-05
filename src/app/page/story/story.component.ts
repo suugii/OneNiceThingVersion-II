@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { StoryService } from "../../service/story.service";
 import { AuthService } from "../../service/auth.service";
+import { SpinnerService } from '../../service/spinner.service';
 
 @Component({
 	selector: 'app-story',
@@ -22,7 +23,7 @@ export class StoryComponent implements OnInit {
 	user: any;
 	zoom: number = 13;
 	storylocation: any;
-	constructor(public authService: AuthService, private router: Router, private route: ActivatedRoute, private af: AngularFire, private storyService: StoryService) {
+	constructor(public spinner: SpinnerService,public authService: AuthService, private router: Router, private route: ActivatedRoute, private af: AngularFire, private storyService: StoryService) {
 		this.authService.af.auth.subscribe(
 			(auth) => {
 				if (auth) {
@@ -67,7 +68,7 @@ export class StoryComponent implements OnInit {
 	}
 
 	ngOnInit() {
-
+      this.spinner.stop();
 	}
 
 
