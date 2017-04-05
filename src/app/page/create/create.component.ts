@@ -9,6 +9,7 @@ import * as firebase from 'firebase';
 import * as _ from 'lodash';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { Router, ActivatedRoute, Params, RouterStateSnapshot } from '@angular/router';
+import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
 @Component({
     selector: 'app-create',
@@ -36,6 +37,17 @@ export class CreateComponent implements OnInit {
     };
     public isProgressed: boolean;
     public storyForm: FormGroup;
+    public progress:any;
+
+    data: any;
+
+    cropperSettings: CropperSettings;
+
+    croppedWidth: number;
+    croppedHeight: number;
+
+    @ViewChild('cropper', undefined)
+    cropper: ImageCropperComponent;
 
     constructor(private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
@@ -56,6 +68,8 @@ export class CreateComponent implements OnInit {
             });
             this.users = _.toArray(result);
         });
+
+        this.data = {};
 
     }
 
@@ -86,6 +100,24 @@ export class CreateComponent implements OnInit {
                 });
             });
         });
+        this.cropperSettings = new CropperSettings();
+        this.cropperSettings.fileType = "image/jpeg";
+
+        this.cropperSettings.width = 300;
+        this.cropperSettings.height = 200;
+
+        this.cropperSettings.croppedWidth = 300;
+        this.cropperSettings.croppedHeight = 200;
+
+        this.cropperSettings.canvasWidth = 300;
+        this.cropperSettings.canvasHeight = 200;
+
+        this.cropperSettings.rounded = false;
+        this.cropperSettings.keepAspect = true;
+
+        this.cropperSettings.noFileInput = true;
+        this.cropperSettings.cropperDrawSettings.strokeColor = 'rgba(0,0,0,0.5)';
+        this.cropperSettings.cropperDrawSettings.strokeWidth = 1;
     }
 
     buildForm(): void {
@@ -159,7 +191,6 @@ export class CreateComponent implements OnInit {
         let uploadTask: any = this.storageRef.child(path).putString(image, 'data_url');
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, function (snapshot) {
             var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            console.log(progress);
             switch (snapshot.state) {
                 case firebase.storage.TaskState.PAUSED: // or 'paused'
                     console.log('Upload is paused');
@@ -195,21 +226,41 @@ export class CreateComponent implements OnInit {
         return this._sanitizer.bypassSecurityTrustHtml(html);
     }
 
+    cropped(bounds: Bounds) {
+        this.croppedHeight = bounds.bottom - bounds.top;
+        this.croppedWidth = bounds.right - bounds.left;
+        this.uploadImage(this.data.image);
+    }
+
+    fileChangeListener($event) {
+        let image: any = new Image();;
+
+        let file = $event.target.files[0];
+        let myReader: FileReader = new FileReader();
+        let that = this;
+        myReader.onloadend = function (loadEvent: any) {
+            that.cropper.reset();
+            image.src = loadEvent.target.result;
+            that.cropper.setImage(image);
+        };
+        myReader.readAsDataURL(file);
+    }
+
     storeStory(e) {
-        this.af.auth.subscribe((auth) => {
-            if (!auth) {
-                this.router.navigate(['/login']);
-            }
-            else {
-                this.stories.push(this.model).then((data) => {
-                    this.success = 'Successfully added';
-                    // this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });
-                    this.model = new Story();
-                    this.router.navigate(['/stories', data.key]);
-                }).catch((error: any) => {
-                    this.error = error;
-                });
-            }
-        })
+            this.af.auth.subscribe((auth) => {
+                if (!auth) {
+                    this.router.navigate(['/login']);
+                }
+                else {
+                    this.stories.push(this.model).then((data) => {
+                        this.success = 'Successfully added';
+                        // this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });
+                        this.model = new Story();
+                        this.router.navigate(['/stories', data.key]);
+                    }).catch((error: any) => {
+                        this.error = error;
+                    });
+                }
+            })
     }
 }

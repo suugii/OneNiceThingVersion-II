@@ -9,14 +9,17 @@
                 <form [formGroup]="storyForm" class="ui form" (ngSubmit)='storeStory($event)'>
                     <div class="field">
                         <label>Username Lookup</label>
-                        <input autocomplete="off" ng2-auto-complete name="touser" formControlName="touser" required (valueChanged)="valueChanged($event)" [source]="users" [list-formatter]="autocompleListFormatter" value-property-name="id" display-property-name="email" placeholder="Search email">
+                        <input autocomplete="off" ng2-auto-complete name="touser" formControlName="touser" required (valueChanged)="valueChanged($event)"
+                            [source]="users" [list-formatter]="autocompleListFormatter" value-property-name="id" display-property-name="email"
+                            placeholder="Search email">
                         <div *ngIf="formErrors.touser" class="ui negative message">
                             {{ formErrors.touser }}
                         </div>
                     </div>
                     <div class="field">
                         <label>Location where did you do your nice thing ?</label>
-                        <input placeholder="Enter Location" formControlName="location" required autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+                        <input placeholder="Enter Location" formControlName="location" required autocorrect="off" autocapitalize="off" spellcheck="off"
+                            type="text" #search>
                         <div *ngIf="formErrors.location" class="ui negative message">
                             {{ formErrors.location }}
                         </div>
@@ -53,12 +56,21 @@
                         <textarea rows="2 " placeholder="Any message " name="message" [(ngModel)]="model.message" [ngModelOptions]="{standalone: true}"></textarea>
                     </div>
                     <div class="field ">
-                        <label>Image</label>
+                        <div class="file-upload">
+                            <span class="text">Image</span>
+                            <input id="custom-input" type="file" (change)="fileChangeListener($event)">
+                        </div>
+                        <img-cropper #cropper [image]="data" [settings]="cropperSettings"  (onCrop)="cropped($event)"></img-cropper>
+                        <br>
+                        <span class="result rounded" *ngIf="data.image">
+                            <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+                        </span>
+                        <!--<label>Image</label>
                         <div class="file-upload ">
-                            <input id="cust" type="file" name="imageURL " image-upload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions">
+                            <input id="cust" type="file" name="imageURL" image-upload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions">
                         </div>
                         <img [src]="src" [hidden]="!src" *ngIf="!isProgressed"><br>
-                        <div class="ui active centered inline loader" *ngIf="isProgressed"></div>
+                        <div class="ui active centered inline loader" *ngIf="isProgressed"></div>-->
                     </div>
                     <div class="field ">
                         <label>Privacy</label>
