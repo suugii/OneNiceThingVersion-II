@@ -51,7 +51,6 @@ export class UserSettingsComponent implements OnInit {
                             this.user.username = snapshot.username;
                             this.user.firstname = snapshot.firstname;
                             this.user.lastname = snapshot.lastname;
-                            this.data.image = snapshot.imageURL;
                         }
                     });
                     if (data.auth.isAnonymous == true) {
