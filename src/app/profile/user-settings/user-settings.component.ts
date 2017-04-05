@@ -51,6 +51,9 @@ export class UserSettingsComponent implements OnInit {
                             this.user.username = snapshot.username;
                             this.user.firstname = snapshot.firstname;
                             this.user.lastname = snapshot.lastname;
+                            let imgObj = new Image();
+                            imgObj.src = snapshot.photo64;
+                            this.cropper.setImage(imgObj);
                         }
                     });
                     if (data.auth.isAnonymous == true) {
@@ -182,6 +185,7 @@ export class UserSettingsComponent implements OnInit {
     cropped(bounds: Bounds) {
         this.croppedHeight = bounds.bottom - bounds.top;
         this.croppedWidth = bounds.right - bounds.left;
+        this.user.photo64 = this.data.image;
         this.uploadImage(this.data.image);
     }
 

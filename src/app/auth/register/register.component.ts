@@ -149,12 +149,12 @@ export class RegisterComponent implements OnInit {
     cropped(bounds: Bounds) {
         this.croppedHeight = bounds.bottom - bounds.top;
         this.croppedWidth = bounds.right - bounds.left;
+        this.user.photo64 = this.data.image;
         this.uploadImage(this.data.image);
     }
 
     fileChangeListener($event) {
         let image: any = new Image();;
-
         let file = $event.target.files[0];
         let myReader: FileReader = new FileReader();
         let that = this;

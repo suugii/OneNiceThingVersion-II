@@ -9,6 +9,7 @@ export class Story {
 		public feeling: string = null,
 		public message: string = null,
 		public privacy: number = null,
+		public image64: string = null,
 		public created_at: any = Date.now(),
 		public updated_at: any = Date.now(),
 	) {  }

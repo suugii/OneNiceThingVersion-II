@@ -7,6 +7,7 @@ export class User {
         public password: string = null,
         public location: any = null,
         public photoURL: string = null,
+        public photo64: string = null,
         public created_at: any = Date.now(),
         public updated_at: any = Date.now(),
     ) { }

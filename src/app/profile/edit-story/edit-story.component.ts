@@ -60,6 +60,9 @@ export class EditStoryComponent implements OnInit {
 				this.model.message = story.message;
 				this.model.privacy = story.privacy;
 				this.model.created_at = story.created_at;
+				let imgObj = new Image();	
+				imgObj.src = story.image64;
+				this.cropper.setImage(imgObj);
 				this.authService.getUser(story.touser).subscribe((data) => {
 					this.touser = data;
 				})
@@ -77,6 +80,7 @@ export class EditStoryComponent implements OnInit {
 
 		this.data = {};
 	}
+
 
 	ngOnInit() {
 		this.mapsAPILoader.load().then(() => {
@@ -96,6 +100,7 @@ export class EditStoryComponent implements OnInit {
 					obj.longitude = place.geometry.location.lng();
 					obj.name = place.formatted_address;
 					this.model.location = obj;
+
 				});
 			});
 		});
@@ -172,6 +177,7 @@ export class EditStoryComponent implements OnInit {
 	cropped(bounds: Bounds) {
 		this.croppedHeight = bounds.bottom - bounds.top;
 		this.croppedWidth = bounds.right - bounds.left;
+		this.model.image64 = this.data.image;
 		this.uploadImage(this.data.image);
 	}
 

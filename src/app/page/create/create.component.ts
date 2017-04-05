@@ -229,6 +229,7 @@ export class CreateComponent implements OnInit {
     cropped(bounds: Bounds) {
         this.croppedHeight = bounds.bottom - bounds.top;
         this.croppedWidth = bounds.right - bounds.left;
+        this.model.image64 = this.data.image;
         this.uploadImage(this.data.image);
     }
 
