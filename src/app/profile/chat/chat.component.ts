@@ -60,9 +60,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 						} else {
 							thread.name = thread.user1name;
 						}
+						thread.receiver = this.af.database.object('users/'+ thread.receiverID);
 						this.mythreads.push(thread);
 					}
 				})
+				console.log(this.mythreads);
 				this.threads = _.orderBy(this.mythreads, ['date'], ['desc']);
 				let latest = _.head(this.threads);
 				if (latest) {

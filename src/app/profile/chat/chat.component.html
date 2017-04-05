@@ -3,12 +3,14 @@
         <div class="six wide column chat-list">
             <div class="ui form">
                 <div class="field">
-                    <input autocomplete="off" ng2-auto-complete name="touser" (valueChanged)="valueChanged($event)" [source]="users" [list-formatter]="autocompleListFormatter" value-property-name="id" display-property-name="email" placeholder="Search...">
+                    <input autocomplete="off" ng2-auto-complete name="touser" (valueChanged)="valueChanged($event)" [source]="users" [list-formatter]="autocompleListFormatter"
+                        value-property-name="id" display-property-name="email" placeholder="Search...">
                 </div>
             </div>
             <div class="ui divided list">
                 <div class="item" *ngFor="let thread of threads" (click)="getMessages(thread)">
-                    <img class="ui avatar image" src="assets/img/elliot.jpg">
+                    <img class="ui avatar image" *ngIf="(thread.receiver | async)?.photoURL" src="{{ (thread.receiver | async)?.photoURL }}">
+                    <img class="ui avatar image" *ngIf="!(thread.receiver | async)?.photoURL" src="assets/img/elliot.jpg">
                     <div class="content">
                         <div class="header" *ngIf="thread.name">
                             <p>{{thread.name}}</p>
