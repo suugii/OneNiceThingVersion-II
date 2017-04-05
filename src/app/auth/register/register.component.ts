@@ -7,6 +7,7 @@ import { MapsAPILoader } from 'angular2-google-maps/core';
 import { ImageResult, ResizeOptions } from 'ng2-imageupload';
 import * as firebase from 'firebase';
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
+import { SpinnerService } from '../../service/spinner.service';
 
 @Component({
     selector: 'app-register',
@@ -38,7 +39,7 @@ export class RegisterComponent implements OnInit {
     @ViewChild('cropper', undefined)
     cropper: ImageCropperComponent;
 
-    constructor(private route: ActivatedRoute, private fb: FormBuilder, private mapsAPILoader: MapsAPILoader, private authService: AuthService, private router: Router, private ngZone: NgZone) {
+    constructor(public spinner: SpinnerService,private route: ActivatedRoute, private fb: FormBuilder, private mapsAPILoader: MapsAPILoader, private authService: AuthService, private router: Router, private ngZone: NgZone) {
         this.data = {};
     }
 
@@ -86,6 +87,7 @@ export class RegisterComponent implements OnInit {
     }
 
     registerUser(event) {
+        this.spinner.start();
         event.preventDefault();
         this.authService.registerUser(this.user.email, this.user.password).then((user) => {
             delete this.user.password;
