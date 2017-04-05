@@ -9,6 +9,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ImageResult, ResizeOptions } from 'ng2-imageupload';
 import * as firebase from 'firebase';
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
+import { SpinnerService } from '../../service/spinner.service';
 
 @Component({
 	selector: 'app-edit-story',
@@ -46,7 +47,7 @@ export class EditStoryComponent implements OnInit, AfterViewInit {
 	@ViewChild('cropper', undefined)
 	cropper: ImageCropperComponent;
 
-	constructor(private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private authService: AuthService, private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
+	constructor(public spinner: SpinnerService,private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private authService: AuthService, private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
 		this.story = this.af.database.object('stories' + '/' + this.key);
 		this.story.subscribe(
 			(story) => {
@@ -207,10 +208,13 @@ export class EditStoryComponent implements OnInit, AfterViewInit {
 
 
 	updateStory() {
+		this.spinner.start();
 		this.story.update(this.model).then(() => {
+			this.spinner.stop();
 			this.success = 'Successfully updated';
 		}).catch((error: any) => {
 			this.error = error;
+			this.spinner.stop();
 		});
 	}
 

@@ -6,6 +6,7 @@ import { ImageResult, ResizeOptions } from 'ng2-imageupload';
 import * as firebase from 'firebase';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
+import { SpinnerService } from '../../service/spinner.service';
 
 @Component({
     selector: 'app-user-settings',
@@ -36,7 +37,7 @@ export class UserSettingsComponent implements OnInit, AfterViewInit {
 
     @ViewChild('cropper', undefined)
     cropper: ImageCropperComponent;
-    constructor(private authService: AuthService, private fb: FormBuilder, ) {
+    constructor(public spinner: SpinnerService,private authService: AuthService, private fb: FormBuilder, ) {
         this.data = {};
     }
 
@@ -140,11 +141,13 @@ export class UserSettingsComponent implements OnInit, AfterViewInit {
     }
 
     upgradeUser(event) {
+        this.spinner.start();
         event.preventDefault();
         var result = _.pickBy(this.user, _.identity);
         this.authService.anonymousToPermanent(this.user).then((data) => {
             if (data) {
                 this.message = 'Succesfully Upgraded Your Account';
+                this.spinner.stop();
                 this.classCondition = true;
                 delete this.user.password;
                 this.authService.saveUserInfoFromForm(data.uid, result).then(() => {
@@ -159,12 +162,14 @@ export class UserSettingsComponent implements OnInit, AfterViewInit {
         }).catch(error => {
             if (error) {
                 this.classCondition = false;
+                this.spinner.stop();
                 this.message = error.message;
             }
         })
     }
 
     updateUser(event) {
+        this.spinner.start();
         event.preventDefault();
         var userdata = this.authService.getUser(this.userData.$key).take(1);
         userdata.subscribe(snapshot => {
@@ -177,10 +182,12 @@ export class UserSettingsComponent implements OnInit, AfterViewInit {
                 this.authService.updateUser(result, snapshot.$key).then(() => {
                     this.classCondition = true;
                     this.message = 'Succesfully Updated Your Account';
+                    this.spinner.stop();
                 }).catch(error => {
                     if (error) {
                         this.classCondition = false;
                         this.message = error.message;
+                        this.spinner.stop();
                     }
                 })
             }
