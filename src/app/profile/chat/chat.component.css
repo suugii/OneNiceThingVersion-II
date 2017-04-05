@@ -8,7 +8,7 @@
 }
 .chat-list .list {
     overflow-y: auto;
-    max-height: calc(5.28rem + 60vh + 108px);
+    height: calc(5.28rem + 60vh + 108px);
 }
 .chat-list .list .item {
     position: relative;
