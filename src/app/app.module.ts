@@ -60,11 +60,11 @@ import { SpinnerComponent } from './spinner/spinner.component';
 
 
 export const firebaseConfig = {
-	apiKey: "AIzaSyBEvKg7dHarnUD5ZIY7ZAhlaDrQ3WF7F4k",
-	authDomain: "nicething-5c833.firebaseapp.com",
-	databaseURL: "https://nicething-5c833.firebaseio.com",
-	storageBucket: "nicething-5c833.appspot.com",
-	messagingSenderId: "868527023994"
+	apiKey: "AIzaSyCHlOL_xE9jBGUBTsGp42ZJq-_Un9wWIXs",
+	authDomain: "nicething-56579.firebaseapp.com",
+	databaseURL: "https://nicething-56579.firebaseio.com",
+	storageBucket: "nicething-56579.appspot.com",
+	messagingSenderId: "349795079971"
 };
 
 @NgModule({
