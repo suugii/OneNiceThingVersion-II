@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, NgZone, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ElementRef, AfterViewInit, NgZone, ViewChild, Inject } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
 import { Story } from './../../class/story';
@@ -15,7 +15,7 @@ import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper'
 	templateUrl: './edit-story.component.html',
 	styleUrls: ['./edit-story.component.css']
 })
-export class EditStoryComponent implements OnInit {
+export class EditStoryComponent implements OnInit, AfterViewInit {
 
 	key: any = this.route.snapshot.params['key'];
 
@@ -60,14 +60,13 @@ export class EditStoryComponent implements OnInit {
 				this.model.message = story.message;
 				this.model.privacy = story.privacy;
 				this.model.created_at = story.created_at;
-				let imgObj = new Image();	
-				imgObj.src = story.image64;
-				this.cropper.setImage(imgObj);
+				this.model.image64 = story.image64;
 				this.authService.getUser(story.touser).subscribe((data) => {
 					this.touser = data;
 				})
 			}
 		);
+
 
 		this.authService.getUsers().subscribe(datas => {
 			var result = _.pickBy(_.reject(datas, { $key: this.model.user }), function (v, k) {
@@ -81,6 +80,13 @@ export class EditStoryComponent implements OnInit {
 		this.data = {};
 	}
 
+	ngAfterViewInit() {
+		if (this.model.image64) {
+			let imgObj = new Image();
+			imgObj.src = this.model.image64;
+			this.cropper.setImage(imgObj);
+		}
+	}
 
 	ngOnInit() {
 		this.mapsAPILoader.load().then(() => {

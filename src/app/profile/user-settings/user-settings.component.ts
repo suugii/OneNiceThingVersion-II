@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { User } from './../../class/user';
 import { AuthService } from "./../../service/auth.service";
 import * as _ from 'lodash';
@@ -12,7 +12,7 @@ import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper'
     templateUrl: './user-settings.component.html',
     styleUrls: ['./user-settings.component.css']
 })
-export class UserSettingsComponent implements OnInit {
+export class UserSettingsComponent implements OnInit, AfterViewInit {
     public user = new User();
     public message: any;
     public classCondition: boolean;
@@ -51,9 +51,7 @@ export class UserSettingsComponent implements OnInit {
                             this.user.username = snapshot.username;
                             this.user.firstname = snapshot.firstname;
                             this.user.lastname = snapshot.lastname;
-                            let imgObj = new Image();
-                            imgObj.src = snapshot.photo64;
-                            this.cropper.setImage(imgObj);
+                            this.user.photo64 = snapshot.photo64;
                         }
                     });
                     if (data.auth.isAnonymous == true) {
@@ -85,6 +83,13 @@ export class UserSettingsComponent implements OnInit {
         this.cropperSettings.cropperDrawSettings.strokeWidth = 1;
     }
 
+    ngAfterViewInit() {
+        if (this.user.photo64) {
+            let imgObj = new Image();
+            imgObj.src = this.user.photo64;
+            this.cropper.setImage(imgObj);
+        }
+    }
 
 
     selected(imageResult: ImageResult) {
