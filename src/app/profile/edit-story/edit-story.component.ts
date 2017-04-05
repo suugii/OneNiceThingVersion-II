@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ImageResult, ResizeOptions } from 'ng2-imageupload';
 import * as firebase from 'firebase';
+import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
 @Component({
 	selector: 'app-edit-story',
@@ -34,6 +35,16 @@ export class EditStoryComponent implements OnInit {
 	};
 	public isProgressed: boolean;
 	public storageRef: any = firebase.storage().ref();
+
+	data: any;
+
+	cropperSettings: CropperSettings;
+
+	croppedWidth: number;
+	croppedHeight: number;
+
+	@ViewChild('cropper', undefined)
+	cropper: ImageCropperComponent;
 
 	constructor(private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private authService: AuthService, private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
 		this.story = this.af.database.object('stories' + '/' + this.key);
@@ -63,6 +74,8 @@ export class EditStoryComponent implements OnInit {
 			});
 			this.users = _.toArray(result);
 		});
+
+		this.data = {};
 	}
 
 	ngOnInit() {
@@ -86,6 +99,24 @@ export class EditStoryComponent implements OnInit {
 				});
 			});
 		});
+		this.cropperSettings = new CropperSettings();
+		this.cropperSettings.fileType = "image/jpeg";
+
+		this.cropperSettings.width = 300;
+		this.cropperSettings.height = 200;
+
+		this.cropperSettings.croppedWidth = 300;
+		this.cropperSettings.croppedHeight = 200;
+
+		this.cropperSettings.canvasWidth = 300;
+		this.cropperSettings.canvasHeight = 200;
+
+		this.cropperSettings.rounded = false;
+		this.cropperSettings.keepAspect = true;
+
+		this.cropperSettings.noFileInput = true;
+		this.cropperSettings.cropperDrawSettings.strokeColor = 'rgba(0,0,0,0.5)';
+		this.cropperSettings.cropperDrawSettings.strokeWidth = 1;
 	}
 
 	valueChanged(newVal) {
@@ -138,6 +169,25 @@ export class EditStoryComponent implements OnInit {
 		});
 	}
 
+	cropped(bounds: Bounds) {
+		this.croppedHeight = bounds.bottom - bounds.top;
+		this.croppedWidth = bounds.right - bounds.left;
+		this.uploadImage(this.data.image);
+	}
+
+	fileChangeListener($event) {
+		let image: any = new Image();;
+
+		let file = $event.target.files[0];
+		let myReader: FileReader = new FileReader();
+		let that = this;
+		myReader.onloadend = function (loadEvent: any) {
+			that.cropper.reset();
+			image.src = loadEvent.target.result;
+			that.cropper.setImage(image);
+		};
+		myReader.readAsDataURL(file);
+	}
 
 	autocompleListFormatter = (data: any): SafeHtml => {
 		let html = `<span>${data.email}</span>`;
