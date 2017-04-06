@@ -29,7 +29,6 @@ export class UserRequestsComponent implements OnInit {
 			}
 		);
 
-
 		this.af.database.list('/requests', {
 			query: {
 				orderByChild: 'rid',
@@ -42,9 +41,7 @@ export class UserRequestsComponent implements OnInit {
 			} else {
 				this.lastKey = '';
 			}
-		});
-
-
+		}).unsubscribe();
 
 		this.requests = this.af.database.list('/requests', {
 			query: {
@@ -53,7 +50,6 @@ export class UserRequestsComponent implements OnInit {
 				limitToLast: this.limit,
 			}
 		}).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
-
 
 		this.requests.subscribe((data) => {
 			if (data.length > 0) {
@@ -66,7 +62,7 @@ export class UserRequestsComponent implements OnInit {
 			if (data.length < 6) {
 				this.queryable = false;
 			}
-		});
+		}).unsubscribe();
 
 		this.requests.subscribe(
 			dataReq => {
