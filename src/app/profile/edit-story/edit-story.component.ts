@@ -47,23 +47,28 @@ export class EditStoryComponent implements OnInit, AfterViewInit {
 	@ViewChild('cropper', undefined)
 	cropper: ImageCropperComponent;
 
-	constructor(public spinner: SpinnerService,private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private authService: AuthService, private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
+	constructor(public spinner: SpinnerService, private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private authService: AuthService, private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
 		this.story = this.af.database.object('stories' + '/' + this.key);
 		this.story.subscribe(
 			(story) => {
-				this.model.user = story.user;
-				this.location = story.location.name;
-				this.model.location = story.location;
-				this.model.story = story.story;
-				this.model.name = story.name;
-				this.model.feeling = story.feeling;
-				this.model.message = story.message;
-				this.model.privacy = story.privacy;
-				this.model.created_at = story.created_at;
-				this.model.image64 = story.image64;
-				this.authService.getUser(story.touser).subscribe((data) => {
-					this.touser = data;
-				})
+				if (story.$value !== null) {
+					this.model.user = story.user;
+					this.location = story.location.name;
+					this.model.location = story.location;
+					this.model.story = story.story;
+					this.model.name = story.name;
+					this.model.feeling = story.feeling;
+					this.model.message = story.message;
+					this.model.privacy = story.privacy;
+					this.model.created_at = story.created_at;
+					this.model.image64 = story.image64;
+					this.authService.getUser(story.touser).subscribe((data) => {
+						this.touser = data;
+					})
+				} else {
+					this.router.navigate(['404']);
+				}
+
 			}
 		);
 
