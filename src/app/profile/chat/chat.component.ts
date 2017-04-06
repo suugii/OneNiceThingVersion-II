@@ -60,7 +60,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 						} else {
 							thread.name = thread.user1name;
 						}
-						this.mythreads.push(thread);
+						if (thread.lastMessage) {
+							this.mythreads.push(thread);
+						}
 					}
 				})
 				this.threads = _.orderBy(this.mythreads, ['date'], ['desc']);
@@ -73,7 +75,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 	}
 	ngOnInit() {
 	}
-	
+
 	ngOnDestroy() {
 		this.destroyThread.unsubscribe();
 	}
@@ -102,7 +104,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 				data.name = data.user1name;
 			}
 		}
-		if (data.senderPerson != this.currentUser.uid ) {
+		if (data.senderPerson != this.currentUser.uid) {
 			data.isRead = true;
 			this.af.database.object('/threads/' + data.$key).set(data);
 		}
