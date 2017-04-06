@@ -53,7 +53,7 @@ export const Route: ModuleWithProviders = RouterModule.forRoot([
             { path: 'map', component: UserMapComponent, canActivate: [GuardService] },
             { path: 'requests', component: UserRequestsComponent, canActivate: [GuardService] },
             { path: 'favorites', component: UserFavoritesComponent, canActivate: [GuardService] },
-            { path: 'stories', component: UserStoriesComponent, canActivate: [GuardService] },
+            { path: 'story', component: UserStoriesComponent, canActivate: [GuardService] },
             { path: 'originate', component: UserOriginateComponent, canActivate: [GuardService] },
             { path: 'stories/edit/:key', component: EditStoryComponent, canActivate: [GuardService] },
             { path: 'settings', component: UserSettingsComponent, canActivate: [GuardService] },

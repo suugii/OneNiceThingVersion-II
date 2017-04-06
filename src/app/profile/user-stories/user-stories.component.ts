@@ -107,22 +107,20 @@ export class UserStoriesComponent implements OnInit {
 
 	ngOnInit() { }
 
-	ngOnDestroy() {
-		this.substories.unsubscribe();
-		this.subobjects.unsubscribe();
-	}
+
 
 	destroyStory(key) {
 		console.log('delete starting...');
 
-		this.af.database.list('stories').remove(key).then(resolve => {
+		this.af.database.list('stories').remove(key).then(() => {
 			console.log('all good');
-			this.router.navigate(['/profile/stories']);
+			this.router.navigate(['/profile/story']);
 		}, reject => {
 			console.log('error');
 		}).catch(reject => {
 			console.log('catch');
 		});
+
 
 		var object = this.af.database.list('favorites', {
 			query: {
@@ -136,5 +134,10 @@ export class UserStoriesComponent implements OnInit {
 		if (this.queryable) {
 			this.limit.next(this.limit.getValue() + 6);
 		}
+	}
+
+	ngOnDestroy() {
+		this.substories.unsubscribe();
+		this.subobjects.unsubscribe();
 	}
 }
