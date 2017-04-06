@@ -12,6 +12,9 @@ export class UserRequestsComponent implements OnInit {
 
 	user: FirebaseObjectObservable<any>;
 	requests: FirebaseListObservable<any[]>;
+	subsrequestsone: any;
+	subsrequeststwo: any;
+	subsrequeststhree: any;
 	uid: string;
 	array: any[];
 	error: any;
@@ -29,7 +32,7 @@ export class UserRequestsComponent implements OnInit {
 			}
 		);
 
-		this.af.database.list('/requests', {
+		this.subsrequestsone = this.af.database.list('/requests', {
 			query: {
 				orderByChild: 'rid',
 				equalTo: this.uid,
@@ -41,7 +44,7 @@ export class UserRequestsComponent implements OnInit {
 			} else {
 				this.lastKey = '';
 			}
-		}).unsubscribe();
+		});
 
 		this.requests = this.af.database.list('/requests', {
 			query: {
@@ -51,7 +54,7 @@ export class UserRequestsComponent implements OnInit {
 			}
 		}).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
 
-		this.requests.subscribe((data) => {
+		this.subsrequeststwo = this.requests.subscribe((data) => {
 			if (data.length > 0) {
 				if (data[data.length - 1].$key === this.lastKey) {
 					this.queryable = false;
@@ -62,9 +65,9 @@ export class UserRequestsComponent implements OnInit {
 			if (data.length < 6) {
 				this.queryable = false;
 			}
-		}).unsubscribe();
+		});
 
-		this.requests.subscribe(
+		this.subsrequeststhree = this.requests.subscribe(
 			dataReq => {
 				this.isCounter = false;
 				this.array = [];
@@ -91,6 +94,12 @@ export class UserRequestsComponent implements OnInit {
 	}
 
 	ngOnInit() {
+	}
+
+	ngOnDestroy() {
+		this.subsrequestsone.unsubscribe();
+		this.subsrequeststwo.unsubscribe();
+		this.subsrequeststhree.unsubscribe();
 	}
 
 	approve(key) {

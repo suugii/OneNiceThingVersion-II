@@ -12,6 +12,7 @@ export class UserFriendsComponent implements OnInit {
 	users: any[];
 	isFriend: boolean;
 	isCounter: boolean;
+	friends: any;
 
 	constructor(public af: AngularFire) {
 		this.af.auth.subscribe(
@@ -22,10 +23,9 @@ export class UserFriendsComponent implements OnInit {
 			}
 		);
 		this.users = [];
-		this.af.database.list('friends').subscribe(
+		this.friends = this.af.database.list('friends').subscribe(
 			dataFriends => {
 				this.isCounter = false;
-
 				dataFriends.forEach(
 					friend => {
 						this.isFriend = false;
@@ -58,6 +58,10 @@ export class UserFriendsComponent implements OnInit {
 	}
 
 	ngOnInit() {
+	}
+
+	ngOnDestroy() {
+		this.friends.unsubscribe();
 	}
 
 }

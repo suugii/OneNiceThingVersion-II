@@ -23,6 +23,9 @@ export class UserFavoritesComponent implements OnInit {
 	favorited: boolean = false;
 	user: string;
 	isCounter: boolean;
+	subsfavone: any;
+	subsfavtwo: any;
+
 	constructor(public af: AngularFire, private storyService: StoryService) {
 		this.af.auth.subscribe(
 			(auth) => {
@@ -32,7 +35,7 @@ export class UserFavoritesComponent implements OnInit {
 			}
 		);
 
-		this.af.database.list('/favorites', {
+		this.subsfavone = this.af.database.list('/favorites', {
 			query: {
 				orderByChild: 'uid',
 				equalTo: this.user,
@@ -46,7 +49,6 @@ export class UserFavoritesComponent implements OnInit {
 			}
 		});
 
-
 		this.favorites = this.af.database.list('favorites', {
 			query: {
 				orderByChild: 'uid',
@@ -55,23 +57,18 @@ export class UserFavoritesComponent implements OnInit {
 			}
 		}).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
 
-
-		this.favorites.subscribe((data) => {
-			if (data.length > 0) {
-				if (data[data.length - 1].$key === this.lastKey) {
-					this.queryable = false;
-				} else {
-					this.queryable = true;
-				}
-			}
-			if (data.length < 6) {
-				this.queryable = false;
-			}
-		});
-
-
-		this.favorites.subscribe(
+		this.subsfavtwo = this.favorites.subscribe(
 			dataFav => {
+				if (dataFav.length > 0) {
+					if (dataFav[dataFav.length - 1].$key === this.lastKey) {
+						this.queryable = false;
+					} else {
+						this.queryable = true;
+					}
+				}
+				if (dataFav.length < 6) {
+					this.queryable = false;
+				}
 				this.stories = [];
 				this.isCounter = false;
 				if (dataFav.length == 0) {
@@ -114,7 +111,6 @@ export class UserFavoritesComponent implements OnInit {
 				)
 			}
 		);
-
 	}
 
 	scrolled(): void {
@@ -125,4 +121,8 @@ export class UserFavoritesComponent implements OnInit {
 
 	ngOnInit() { }
 
+	ngOnDestroy() {
+		this.subsfavone.unsubscribe();
+		this.subsfavtwo.unsubscribe();
+	}
 }

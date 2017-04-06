@@ -14,6 +14,9 @@ export class UserOriginateComponent implements OnInit {
 	objects: FirebaseListObservable<any[]>;
 	favorites: FirebaseListObservable<any[]>;
 
+	subsstories: any;
+	subsobjectsone: any;
+	subsobjectstwo: any;
 	counter: number = 0;
 	user: string;
 	stories: any[];
@@ -32,7 +35,7 @@ export class UserOriginateComponent implements OnInit {
 			}
 		);
 
-		this.af.database.list('/stories', {
+		this.subsstories = this.af.database.list('/stories', {
 			query: {
 				orderByChild: 'touser',
 				equalTo: this.user,
@@ -54,7 +57,7 @@ export class UserOriginateComponent implements OnInit {
 			}
 		}).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
 
-		this.objects.subscribe((data) => {
+		this.subsobjectsone = this.objects.subscribe((data) => {
 			if (data.length > 0) {
 				if (data[data.length - 1].$key === this.lastKey) {
 					this.queryable = false;
@@ -65,7 +68,7 @@ export class UserOriginateComponent implements OnInit {
 		});
 
 
-		this.objects.subscribe(
+		this.subsobjectstwo = this.objects.subscribe(
 			dataStory => {
 				this.isCounter = false;
 				if (dataStory.length < 6) {
@@ -109,6 +112,13 @@ export class UserOriginateComponent implements OnInit {
 
 	ngOnInit() {
 	}
+
+	ngOnDestroy() {
+		this.subsstories.unsubscribe();
+		this.subsobjectsone.unsubscribe();
+		this.subsobjectstwo.unsubscribe();
+	}
+
 	scrolled(): void {
 		if (this.queryable) {
 			this.limit.next(this.limit.getValue() + 6);

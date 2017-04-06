@@ -18,6 +18,9 @@ export class UserHomeComponent implements OnInit {
 	storiesCount: number = 0;
 	originateCount: number = 0;
 
+	stories: any;
+	tostories: any;
+
 	constructor(private af: AngularFire) {
 		this.af.auth.subscribe(
 			(auth) => {
@@ -26,7 +29,8 @@ export class UserHomeComponent implements OnInit {
 				}
 			}
 		);
-		this.af.database.list('stories', {
+
+		this.stories = this.af.database.list('stories', {
 			query: {
 				orderByChild: 'user',
 				equalTo: this.user
@@ -34,9 +38,19 @@ export class UserHomeComponent implements OnInit {
 		}).subscribe(
 			dataStory => {
 				this.storiesCount = dataStory.length;
+				dataStory.forEach(data => {
+					this.af.database.object('users/' + data.touser).subscribe(userData => {
+						data.touser = userData;
+					})
+					this.af.database.object('users/' + data.user).subscribe(userData => {
+						data.user = userData;
+					})
+					this.objects.push(data);
+				})
 			}
 		);
-		this.af.database.list('stories', {
+
+		this.tostories = this.af.database.list('stories', {
 			query: {
 				orderByChild: 'touser',
 				equalTo: this.user
@@ -46,30 +60,13 @@ export class UserHomeComponent implements OnInit {
 				this.originateCount = dataStory.length;
 			}
 		);
-
-
-		this.af.database.list('stories', {
-			query: {
-				orderByChild: 'user',
-				equalTo: this.user,
-			}
-		}).subscribe(datas => {
-			this.objects = [];
-			datas.forEach(data => {
-				this.af.database.object('users/' + data.touser).subscribe(userData => {
-					data.touser = userData;
-				})
-				this.af.database.object('users/' + data.user).subscribe(userData => {
-					data.user = userData;
-				})
-				this.objects.push(data);
-			})
-		});
-
-
 	}
 
 	ngOnInit() {
 	}
 
+	ngOnDestroy() {
+		this.stories.unsubscribe();
+		this.tostories.unsubscribe();
+	}
 }

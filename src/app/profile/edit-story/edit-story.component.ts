@@ -43,13 +43,14 @@ export class EditStoryComponent implements OnInit, AfterViewInit {
 
 	croppedWidth: number;
 	croppedHeight: number;
+	subsstory: any;
 
 	@ViewChild('cropper', undefined)
 	cropper: ImageCropperComponent;
 
 	constructor(public spinner: SpinnerService, private router: Router, private route: ActivatedRoute, private _sanitizer: DomSanitizer, private authService: AuthService, private af: AngularFire, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
 		this.story = this.af.database.object('stories' + '/' + this.key);
-		this.story.subscribe(
+		this.subsstory = this.story.subscribe(
 			(story) => {
 				if (story.$value !== null) {
 					this.model.user = story.user;
@@ -133,6 +134,10 @@ export class EditStoryComponent implements OnInit, AfterViewInit {
 		this.cropperSettings.noFileInput = true;
 		this.cropperSettings.cropperDrawSettings.strokeColor = 'rgba(0,0,0,0.5)';
 		this.cropperSettings.cropperDrawSettings.strokeWidth = 1;
+	}
+
+	ngOnDestroy() {
+		this.subsstory.unsubscribe();
 	}
 
 	valueChanged(newVal) {
