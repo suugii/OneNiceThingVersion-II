@@ -38,8 +38,6 @@ export const Route: ModuleWithProviders = RouterModule.forRoot([
     { path: 'about', component: AboutComponent },
     { path: 'contact', component: ContactComponent },
     { path: 'work', component: WorkComponent },
-    { path: '404', component: PageNotFoundComponent },
-    { path: '**', redirectTo: '/404' },
 
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
@@ -62,4 +60,6 @@ export const Route: ModuleWithProviders = RouterModule.forRoot([
             { path: 'chat', component: ChatComponent, canActivate: [GuardService] }
         ]
     },
+    { path: '404', component: PageNotFoundComponent },
+    { path: '**', redirectTo: '/404' },
 ]);
