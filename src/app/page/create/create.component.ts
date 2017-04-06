@@ -124,7 +124,7 @@ export class CreateComponent implements OnInit {
 
         this.cropperSettings.cropperClass = 'cropper';
         this.cropperSettings.croppingClass = 'cropping';
-        
+
         this.cropperSettings.noFileInput = true;
         this.cropperSettings.cropperDrawSettings.strokeColor = 'rgba(0,0,0,0.5)';
         this.cropperSettings.cropperDrawSettings.strokeWidth = 1;
@@ -261,6 +261,7 @@ export class CreateComponent implements OnInit {
                 this.router.navigate(['/login']);
             }
             else {
+                console.log('success');
                 this.stories.push(this.model).then((data) => {
                     this.success = 'Successfully added';
                     // this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });

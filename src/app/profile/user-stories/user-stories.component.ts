@@ -3,6 +3,7 @@ import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import { StoryService } from "../../service/story.service";
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import "rxjs/add/operator/map";
+import { Router, ActivatedRoute, Params, RouterStateSnapshot } from '@angular/router';
 
 @Component({
 	selector: 'app-user-stories',
@@ -23,8 +24,8 @@ export class UserStoriesComponent implements OnInit {
 	user: string;
 	stories: any[];
 	isCounter: boolean;
-	
-	constructor(private af: AngularFire, private storyService: StoryService) {
+
+	constructor(private af: AngularFire, private router: Router, private storyService: StoryService) {
 		this.af.auth.subscribe(
 			(auth) => {
 				if (auth) {
@@ -111,8 +112,18 @@ export class UserStoriesComponent implements OnInit {
 		this.subobjects.unsubscribe();
 	}
 
-	destroyStory(key: string) {
-		this.af.database.list('stories').remove(key);
+	destroyStory(key) {
+		console.log('delete starting...');
+
+		this.af.database.list('stories').remove(key).then(resolve => {
+			console.log('all good');
+			this.router.navigate(['/profile/stories']);
+		}, reject => {
+			console.log('error');
+		}).catch(reject => {
+			console.log('catch');
+		});
+
 		var object = this.af.database.list('favorites', {
 			query: {
 				orderByChild: 'sid',

@@ -267,6 +267,7 @@ export class HomeComponent implements OnInit {
                 this.router.navigate(['/login']);
             }
             else {
+                console.log('success');
                 this.stories.push(this.model).then((data) => {
                     this.success = 'Successfully added';
                     // this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });
