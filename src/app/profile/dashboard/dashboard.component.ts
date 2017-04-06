@@ -21,6 +21,13 @@ export class DashboardComponent implements OnInit {
 	threadsCount: number = 0;
 	isFriend: boolean;
 	mythreads: any[];
+	subsstories: any;
+	subsoriginate: any;
+	subsfavorites: any;
+	subsrequests: any;
+	substhreads: any;
+	subsfriends: any;
+
 	constructor(public af: AngularFire) {
 	    this.af.auth.subscribe(
 	        (auth) => {
@@ -53,22 +60,22 @@ export class DashboardComponent implements OnInit {
 				equalTo: this.user
 			}
 		});
-		this.stories.subscribe(
+		this.subsstories = this.stories.subscribe(
 			dataStory => {
 				this.storiesCount = dataStory.length;
 			}
 		);
-		this.originate.subscribe(
+		this.subsoriginate = this.originate.subscribe(
 			dataStory => {
 				this.originateCount = dataStory.length;
 			}
 		);
-		this.favorites.subscribe(
+		this.subsfavorites = this.favorites.subscribe(
 			dataFav => {
 				this.favoritesCount = dataFav.length;
 			}
 		);
-	   	this.requests.subscribe(
+	   	this.subsrequests = this.requests.subscribe(
 	    	dataReq => {
 	    		this.requestCount = 0;
 	    		dataReq.forEach(
@@ -81,7 +88,7 @@ export class DashboardComponent implements OnInit {
 	    	}
 	    );
 
-		this.af.database.list('threads').subscribe((threads) => {
+		this.substhreads = this.af.database.list('threads').subscribe((threads) => {
 			this.mythreads = [];
 			if (threads) {
 				threads.forEach((thread) => {
@@ -95,7 +102,7 @@ export class DashboardComponent implements OnInit {
 			this.threadsCount = this.mythreads.length;
 		});
 
-		this.af.database.list('friends').subscribe(
+		this.subsfriends = this.af.database.list('friends').subscribe(
 	    	dataFriends => {
 	    		dataFriends.forEach(
 	    			friend => {
@@ -127,6 +134,15 @@ export class DashboardComponent implements OnInit {
 	}
 
 	ngOnInit() {
+	}
+
+	nfOnDestroy() {
+		this.subsstories.unsubscribe();
+		this.subsoriginate.unsubscribe();
+		this.subsfavorites.unsubscribe();
+		this.subsrequests.unsubscribe();
+		this.substhreads.unsubscribe();
+		this.subsfriends.unsubscribe();
 	}
 
 }

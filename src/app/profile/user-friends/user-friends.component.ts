@@ -11,8 +11,10 @@ export class UserFriendsComponent implements OnInit {
 	uid: string;
 	users: any[];
 	isFriend: boolean;
-	isCounter: boolean;
 	friends: any;
+
+	userFriend: boolean = false;
+	friendKey: string;
 
 	constructor(public af: AngularFire) {
 		this.af.auth.subscribe(
@@ -25,7 +27,6 @@ export class UserFriendsComponent implements OnInit {
 		this.users = [];
 		this.friends = this.af.database.list('friends').subscribe(
 			dataFriends => {
-				this.isCounter = false;
 				dataFriends.forEach(
 					friend => {
 						this.isFriend = false;
@@ -43,11 +44,9 @@ export class UserFriendsComponent implements OnInit {
 										user => {
 											if (user.uid !== this.uid) {
 												this.users.push(this.af.database.object('users' + '/' + user.uid));
-
 											}
 										}
 									);
-
 								}
 							}
 						);
@@ -64,4 +63,35 @@ export class UserFriendsComponent implements OnInit {
 		this.friends.unsubscribe();
 	}
 
+	unFriend(key: string) {
+		// this.af.database.list('friends').subscribe(
+		// 	dataFriends => {
+		// 		dataFriends.forEach(
+		// 			friend => {
+		// 				this.af.database.list('friends' + '/' + friend.$key + '/' + 'users').subscribe(
+		// 					dataUsers => {
+		// 						dataUsers.forEach(
+		// 							user => {
+		// 								if (user.uid == this.uid) {
+		// 									this.userFriend = true;
+		// 								}
+		// 							}
+		// 						);
+		// 						if (this.userFriend) {
+		// 							dataUsers.forEach(
+		// 								user => {
+		// 									if (user.uid == key) {
+		// 										this.friendKey = friend.$key;
+		// 									}
+		// 								}
+		// 							);
+		// 						}
+		// 						this.userFriend = false;
+		// 					}
+		// 				);
+		// 			}
+		// 		);
+		// 	}
+		// );
+	}
 }
