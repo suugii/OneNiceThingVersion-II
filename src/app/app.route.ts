@@ -27,6 +27,7 @@ import { UserRequestsComponent } from './profile/user-requests/user-requests.com
 import { UserOriginateComponent } from './profile/user-originate/user-originate.component';
 import { UserTreeComponent } from './profile/user-tree/user-tree.component';
 import { UserMapComponent } from './profile/user-map/user-map.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export const Route: ModuleWithProviders = RouterModule.forRoot([
     { path: '', component: HomeComponent },
@@ -37,24 +38,28 @@ export const Route: ModuleWithProviders = RouterModule.forRoot([
     { path: 'about', component: AboutComponent },
     { path: 'contact', component: ContactComponent },
     { path: 'work', component: WorkComponent },
+    { path: '404', component: PageNotFoundComponent },
+    { path: '**', redirectTo: '/404' },
 
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
     { path: 'resetpassword', component: PasswordresetComponent },
     { path: 'confirmpassword', component: PasswordconfirmComponent },
-    { path: 'profile', component: DashboardComponent, canActivate: [GuardService], children: [
-        { path: '', redirectTo: 'home', pathMatch: 'full' },
-        { path: 'home', component: UserHomeComponent, canActivate: [GuardService] },
-        { path: 'friends', component: UserFriendsComponent, canActivate: [GuardService] },
-        { path: 'tree', component: UserTreeComponent, canActivate: [GuardService] },
-        { path: 'map', component: UserMapComponent, canActivate: [GuardService] },
-        { path: 'requests', component: UserRequestsComponent, canActivate: [GuardService] },
-        { path: 'favorites', component: UserFavoritesComponent, canActivate: [GuardService] },
-        { path: 'stories', component: UserStoriesComponent, canActivate: [GuardService] },
-        { path: 'originate', component: UserOriginateComponent, canActivate: [GuardService] },
-        { path: 'stories/edit/:key', component: EditStoryComponent, canActivate: [GuardService] },
-        { path: 'settings', component: UserSettingsComponent, canActivate: [GuardService] },
-        { path: 'changepassword', component: ChangePasswordComponent, canActivate: [GuardService] },
-        { path: 'chat', component: ChatComponent, canActivate: [GuardService] }
-    ] },
+    {
+        path: 'profile', component: DashboardComponent, canActivate: [GuardService], children: [
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
+            { path: 'home', component: UserHomeComponent, canActivate: [GuardService] },
+            { path: 'friends', component: UserFriendsComponent, canActivate: [GuardService] },
+            { path: 'tree', component: UserTreeComponent, canActivate: [GuardService] },
+            { path: 'map', component: UserMapComponent, canActivate: [GuardService] },
+            { path: 'requests', component: UserRequestsComponent, canActivate: [GuardService] },
+            { path: 'favorites', component: UserFavoritesComponent, canActivate: [GuardService] },
+            { path: 'stories', component: UserStoriesComponent, canActivate: [GuardService] },
+            { path: 'originate', component: UserOriginateComponent, canActivate: [GuardService] },
+            { path: 'stories/edit/:key', component: EditStoryComponent, canActivate: [GuardService] },
+            { path: 'settings', component: UserSettingsComponent, canActivate: [GuardService] },
+            { path: 'changepassword', component: ChangePasswordComponent, canActivate: [GuardService] },
+            { path: 'chat', component: ChatComponent, canActivate: [GuardService] }
+        ]
+    },
 ]);

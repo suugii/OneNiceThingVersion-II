@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
     @ViewChild('cropper', undefined)
     cropper: ImageCropperComponent;
 
-    constructor(public spinner: SpinnerService,private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
+    constructor(public spinner: SpinnerService, private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
         this.requests = af.database.list('requests');
         this.af.auth.subscribe(
@@ -85,6 +85,13 @@ export class HomeComponent implements OnInit {
         this.isEmpty1 = true;
     }
 
+
+    autocompleListFormatter = (data: any): SafeHtml => {
+        let html = `<span>${data.email}</span>`;
+        return this._sanitizer.bypassSecurityTrustHtml(html);
+    }
+
+    
     ngOnInit() {
         this.spinner.stop();
         this.buildForm();
@@ -231,10 +238,6 @@ export class HomeComponent implements OnInit {
         });
     }
 
-    autocompleListFormatter = (data: any): SafeHtml => {
-        let html = `<span>${data.email}</span>`;
-        return this._sanitizer.bypassSecurityTrustHtml(html);
-    }
 
     cropped(bounds: Bounds) {
         this.croppedHeight = bounds.bottom - bounds.top;

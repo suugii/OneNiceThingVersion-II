@@ -84,7 +84,7 @@ export class CreateComponent implements OnInit {
         let html = `<span>${data.email}</span>`;
         return this._sanitizer.bypassSecurityTrustHtml(html);
     }
-    
+
     ngOnInit() {
         this.buildForm();
         this.mapsAPILoader.load().then(() => {

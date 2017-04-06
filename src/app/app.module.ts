@@ -57,6 +57,7 @@ import { FitContentsDirective } from './directive/fit-contents.directive';
 import { ToggleSidebarDirective } from './directive/toggle-sidebar.directive';
 import { HideSidebarDirective } from './directive/hide-sidebar.directive';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 export const firebaseConfig = {
@@ -107,6 +108,7 @@ enableProdMode();
 		ToggleSidebarDirective,
 		HideSidebarDirective,
 		SpinnerComponent,
+		PageNotFoundComponent,
 	],
 	imports: [
 		BrowserModule,
