@@ -23,7 +23,7 @@ export class StoryComponent implements OnInit {
 	user: any;
 	zoom: number = 13;
 	storylocation: any;
-	constructor(public spinner: SpinnerService,public authService: AuthService, private router: Router, private route: ActivatedRoute, private af: AngularFire, private storyService: StoryService) {
+	constructor(public spinner: SpinnerService, public authService: AuthService, private router: Router, private route: ActivatedRoute, private af: AngularFire, private storyService: StoryService) {
 		this.authService.af.auth.subscribe(
 			(auth) => {
 				if (auth) {
@@ -39,36 +39,40 @@ export class StoryComponent implements OnInit {
 			}
 		});
 		this.object = this.af.database.object('stories' + '/' + this.key);
-
 		this.object.subscribe(
 			(object) => {
-				this.storylocation = object.location;
-				this.favorites.subscribe(
-					dataFav => {
-						dataFav.forEach(
-							favorite => {
-								this.counter = this.counter + 1;
-								if (favorite.uid == this.user) {
-									this.favorited = true;
+				if (object.$value !== null) {
+					this.storylocation = object.location;
+					this.favorites.subscribe(
+						dataFav => {
+							dataFav.forEach(
+								favorite => {
+									this.counter = this.counter + 1;
+									if (favorite.uid == this.user) {
+										this.favorited = true;
+									}
 								}
-							}
-						)
-						object.favorite = this.counter;
-						this.counter = 0;
-						object.favorited = this.favorited;
-						this.favorited = false;
-					}
-				)
-				object.user = this.af.database.object('users' + '/' + object.user);
-				object.touser = this.af.database.object('users' + '/' + object.touser);
-				this.story = object;
+							)
+							object.favorite = this.counter;
+							this.counter = 0;
+							object.favorited = this.favorited;
+							this.favorited = false;
+						}
+					)
+					object.user = this.af.database.object('users' + '/' + object.user);
+					object.touser = this.af.database.object('users' + '/' + object.touser);
+					this.story = object;
+				} else {
+					this.router.navigate(['404']);
+				}
+
 			}
 		);
-		
+
 	}
 
 	ngOnInit() {
-      this.spinner.stop();
+		this.spinner.stop();
 	}
 
 
