@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule,enableProdMode } from '@angular/core';
+import { NgModule, enableProdMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Route } from './app.route';
@@ -20,6 +20,7 @@ import { StoryService } from "./service/story.service";
 import { ContactService } from "./service/contact.service";
 import { GuardService } from "./service/guard.service";
 import { SpinnerService } from './service/spinner.service';
+import { AuthGuardService } from './service/auth-guard.service';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './page/home/home.component';
@@ -136,6 +137,7 @@ enableProdMode();
 		StoryService,
 		ContactService,
 		SpinnerService,
+		AuthGuardService,
 	],
 	bootstrap: [AppComponent]
 })

@@ -1,6 +1,7 @@
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GuardService } from './service/guard.service';
+import { AuthGuardService } from './service/auth-guard.service';
 
 import { HomeComponent } from './page/home/home.component';
 import { CreateComponent } from './page/create/create.component';
@@ -39,8 +40,8 @@ export const Route: ModuleWithProviders = RouterModule.forRoot([
     { path: 'contact', component: ContactComponent },
     { path: 'work', component: WorkComponent },
 
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: 'login', component: LoginComponent, canActivate: [AuthGuardService] },
+    { path: 'register', component: RegisterComponent, canActivate: [AuthGuardService] },
     { path: 'resetpassword', component: PasswordresetComponent },
     { path: 'confirmpassword', component: PasswordconfirmComponent },
     {
