@@ -19,7 +19,8 @@
                             <p>{{thread.$key}}</p>
                         </div>
                         <div class="description">
-                            <p>{{thread.lastMessage}}</p>
+                            <p *ngIf="!thread.lastMessage">No messages</p>
+                            <p *ngIf="thread.lastMessage">{{thread.lastMessage}}</p>
                         </div>
                     </div>
                 </div>
