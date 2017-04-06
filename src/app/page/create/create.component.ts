@@ -49,6 +49,7 @@ export class CreateComponent implements OnInit {
 
     @ViewChild('cropper', undefined)
     cropper: ImageCropperComponent;
+    imageChanged: any = false;
 
     constructor(public spinner: SpinnerService, private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
@@ -235,8 +236,8 @@ export class CreateComponent implements OnInit {
     }
 
     fileChangeListener($event) {
+        this.imageChanged = true;
         let image: any = new Image();;
-
         let file = $event.target.files[0];
         let myReader: FileReader = new FileReader();
         let that = this;
@@ -265,5 +266,9 @@ export class CreateComponent implements OnInit {
                 });
             }
         })
+    }
+
+    ngOnDestroy() {
+         this.stories.subscribe().unsubscribe();
     }
 }

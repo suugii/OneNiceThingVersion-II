@@ -4,20 +4,20 @@
             <div class="ui fluid card" *ngIf="story">
                 <div class="extra content">
                     <img class="ui avatar image" *ngIf=" (story.user | async)?.photoURL" src="{{ (story.user | async)?.photoURL }}">
-                    <img class="ui avatar image" *ngIf=" !(story.user | async)?.photoURL" src="../../../assets/img/elliot.jpg">
+                    <img class="ui avatar image" *ngIf=" !(story.user | async)?.photoURL" src="assets/img/elliot.jpg">
                     <a routerLink="/user/{{ (story.user | async)?.$key }}">{{ (story.user | async)?.username }}</a>
                     <span>
 	                </span>
                     <span class="right floated">
 	                	<i class="right arrow icon"></i>
                         <img class="ui avatar image" *ngIf=" (story.touser | async)?.photoURL" src="{{ (story.touser | async)?.photoURL }}">
-                        <img class="ui avatar image" *ngIf=" !(story.touser | async)?.photoURL" src="../../../assets/img/elliot.jpg">
+                        <img class="ui avatar image" *ngIf=" !(story.touser | async)?.photoURL" src="assets/img/elliot.jpg">
 	                	<a routerLink="/user/{{ (story.touser | async)?.$key }}">{{ (story.touser | async)?.username }}</a>
 	                </span>
                 </div>
                 <div class="image">
                     <img *ngIf="story.imageURL" src="{{ story.imageURL }}">
-                    <img *ngIf="!story.imageURL" src="../../../assets/img/image.png">
+                    <img *ngIf="!story.imageURL" src="assets/img/image.png">
                 </div>
                 <div class="content">
                     {{ story.story }}

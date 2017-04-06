@@ -60,7 +60,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 						} else {
 							thread.name = thread.user1name;
 						}
-						thread.receiver = this.af.database.object('users/'+ thread.receiverID);
 						this.mythreads.push(thread);
 					}
 				})

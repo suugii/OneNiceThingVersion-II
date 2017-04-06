@@ -36,7 +36,7 @@
                 <div class="card" *ngFor="let story of stories">
                     <div class="extra content">
                         <img class="ui avatar image" *ngIf="(story.user | async)?.photoURL" src="{{ (story.user | async)?.photoURL }}">
-                        <img class="ui avatar image" *ngIf="!(story.user | async)?.photoURL" src="../../../assets/img/elliot.jpg"> {{ (story.user | async)?.username }}
+                        <img class="ui avatar image" *ngIf="!(story.user | async)?.photoURL" src="assets/img/elliot.jpg"> {{ (story.user | async)?.username }}
                     </div>
                     <div class="blurring dimmable image">
                         <div class="ui dimmer">
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <img *ngIf="story.imageURL" routerLink="/stories/{{ story.$key }}" src="{{ story.imageURL }}">
-                        <img *ngIf="!story.imageURL" routerLink="/stories/{{ story.$key }}" src="../../../assets/img/image.png">
+                        <img *ngIf="!story.imageURL" routerLink="/stories/{{ story.$key }}" src="assets/img/image.png">
                     </div>
                     <div class="content">
                         <p>{{ story.story }}</p>

@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { User } from './../../class/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ValidationService } from './../../service/validation.service';
+import { SpinnerService } from '../../service/spinner.service';
+
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -16,9 +18,10 @@ export class LoginComponent implements OnInit {
     public user = new User();
     public loginForm: FormGroup;
 
-    constructor(private route: ActivatedRoute, private fb: FormBuilder, public authService: AuthService, private router: Router) { }
+    constructor(public spinner: SpinnerService, private route: ActivatedRoute, private fb: FormBuilder, public authService: AuthService, private router: Router) { }
 
     ngOnInit() {
+        this.spinner.stop();
         this.buildForm();
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }

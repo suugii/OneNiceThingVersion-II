@@ -203,7 +203,6 @@ export class UserSettingsComponent implements OnInit, AfterViewInit {
 
     fileChangeListener($event) {
         let image: any = new Image();;
-
         let file = $event.target.files[0];
         let myReader: FileReader = new FileReader();
         let that = this;

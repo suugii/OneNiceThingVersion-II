@@ -2,7 +2,7 @@
     <div class="ui card" *ngFor="let user of users">
         <div class="image">
             <img *ngIf=" (user| async)?.photoURL" src="{{ (user | async)?.photoURL }}">
-            <img *ngIf=" !(user | async)?.photoURL" src="../../../assets/img/elliot.jpg">
+            <img *ngIf=" !(user | async)?.photoURL" src="assets/img/elliot.jpg">
         </div>
         <div class="content">
             <a class="header" routerLink="/user/{{ (user | async)?.$key }}">{{ (user | async)?.username }}</a>

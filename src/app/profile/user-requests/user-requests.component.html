@@ -2,7 +2,7 @@
     <div class="card" *ngFor="let request of array">
         <div class="content">
             <img class="ui right floated mini image" *ngIf="(request.user | async)?.photoURL" src="{{ (request.user | async)?.photoURL }}">
-            <img class="ui right floated mini image" *ngIf="!(request.user | async)?.photoURL" src="../../../assets/img/elliot.jpg">
+            <img class="ui right floated mini image" *ngIf="!(request.user | async)?.photoURL" src="assets/img/elliot.jpg">
             <div class="header">
                 <a routerLink="/user/{{ (user | async)?.$key }}" *ngIf="(request.user | async)?.username">{{ (request.user | async)?.username }}</a>
                 <a routerLink="/user/{{ (user | async)?.$key }}" *ngIf="!(request.user | async)?.username">{{ (request.user | async)?.email }}</a>

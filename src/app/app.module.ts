@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule,enableProdMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Route } from './app.route';
@@ -66,6 +66,8 @@ export const firebaseConfig = {
 	storageBucket: "nicething-56579.appspot.com",
 	messagingSenderId: "349795079971"
 };
+
+enableProdMode();
 
 @NgModule({
 	declarations: [
