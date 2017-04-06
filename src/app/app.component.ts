@@ -37,6 +37,7 @@ export class AppComponent {
         var that = this;
         this.authService.logout().then(() => {
             that.router.navigate(['']);
+            window.location.reload();
         })
     }
 }
