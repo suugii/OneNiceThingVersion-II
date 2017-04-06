@@ -13,6 +13,8 @@ export class UserStoriesComponent implements OnInit {
 
 	objects: FirebaseListObservable<any[]>;
 	favorites: FirebaseListObservable<any[]>;
+	substories: any;
+	subobjects: any;
 	limit: BehaviorSubject<number> = new BehaviorSubject<number>(6);
 	lastKey: string;
 	queryable: boolean = true;
@@ -21,6 +23,7 @@ export class UserStoriesComponent implements OnInit {
 	user: string;
 	stories: any[];
 	isCounter: boolean;
+	
 	constructor(private af: AngularFire, private storyService: StoryService) {
 		this.af.auth.subscribe(
 			(auth) => {
@@ -30,8 +33,7 @@ export class UserStoriesComponent implements OnInit {
 			}
 		);
 
-
-		this.af.database.list('/stories', {
+		this.substories = this.af.database.list('/stories', {
 			query: {
 				orderByChild: 'user',
 				equalTo: this.user,
@@ -53,22 +55,18 @@ export class UserStoriesComponent implements OnInit {
 			}
 		}).map((array) => array.reverse()) as FirebaseListObservable<any[]>;
 
-		this.objects.subscribe((data) => {
-			if (data.length > 0) {
-				if (data[data.length - 1].$key === this.lastKey) {
-					this.queryable = false;
-				} else {
-					this.queryable = true;
-				}
-			}
-			if (data.length < 6) {
-				this.queryable = false;
-			}
-		});
-
-
-		this.objects.subscribe(
+		this.subobjects = this.objects.subscribe(
 			dataStory => {
+				if (dataStory.length > 0) {
+					if (dataStory[dataStory.length - 1].$key === this.lastKey) {
+						this.queryable = false;
+					} else {
+						this.queryable = true;
+					}
+				}
+				if (dataStory.length < 6) {
+					this.queryable = false;
+				}
 				this.isCounter = false;
 				if (dataStory.length == 0) {
 					this.isCounter = true;
@@ -108,6 +106,11 @@ export class UserStoriesComponent implements OnInit {
 
 	ngOnInit() { }
 
+	ngOnDestroy() {
+		this.substories.unsubscribe();
+		this.subobjects.unsubscribe();
+	}
+
 	destroyStory(key: string) {
 		this.af.database.list('stories').remove(key);
 		var object = this.af.database.list('favorites', {
@@ -117,7 +120,6 @@ export class UserStoriesComponent implements OnInit {
 			}
 		}).remove();
 	}
-
 
 	scrolled(): void {
 		if (this.queryable) {

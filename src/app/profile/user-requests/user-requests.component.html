@@ -8,7 +8,7 @@
                 <a routerLink="/user/{{ (user | async)?.$key }}" *ngIf="!(request.user | async)?.username">{{ (request.user | async)?.email }}</a>
             </div>
             <div class="meta">Joined in {{ (request.user | async)?.created_at | date:'yyyy'}}</div>
-            <div class="description">Elliot requested permission to view your contact details</div>
+            <div class="description">{{ (request.user | async)?.username }} sent friend request to you</div>
         </div>
         <div class="extra content">
             <div class="ui two buttons">

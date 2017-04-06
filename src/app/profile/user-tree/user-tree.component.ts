@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef } from '@angular/core';
 import { AuthService } from "../../service/auth.service";
 import { AngularFire, FirebaseListObservable } from 'angularfire2';
 import * as _ from 'lodash';
@@ -17,6 +17,7 @@ export class UserTreeComponent implements OnInit {
 	public user: any;
 	public myData: any;
 	public subTousers: any[];
+	stories: any;
 	limit: BehaviorSubject<number>;
 	innerHtmlVar: any;
 	nodes: any[] = [];
@@ -36,7 +37,7 @@ export class UserTreeComponent implements OnInit {
 
 			}
 		);
-		this.af.database.list('stories', {
+		this.stories = this.af.database.list('stories', {
 			query: {
 				orderByChild: 'user',
 				equalTo: this.user.uid,
@@ -58,7 +59,8 @@ export class UserTreeComponent implements OnInit {
 						that.nodes[0].children.push({ id: userdata.$key, email: userdata.email, imageURL: userdata.photoURL, children: [] });
 					})
 				})
-			});
+			}
+		);
 	}
 
 	showTouser(data) {
@@ -76,4 +78,7 @@ export class UserTreeComponent implements OnInit {
 	ngOnInit() {
 	}
 
+	ngOnDestroy() {
+		this.stories.unsubscribe();
+	}
 }
