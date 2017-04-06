@@ -1,0 +1,8 @@
+.cropper {
+visibility: hidden !important;
+display:none !important;
+}
+
+.cropping {
+visibility: visible !important;
+}

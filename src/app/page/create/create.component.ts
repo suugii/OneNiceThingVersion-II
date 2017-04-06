@@ -122,6 +122,9 @@ export class CreateComponent implements OnInit {
         this.cropperSettings.rounded = false;
         this.cropperSettings.keepAspect = true;
 
+        this.cropperSettings.cropperClass = 'cropper';
+        this.cropperSettings.croppingClass = 'cropping';
+        
         this.cropperSettings.noFileInput = true;
         this.cropperSettings.cropperDrawSettings.strokeColor = 'rgba(0,0,0,0.5)';
         this.cropperSettings.cropperDrawSettings.strokeWidth = 1;

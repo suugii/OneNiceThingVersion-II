@@ -14,7 +14,7 @@ export class UserHomeComponent implements OnInit {
 	lng: number = -87.770010;
 	zoom: number = 2;
 	user: string;
-	objects: any;
+	objects: any[];
 	storiesCount: number = 0;
 	originateCount: number = 0;
 
@@ -37,6 +37,7 @@ export class UserHomeComponent implements OnInit {
 			}
 		}).subscribe(
 			dataStory => {
+				this.objects = [];
 				this.storiesCount = dataStory.length;
 				dataStory.forEach(data => {
 					this.af.database.object('users/' + data.touser).subscribe(userData => {
