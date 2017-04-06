@@ -80,6 +80,11 @@ export class CreateComponent implements OnInit {
 
     }
 
+    autocompleListFormatter = (data: any): SafeHtml => {
+        let html = `<span>${data.email}</span>`;
+        return this._sanitizer.bypassSecurityTrustHtml(html);
+    }
+    
     ngOnInit() {
         this.buildForm();
         this.mapsAPILoader.load().then(() => {
@@ -223,10 +228,7 @@ export class CreateComponent implements OnInit {
         });
     }
 
-    autocompleListFormatter = (data: any): SafeHtml => {
-        let html = `<span>${data.email}</span>`;
-        return this._sanitizer.bypassSecurityTrustHtml(html);
-    }
+
 
     cropped(bounds: Bounds) {
         this.croppedHeight = bounds.bottom - bounds.top;
@@ -269,6 +271,6 @@ export class CreateComponent implements OnInit {
     }
 
     ngOnDestroy() {
-         this.stories.subscribe().unsubscribe();
+        this.stories.subscribe().unsubscribe();
     }
 }

@@ -30,6 +30,7 @@ export class UserStoriesComponent implements OnInit {
 			}
 		);
 
+
 		this.af.database.list('/stories', {
 			query: {
 				orderByChild: 'user',
