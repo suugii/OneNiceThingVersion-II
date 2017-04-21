@@ -3,14 +3,14 @@ import { NgModule, enableProdMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Route } from './app.route';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { AngularFireModule } from 'angularfire2';
 import { AgmCoreModule } from 'angular2-google-maps/core';
-import { InfiniteScrollModule } from 'angular2-infinite-scroll';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ImageUploadModule } from 'ng2-imageupload';
 import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 import { DragScrollModule } from 'angular2-drag-scroll';
-import { TreeModule } from 'angular-tree-component';
 import { CustomFormsModule } from 'ng2-validation'
 import { FormWizardModule } from 'angular2-wizard';
 import { ImageCropperModule } from "ng2-img-cropper";
@@ -21,6 +21,7 @@ import { ContactService } from "./service/contact.service";
 import { GuardService } from "./service/guard.service";
 import { SpinnerService } from './service/spinner.service';
 import { AuthGuardService } from './service/auth-guard.service';
+import { MailService } from './service/mail.service';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './page/home/home.component';
@@ -68,8 +69,6 @@ export const firebaseConfig = {
 	storageBucket: "nicething-56579.appspot.com",
 	messagingSenderId: "349795079971"
 };
-
-enableProdMode();
 
 @NgModule({
 	declarations: [
@@ -122,7 +121,6 @@ enableProdMode();
 		InfiniteScrollModule,
 		ImageUploadModule,
 		FormWizardModule,
-		TreeModule,
 		ImageCropperModule,
 		Ng2AutoCompleteModule,
 		AngularFireModule.initializeApp(firebaseConfig),
@@ -138,6 +136,8 @@ enableProdMode();
 		ContactService,
 		SpinnerService,
 		AuthGuardService,
+		MailService,
+		{ provide: LocationStrategy, useClass: HashLocationStrategy },
 	],
 	bootstrap: [AppComponent]
 })

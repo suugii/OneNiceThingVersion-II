@@ -1,7 +1,7 @@
 <div class="well">
     <div class="ui container">
         <div class="ui stackable grid">
-            <div class="ten wide column">
+            <div class="nine wide column">
                 <img class="ui fluid image" src="assets/img/home.png">
                 <div class="text-center text-medium">
                     <p>If you do something nice for someone and ask them to do the same...</p>
@@ -9,7 +9,7 @@
                 </div>
             </div>
 
-            <div class="six wide column segment">
+            <div class="seven wide column segment">
                 <div class="text-center text-medium">
                     <p>Want to report a nice thing you've done?</p>
                     <p>Does helping others really make the world a better place?</p>
@@ -90,7 +90,7 @@
                         </div>
                         <div class="ui tab" data-tab="fourth">
                             <div class="field">
-                                <label>Who did you do it for ?</label>
+                                <label>Who did you do it for ? (Email or name)</label>
                                 <input type="text" placeholder="Who did you do it for ?" formControlName="name" (ngModelChange)="checkNameEmpty($event)" required name="name" [(ngModel)]="model.name">
                                 <div *ngIf="formErrors.name" class="ui negative message">
                                     {{ formErrors.name }}

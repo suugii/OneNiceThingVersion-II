@@ -11,6 +11,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { Router, ActivatedRoute, Params, RouterStateSnapshot } from '@angular/router';
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 import { SpinnerService } from '../../service/spinner.service';
+import { MailService } from '../../service/mail.service';
 
 @Component({
     selector: 'app-home',
@@ -57,7 +58,7 @@ export class HomeComponent implements OnInit {
     @ViewChild('cropper', undefined)
     cropper: ImageCropperComponent;
 
-    constructor(public spinner: SpinnerService, private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
+    constructor(public spinner: SpinnerService, public mailservice: MailService, private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
         this.requests = af.database.list('requests');
         this.af.auth.subscribe(
@@ -91,7 +92,7 @@ export class HomeComponent implements OnInit {
         return this._sanitizer.bypassSecurityTrustHtml(html);
     }
 
-    
+
     ngOnInit() {
         this.spinner.stop();
         this.buildForm();
@@ -119,13 +120,13 @@ export class HomeComponent implements OnInit {
         this.cropperSettings = new CropperSettings();
         this.cropperSettings.fileType = "image/jpeg";
 
-        this.cropperSettings.width = 400;
+        this.cropperSettings.width = 390;
         this.cropperSettings.height = 265;
 
-        this.cropperSettings.croppedWidth = 400;
+        this.cropperSettings.croppedWidth = 390;
         this.cropperSettings.croppedHeight = 265;
 
-        this.cropperSettings.canvasWidth = 400;
+        this.cropperSettings.canvasWidth = 390;
         this.cropperSettings.canvasHeight = 265;
 
         this.cropperSettings.rounded = false;
@@ -268,6 +269,19 @@ export class HomeComponent implements OnInit {
             }
             else {
                 console.log('success');
+                if (this.isEmailAddress(this.model.name)) {
+                    this.mailservice.send(this.model.name, this.model.feeling, this.model.message).subscribe((data) => {
+                        if (data) {
+                            console.log('success');
+                        }
+                    },
+                        err => {
+                            if (err) {
+                                console.log('error');
+                            }
+                        });
+                }
+
                 this.stories.push(this.model).then((data) => {
                     this.success = 'Successfully added';
                     // this.requests.push({ sid: this.model.user, rid: this.model.touser, seen: false });
@@ -339,5 +353,16 @@ export class HomeComponent implements OnInit {
             this.isEmpty6 = false;
         }
     }
+
+
+
+    isEmailAddress(str) {
+        if (str.match(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }

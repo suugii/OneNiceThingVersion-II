@@ -29,13 +29,13 @@ export class DashboardComponent implements OnInit {
 	subsfriends: any;
 
 	constructor(public af: AngularFire) {
-	    this.af.auth.subscribe(
-	        (auth) => {
-	            if (auth) {
-	                this.user = auth.uid;
-	            }
-	        }
-	    );
+		this.af.auth.subscribe(
+			(auth) => {
+				if (auth) {
+					this.user = auth.uid;
+				}
+			}
+		);
 		this.requests = this.af.database.list('requests', {
 			query: {
 				orderByChild: 'rid',
@@ -75,18 +75,18 @@ export class DashboardComponent implements OnInit {
 				this.favoritesCount = dataFav.length;
 			}
 		);
-	   	this.subsrequests = this.requests.subscribe(
-	    	dataReq => {
-	    		this.requestCount = 0;
-	    		dataReq.forEach(
-	    			request => {
-	    				if (!request.seen) {
-    						this.requestCount += 1;
-	    				}
-	    			}
-	    		)
-	    	}
-	    );
+		this.subsrequests = this.requests.subscribe(
+			dataReq => {
+				this.requestCount = 0;
+				dataReq.forEach(
+					request => {
+						if (!request.seen) {
+							this.requestCount += 1;
+						}
+					}
+				)
+			}
+		);
 
 		this.substhreads = this.af.database.list('threads').subscribe((threads) => {
 			this.mythreads = [];
@@ -94,7 +94,9 @@ export class DashboardComponent implements OnInit {
 				threads.forEach((thread) => {
 					if (thread.userID == this.user || thread.receiverID == this.user) {
 						if (thread.senderPerson != this.user && thread.isRead == false) {
-							this.mythreads.push(thread);
+							if (thread.lastMessage) {
+								this.mythreads.push(thread);
+							}
 						}
 					}
 				})
@@ -103,34 +105,34 @@ export class DashboardComponent implements OnInit {
 		});
 
 		this.subsfriends = this.af.database.list('friends').subscribe(
-	    	dataFriends => {
-	    		dataFriends.forEach(
-	    			friend => {
-	    				this.isFriend = false;
-	    				this.af.database.list('friends' + '/' + friend.$key + '/' + 'users').subscribe(
-	    					dataUsers => {
-					    		dataUsers.forEach(
-					    			user => {
-					    				if(user.uid == this.user) {
-					    					this.isFriend = true;
-					    				}
-					    			}
-					    		);
-		    					if (this.isFriend) {
-						    		dataUsers.forEach(
-						    			user => {
-						    				if(user.uid !== this.user) {
-						    					this.friendsCount += 1;
-						    				}
-						    			}
-						    		);
-		    					}
-	    					}
-    					);
-	    			}
-	    		);
-	    	}
-	    );
+			dataFriends => {
+				dataFriends.forEach(
+					friend => {
+						this.isFriend = false;
+						this.af.database.list('friends' + '/' + friend.$key + '/' + 'users').subscribe(
+							dataUsers => {
+								dataUsers.forEach(
+									user => {
+										if (user.uid == this.user) {
+											this.isFriend = true;
+										}
+									}
+								);
+								if (this.isFriend) {
+									dataUsers.forEach(
+										user => {
+											if (user.uid !== this.user) {
+												this.friendsCount += 1;
+											}
+										}
+									);
+								}
+							}
+						);
+					}
+				);
+			}
+		);
 	}
 
 	ngOnInit() {

@@ -9,8 +9,8 @@
             </div>
             <div class="ui divided list">
                 <div class="item" *ngFor="let thread of threads" (click)="getMessages(thread)">
-                    <img class="ui avatar image" *ngIf="(thread.receiver | async)?.photoURL" src="{{ (thread.receiver | async)?.photoURL }}">
-                    <img class="ui avatar image" *ngIf="!(thread.receiver | async)?.photoURL" src="assets/img/elliot.jpg">
+                    <img class="ui avatar image" *ngIf="(thread.receiverPerson | async)?.photoURL" src="{{ (thread.receiverPerson | async)?.photoURL }}">
+                    <img class="ui avatar image" *ngIf="!(thread.receiverPerson | async)?.photoURL" src="assets/img/elliot.jpg">
                     <div class="content">
                         <div class="header" *ngIf="thread.name">
                             <p>{{thread.name}}</p>
@@ -33,7 +33,8 @@
                 <div class="ui aligned list">
                     <div class="item" *ngFor="let message of userMessages">
                         <div class="content" *ngIf="!isMe(message.name)">
-                            <img class="ui avatar image" src="assets/img/elliot.jpg">
+                            <img class="ui avatar image" *ngIf="!(message.sender | async)?.photoURL" src="assets/img/elliot.jpg">
+                            <img class="ui avatar image" *ngIf="(message.sender | async)?.photoURL" src="{{ (message.sender | async)?.photoURL }}">
                             <div class="ui horizontal label">
                                 {{ message.message }}
                             </div>

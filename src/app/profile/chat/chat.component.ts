@@ -56,8 +56,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 				threads.forEach((thread) => {
 					if (thread.userID == this.currentUser.uid || thread.receiverID == this.currentUser.uid) {
 						if (thread.userID == this.currentUser.uid) {
+							thread.receiverPerson = this.af.database.object('/users/' + thread.receiverID);
 							thread.name = thread.user2name;
 						} else {
+							thread.receiverPerson = this.af.database.object('/users/' + thread.userID);
 							thread.name = thread.user1name;
 						}
 						if (thread.lastMessage) {
@@ -104,22 +106,27 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 				data.name = data.user1name;
 			}
 		}
+		let user = data.receiverPerson;
+		delete data.receiverPerson;
 		if (data.senderPerson != this.currentUser.uid) {
 			data.isRead = true;
 			this.af.database.object('/threads/' + data.$key).set(data);
 		}
 		this.isRead = data.isRead;
 		this.messages = '';
+		data.receiverPerson = user;
 		this.receiver = data;
 		this.messages = this.af.database.list('messages');
 		this.messages.subscribe(messages => {
 			this.userMessages = [];
 			messages.forEach(message => {
 				if (message.thread == data.$key) {
+					message.sender = user;
 					this.userMessages.push(message);
 				}
 			})
 		})
+		
 	}
 
 	isMe(email) {
