@@ -21,167 +21,91 @@
                         <div class="ui tab active" data-tab="first">
                             <div class="field">
                                 <label>Username Lookup</label>
-                                <input autocomplete="off" ng2-auto-complete name="touser" required (ngModelChange)="checkTouserEmpty($event)" formControlName="touser" required (valueChanged)="valueChanged($event)" [source]="users" [list-formatter]="autocompleListFormatter" value-property-name="id"
-                                    display-property-name="email" placeholder="Search email">
+                                <input autocomplete="off" ng2-auto-complete name="touser" required (ngModelChange)="checkTouserEmpty($event)" formControlName="touser"
+                                    required (valueChanged)="valueChanged($event)" [source]="users" [list-formatter]="autocompleListFormatter"
+                                    value-property-name="id" display-property-name="email" placeholder="Search email">
                                 <div *ngIf="formErrors.touser" class="ui negative message">
                                     {{ formErrors.touser }}
                                 </div>
                             </div>
 
                             <div class="field">
-                                <button class="ui green button tab-button" data-tab="second" [disabled]="!isEmpty1">Next</button>
+                                <label>Location where did you do your nice thing ?</label>
+                                <input placeholder="Enter Location" formControlName="location" (ngModelChange)="checkLocationEmpty($event)" required autocorrect="off"
+                                    autocapitalize="off" spellcheck="off" type="text" #search>
+                                <div *ngIf="formErrors.location" class="ui negative message">
+                                    {{ formErrors.location }}
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label>What nice thing did you do ?</label>
+                                <textarea rows="2" placeholder="What did you do ?" formControlName="story" (ngModelChange)="checkStoryEmpty($event)" required
+                                    name="story" [(ngModel)]="model.story"></textarea>
+                                <div *ngIf="formErrors.story" class="ui negative message">
+                                    {{ formErrors.story }}
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <button class="ui green button tab-button" data-tab="second" [disabled]="!isDisabled1">Next</button>
                             </div>
                             <div class="wizard">
                                 <span class="wizard-item active"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
                             </div>
                         </div>
                         <div class="ui tab" data-tab="second">
-                            <div class="field">
-                                <label>Location where did you do your nice thing ?</label>
-                                <input placeholder="Enter Location" formControlName="location" (ngModelChange)="checkLocationEmpty($event)" required autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
-                                <div *ngIf="formErrors.location" class="ui negative message">
-                                    {{ formErrors.location }}
-                                </div>
-                            </div>
-                            <div class="field">
-                                <a class="ui button tab-button" data-tab="first">Back</a>
-                                <button class="ui green button tab-button" data-tab="third" [disabled]="!isEmpty2">Next</button>
-                            </div>
-                            <div class="wizard">
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item active"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                            </div>
-                        </div>
-                        <div class="ui tab" data-tab="third">
-                            <div class="field">
-                                <label>What nice thing did you do ?</label>
-                                <textarea rows="2" placeholder="What did you do ?" formControlName="story" (ngModelChange)="checkStoryEmpty($event)" required name="story" [(ngModel)]="model.story"></textarea>
-                                <div *ngIf="formErrors.story" class="ui negative message">
-                                    {{ formErrors.story }}
-                                </div>
-                            </div>
-                            <div class="field">
-                                <a class="ui button tab-button" data-tab="second">Back</a>
-                                <button class="ui green button tab-button" data-tab="fourth" [disabled]="!isEmpty3">Next</button>
-                            </div>
-                            <div class="wizard">
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item active"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                            </div>
-                        </div>
-                        <div class="ui tab" data-tab="fourth">
+
                             <div class="field">
                                 <label>Who did you do it for ? (Email or name)</label>
-                                <input type="text" placeholder="Who did you do it for ?" formControlName="name" (ngModelChange)="checkNameEmpty($event)" required name="name" [(ngModel)]="model.name">
+                                <input type="text" placeholder="Who did you do it for ?" formControlName="name" (ngModelChange)="checkNameEmpty($event)"
+                                    required name="name" [(ngModel)]="model.name">
                                 <div *ngIf="formErrors.name" class="ui negative message">
                                     {{ formErrors.name }}
                                 </div>
                             </div>
-                            <div class="field">
-                                <a class="ui button tab-button" data-tab="third">Back</a>
-                                <button class="ui green button tab-button" data-tab="fifth" [disabled]="!isEmpty4">Next</button>
-                            </div>
-                            <div class="wizard">
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item active"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                            </div>
-                        </div>
-                        <div class="ui tab" data-tab="fifth">
+
                             <div class="field">
                                 <label>How did you respond, how did you feel ?</label>
-                                <input type="text" placeholder="How did you feel ?" name="feeling" formControlName="feeling" (ngModelChange)="checkFeelingEmpty($event)" required [(ngModel)]="model.feeling ">
+                                <input type="text" placeholder="How did you feel ?" name="feeling" formControlName="feeling" (ngModelChange)="checkFeelingEmpty($event)"
+                                    required [(ngModel)]="model.feeling ">
                                 <div *ngIf="formErrors.feeling" class="ui negative message">
                                     {{ formErrors.feeling }}
                                 </div>
                             </div>
-                            <div class="field">
-                                <a class="ui button tab-button" data-tab="fourth">Back</a>
-                                <button class="ui green button tab-button" data-tab="sixth" [disabled]="!isEmpty5">Next</button>
-                            </div>
-                            <div class="wizard">
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item active"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                            </div>
-                        </div>
-                        <div class="ui tab" data-tab="sixth">
+
                             <div class="field ">
                                 <label>Would you like to leave any other message for this member ?</label>
                                 <textarea rows="2 " placeholder="Any message " name="message" [(ngModel)]="model.message" [ngModelOptions]="{standalone: true}"></textarea>
                             </div>
+
+
                             <div class="field">
-                                <a class="ui button tab-button" data-tab="fifth">Back</a>
-                                <a class="ui green button tab-button" data-tab="seventh">Next</a>
+                                <a class="ui button tab-button" data-tab="first">Back</a>
+                                <button class="ui green button tab-button" data-tab="third" [disabled]="!isDisabled2">Next</button>
                             </div>
                             <div class="wizard">
                                 <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
                                 <span class="wizard-item active"></span>
-                                <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
                             </div>
                         </div>
-                        <div class="ui tab" data-tab="seventh">
+                        <div class="ui tab" data-tab="third">
+
                             <div class="field ">
                                 <div class="file-upload">
-                            <span class="text">Image</span>
-                            <input id="custom-input" type="file" (change)="fileChangeListener($event)">
+                                    <span class="text">Image</span>
+                                    <input id="custom-input" type="file" (change)="fileChangeListener($event)">
+                                </div>
+                                <img-cropper #cropper [image]="data" [settings]="cropperSettings" (onCrop)="cropped($event)"></img-cropper>
+                                <br>
+                                <span class="result rounded" *ngIf="data.image">
+                                    <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+                                </span>
                             </div>
-                            <img-cropper #cropper [image]="data" [settings]="cropperSettings"  (onCrop)="cropped($event)"></img-cropper>
-                            <br>
-                            <span class="result rounded" *ngIf="data.image">
-                                <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
-                            </span>
-                            </div>
-                            <div class="field">
-                                <a class="ui button tab-button" data-tab="sixth">Back</a>
-                                <a class="ui green button tab-button" data-tab="eighth">Next</a>
-                            </div>
-                            <div class="wizard">
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item active"></span>
-                                <span class="wizard-item"></span>
-                            </div>
-                        </div>
-                        <div class="ui tab" data-tab="eighth">
+
                             <div class="field ">
                                 <label>Privacy</label>
                                 <select name="privacy " class="ui dropdown" formControlName="privacy" (ngModelChange)="checkPrivacyEmpty($event)" [(ngModel)]="model.privacy">
@@ -194,15 +118,12 @@
                                     {{ formErrors.privacy }}
                                 </div>
                             </div>
+
                             <div class="field">
-                                <a class="ui button tab-button" data-tab="seventh">Back</a>
-                                <button class="ui green button" type="submit" [disabled]="!isEmpty6">Finish</button>
+                                <a class="ui button tab-button" data-tab="second">Back</a>
+                                <button class="ui green button" type="submit" [disabled]="!isDisabled3">Finish</button>
                             </div>
                             <div class="wizard">
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
-                                <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item"></span>
                                 <span class="wizard-item active"></span>
@@ -210,6 +131,61 @@
                         </div>
                     </form>
                 </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="ui container">
+    <div class="ui stackable grid">
+        <div class="sixteen wide column segment">
+            <h1 class="ui header center aligned">Latest stories</h1>
+            <div class="ui four stackable cards">
+                <div class="card" *ngFor="let story of laststories | reverse">
+                    <div class="extra content">
+                        <img class="ui avatar image" *ngIf=" (story.user | async)?.photoURL" src="{{ (story.user | async)?.photoURL }}">
+                        <img class="ui avatar image" *ngIf=" !(story.user | async)?.photoURL" src="assets/img/elliot.jpg">
+                        <a routerLink="/user/{{ (story.user | async)?.$key }}" *ngIf="(story.user | async)?.username">{{ (story.user | async)?.username }}</a>
+                        <a routerLink="/user/{{ (story.user | async)?.$key }}" *ngIf="!(story.user | async)?.username">{{ (story.user | async)?.email }}</a>
+                    </div>
+                    <div class="blurring dimmable image">
+                        <div class="ui dimmer">
+                            <div class="content">
+                                <div class="center">
+                                    <a class="ui inverted button" routerLink="/stories/{{ story.$key }}">read more</a>
+                                </div>
+                            </div>
+                        </div>
+                        <img *ngIf="story.imageURL" routerLink="/stories/{{ story.$key }}" src="{{ story.imageURL }}">
+                        <img *ngIf="!story.imageURL" routerLink="/stories/{{ story.$key }}" src="assets/img/image.png">
+                    </div>
+                    <div class="content">
+                        <p routerLink="/stories/{{ story.$key }}">{{ story.story }}</p>
+                        <p class="meta">
+                            <span>
+                                    <i class="quote left icon"></i> {{ story.feeling }}
+                                </span>
+                        </p>
+                        <p class="meta">
+                            <span>
+                                    <i class="location arrow icon"></i> {{ (story.location)?.name }}
+                                </span>
+                        </p>
+                    </div>
+                    <div class="extra content">
+                        <span class="right floated">
+                                <i class="heart red like icon" *ngIf="user && story.favorited" (click)="storyService.removeFavorite(story.$key)"></i>
+                                <i class="heart outline like icon" *ngIf="user && !story.favorited" (click)="storyService.addFavorite(story.$key)"></i>
+                                <i class="heart outline like icon" *ngIf="!user"></i> 
+                                {{ story.favorite }}
+                            </span>
+                        <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
+                    </div>
+                </div>
+            </div>
+            <div class="search-results" *ngIf="queryable">
+                <div class="ui active centered inline loader"></div>
             </div>
         </div>
     </div>

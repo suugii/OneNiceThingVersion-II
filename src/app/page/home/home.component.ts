@@ -12,6 +12,9 @@ import { Router, ActivatedRoute, Params, RouterStateSnapshot } from '@angular/ro
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 import { SpinnerService } from '../../service/spinner.service';
 import { MailService } from '../../service/mail.service';
+import { StoryService } from '../../service/story.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import "rxjs/add/operator/map";
 
 @Component({
     selector: 'app-home',
@@ -47,6 +50,9 @@ export class HomeComponent implements OnInit {
     isEmpty5: boolean;
     isEmpty6: boolean;
 
+    isDisabled1: boolean;
+    isDisabled2: boolean;
+    isDisabled3: boolean;
 
     data: any;
 
@@ -58,13 +64,22 @@ export class HomeComponent implements OnInit {
     @ViewChild('cropper', undefined)
     cropper: ImageCropperComponent;
 
-    constructor(public spinner: SpinnerService, public mailservice: MailService, private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
+    limit: BehaviorSubject<number> = new BehaviorSubject<number>(4);
+    lastKey: string;
+    queryable: boolean = true;
+    counter: number = 0;
+    favorited: boolean = false;
+    laststories: any[];
+    isCounter: boolean;
+
+    constructor(public spinner: SpinnerService, public storyService: StoryService, public mailservice: MailService, private af: AngularFire, private fb: FormBuilder, private router: Router, private authService: AuthService, private _sanitizer: DomSanitizer, private mapsAPILoader: MapsAPILoader, private ngZone: NgZone) {
         this.stories = af.database.list('stories');
         this.requests = af.database.list('requests');
         this.af.auth.subscribe(
             (auth) => {
                 if (auth) {
                     this.model.user = auth.uid;
+                    this.user = auth.uid;
                 }
             }
         );
@@ -79,11 +94,53 @@ export class HomeComponent implements OnInit {
         });
 
         this.data = {};
+
+        this.af.database.list('stories', {
+            query: {
+                orderByChild: 'created_at',
+                limitToLast: this.limit,
+            }
+        }).subscribe(
+            dataStory => {
+                if (dataStory.length == 0) {
+                    this.queryable = false;
+                }
+                dataStory.forEach(
+                    story => {
+                        this.af.database.list('favorites', {
+                            query: {
+                                orderByChild: 'sid',
+                                equalTo: story.$key
+                            }
+                        }).subscribe(
+                            dataFav => {
+                                dataFav.forEach(
+                                    favorite => {
+                                        this.counter = this.counter + 1;
+                                        if (favorite.uid == this.user) {
+                                            this.favorited = true;
+                                        }
+                                    }
+                                )
+                                story.favorite = this.counter;
+                                this.counter = 0;
+                                story.favorited = this.favorited;
+                                this.favorited = false;
+                            }
+                            )
+                        story.user = this.af.database.object('users' + '/' + story.user);
+                        return story;
+                    }
+                )
+                this.queryable = false;
+                this.laststories = dataStory;
+            });
     }
 
     valueChanged(newVal) {
         this.model.touser = newVal.$key;
         this.isEmpty1 = true;
+        this.checkFirstTab();
     }
 
 
@@ -114,6 +171,7 @@ export class HomeComponent implements OnInit {
                     obj.name = place.formatted_address;
                     this.isEmpty2 = true;
                     this.model.location = obj;
+                    this.checkFirstTab();
                 });
             });
         });
@@ -296,10 +354,12 @@ export class HomeComponent implements OnInit {
 
     checkTouserEmpty(e) {
         this.isEmpty1 = false;
+        this.checkFirstTab();
     }
 
     checkLocationEmpty(e) {
         this.isEmpty2 = false;
+        this.checkFirstTab();
     }
 
     checkStoryEmpty(e) {
@@ -313,6 +373,15 @@ export class HomeComponent implements OnInit {
         }
         else {
             this.isEmpty3 = false;
+        }
+        this.checkFirstTab();
+    }
+
+    checkFirstTab() {
+        if (this.isEmpty1 == true && this.isEmpty2 == true && this.isEmpty3 == true) {
+            this.isDisabled1 = true;
+        } else {
+            this.isDisabled1 = false;
         }
     }
 
@@ -328,7 +397,7 @@ export class HomeComponent implements OnInit {
         else {
             this.isEmpty4 = false;
         }
-
+        this.checkSecondTab();
     }
 
     checkFeelingEmpty(e) {
@@ -343,6 +412,15 @@ export class HomeComponent implements OnInit {
         else {
             this.isEmpty5 = false;
         }
+        this.checkSecondTab();
+    }
+
+    checkSecondTab() {
+        if (this.isEmpty4 == true && this.isEmpty5 == true) {
+            this.isDisabled2 = true;
+        } else {
+            this.isDisabled2 = false;
+        }
     }
 
     checkPrivacyEmpty(e) {
@@ -352,8 +430,16 @@ export class HomeComponent implements OnInit {
         else {
             this.isEmpty6 = false;
         }
+        this.checkThirdTab();
     }
 
+    checkThirdTab() {
+        if (this.isEmpty6 == true) {
+            this.isDisabled3 = true;
+        } else {
+            this.isDisabled3 = false;
+        }
+    }
 
 
     isEmailAddress(str) {

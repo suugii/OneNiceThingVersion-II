@@ -10,7 +10,8 @@ export class PasswordresetComponent implements OnInit {
 
 	public message: any;
 	public resetForm: FormGroup;
-
+	public error: any;
+	
 	constructor(private authService: AuthService, private fb: FormBuilder, ) { }
 
 	ngOnInit() {
@@ -21,7 +22,7 @@ export class PasswordresetComponent implements OnInit {
 		this.authService.resetPassword(data).then((response) => {
 			this.message = 'Check your email for reset link';
 		}).catch((error) => {
-			this.message = error;
+			this.error = error;
 		})
 	}
 	buildForm(): void {

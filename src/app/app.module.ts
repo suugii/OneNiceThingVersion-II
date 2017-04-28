@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, By } from '@angular/platform-browser';
 import { NgModule, enableProdMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -12,8 +12,9 @@ import { ImageUploadModule } from 'ng2-imageupload';
 import { Ng2AutoCompleteModule } from 'ng2-auto-complete';
 import { DragScrollModule } from 'angular2-drag-scroll';
 import { CustomFormsModule } from 'ng2-validation'
-import { FormWizardModule } from 'angular2-wizard';
 import { ImageCropperModule } from "ng2-img-cropper";
+import { ShareButtonsModule } from 'ng2-sharebuttons';
+import { NgPipesModule } from 'ngx-pipes';
 
 import { AuthService } from "./service/auth.service";
 import { StoryService } from "./service/story.service";
@@ -51,7 +52,7 @@ import { SearchDirective } from './directive/search.directive';
 import { UserComponent } from './page/user/user.component';
 import { UserRequestsComponent } from './profile/user-requests/user-requests.component';
 import { UserOriginateComponent } from './profile/user-originate/user-originate.component';
-import { EqualValidator } from './directive/equal-validator.directive';
+import { EqualValidatorDirective } from './directive/equal-validator.directive';
 import { UserTreeComponent } from './profile/user-tree/user-tree.component';
 import { TreelistComponent } from './profile/treelist/treelist.component';
 import { UserMapComponent } from './profile/user-map/user-map.component';
@@ -100,7 +101,7 @@ export const firebaseConfig = {
 		UserComponent,
 		UserRequestsComponent,
 		UserOriginateComponent,
-		EqualValidator,
+		EqualValidatorDirective,
 		UserTreeComponent,
 		TreelistComponent,
 		UserMapComponent,
@@ -120,14 +121,18 @@ export const firebaseConfig = {
 		CustomFormsModule,
 		InfiniteScrollModule,
 		ImageUploadModule,
-		FormWizardModule,
 		ImageCropperModule,
 		Ng2AutoCompleteModule,
+		NgPipesModule,
+		ShareButtonsModule.forRoot(),
 		AngularFireModule.initializeApp(firebaseConfig),
 		AgmCoreModule.forRoot({
 			apiKey: 'AIzaSyB4ygPHxCDU4qhpJYcJhvgGmg6Rrp-2l84',
 			libraries: ['places']
 		}),
+	],
+	exports: [
+		InfiniteScrollModule
 	],
 	providers: [
 		AuthService,

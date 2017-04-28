@@ -11,6 +11,7 @@ import * as firebase from 'firebase';
 export class PasswordconfirmComponent implements OnInit {
 
 	public message: any;
+	public password: any;
 	public oobCode: any;
 	public error: any;
 	constructor(private authService: AuthService, private activatedRoute: ActivatedRoute, private router: Router) {

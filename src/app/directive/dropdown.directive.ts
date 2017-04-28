@@ -7,7 +7,7 @@ declare var jQuery: any;
 })
 export class DropdownDirective implements OnInit, OnDestroy {
 
-	constructor(private element: ElementRef) { }
+	constructor(public element: ElementRef) { }
 
 	public ngOnInit() {
 		jQuery(this.element.nativeElement).dropdown();

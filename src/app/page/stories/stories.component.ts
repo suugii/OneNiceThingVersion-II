@@ -47,7 +47,6 @@ export class StoriesComponent implements OnInit {
 
 		this.objects = this.af.database.list('stories', {
 			query: {
-				orderByChild: 'created_at',
 				limitToLast: this.limit,
 			}
 		}).map((array) => array.reverse()) as FirebaseListObservable<any[]>;

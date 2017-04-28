@@ -1,4 +1,4 @@
-<div class="ui three stackable cards" *ngIf="!iCounter">
+<div class="ui three stackable cards" *ngIf="!isCounter">
     <div class="card" *ngFor="let request of array">
         <div class="content">
             <img class="ui right floated mini image" *ngIf="(request.user | async)?.photoURL" src="{{ (request.user | async)?.photoURL }}">

@@ -46,7 +46,7 @@
     padding-left: calc(2rem + 10px);
 }
 .conversation {
-    height: 60vh;
+    height: 80vh;
     margin: 1rem 0;
     overflow-y: auto;
     overflow-x: hidden;

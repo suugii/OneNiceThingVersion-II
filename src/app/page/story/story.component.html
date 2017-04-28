@@ -43,6 +43,8 @@
 					</span>
                     <i class="calendar icon"></i> {{ story.created_at | date:'MMM dd, hh:mma'}}
                 </div>
+                <share-buttons [title]="story.story" [description]="story.feeling" [pinterest]="pintTemp" [linkedIn]="inTemp" [tumblr]="tumblrTemp"
+                    [whatsApp]="whatsTemp" [reddit]="false" [stumbleUpOn]="false"></share-buttons>
             </div>
         </div>
         <div class="ui ten wide column">

@@ -48,7 +48,7 @@
                     <div class="comment" *ngIf="userMessages.length == 0">
                         No messages
                     </div>
-                    <div class="item" *ngIf="!userMessages.length == 0">
+                    <div class="item" *ngIf="userMessages.length != 0">
                         <div class="right floated content" *ngIf="isRead">
                             <i class="checkmark icon"></i>Seen
                         </div>

@@ -15,7 +15,7 @@ export class UserFriendsComponent implements OnInit {
 
 	userFriend: boolean = false;
 	friendKey: string;
-
+	isCounter: boolean;
 	constructor(public af: AngularFire) {
 		this.af.auth.subscribe(
 			(auth) => {
